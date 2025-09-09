@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import type { IAd } from "../models/IAd"
 import { getJobAds, OccupationId } from "../services/jobAdService";
+import { DigiLayoutBlock, DigiTypography } from "@digi/arbetsformedlingen-react";
+import { LayoutBlockVariation } from "@digi/arbetsformedlingen";
 
 type AdsPresentationProps = {
     occupation: OccupationId;
@@ -28,14 +30,16 @@ export const AdsPresentation = ({occupation}: AdsPresentationProps) => {
     if (error) return <p>{error}</p>
 
     return (
-        <div>
-            <ul>
-                {jobs.map((job) => (
-                    <li key={job.id}>
-                        <strong>{job.headline}</strong> - {job.employer?.name}
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+            <DigiTypography>
+                <ul>
+                    {jobs.map((job) => (
+                        <li key={job.id}>
+                            <strong>{job.headline}</strong> - {job.employer?.name}
+                        </li>
+                    ))}
+                </ul>
+            </DigiTypography>
+        </DigiLayoutBlock>
     );
 };
