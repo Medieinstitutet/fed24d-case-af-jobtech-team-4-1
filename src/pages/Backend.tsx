@@ -1,6 +1,5 @@
 export const Backend = () => {
-
-  return <></>
+  return <></>;
 };
 
 //   const [jobs, setJobs] = useState<IAd[]>([]);
@@ -10,7 +9,7 @@ export const Backend = () => {
 //     setJobs(data);
 //   });
 // }, []);
-  
+
 //   return (
 //     <div>
 //       <h2>Job Ads</h2>
@@ -23,4 +22,3 @@ export const Backend = () => {
 //       </ul>
 //     </div>
 //   );
-

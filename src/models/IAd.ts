@@ -1,5 +1,5 @@
 export interface IAds {
-    hits: IAd[];
+  hits: IAd[];
 }
 
 export interface IAd {

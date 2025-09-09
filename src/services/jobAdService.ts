@@ -1,7 +1,7 @@
 import { get } from "./serviceBase";
 import type { IAd, IAds } from "../models/IAd";
 
-const BASE_URL = "https://jobsearch.api.jobtechdev.se/search?"
+const BASE_URL = "https://jobsearch.api.jobtechdev.se/search?";
 
 export enum OccupationId {
   FRONTEND = "name=GDHs_eoz_uKx",
