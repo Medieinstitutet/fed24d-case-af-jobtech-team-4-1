@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import type { IAd } from "../models/IAd"
 import { getJobAds, OccupationId } from "../services/jobAdService";
-import { DigiLayoutBlock, DigiLinkInternal, DigiList, DigiTypography } from "@digi/arbetsformedlingen-react";
+import { DigiLayoutBlock, DigiList, DigiTypography } from "@digi/arbetsformedlingen-react";
 import { LayoutBlockVariation } from "@digi/arbetsformedlingen";
+import { Link } from "react-router";
+import "./AdsPresentation.css"
 
 type AdsPresentationProps = {
     occupation: OccupationId;
@@ -24,10 +26,18 @@ export const AdsPresentation = ({occupation}: AdsPresentationProps) => {
             console.error(err);
             setLoading(false);
         });
-    }, [jobs]);
+    }, [occupation]);
 
     if (loading) return <p>Loading jobs...</p>
     if (error) return <p>{error}</p>
+
+    const formatDeadline = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString("sv-SE", {
+            year: "numeric", 
+            month: "long",
+            day: "numeric",
+        });
+    };
 
     return (
         <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
@@ -35,10 +45,9 @@ export const AdsPresentation = ({occupation}: AdsPresentationProps) => {
                 <DigiList>
                     {jobs.map((job) => (
                         <li key={job.id}>
-                            <DigiLayoutBlock>
-                                <DigiLinkInternal afHref="/om-oss">{job.headline}</DigiLinkInternal> 
-                            {job.employer?.name}
-                            </DigiLayoutBlock>
+                            <Link to={`/${job.id}`}>{job.headline}</Link> 
+                            <p>{job.employer?.name} - {job.workplace_address.municipality}</p>
+                            <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
                         </li>
                     ))}
                 </DigiList>
