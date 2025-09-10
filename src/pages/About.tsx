@@ -5,7 +5,7 @@ export const About = () => {
   return (
     <>
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
-        <DigiTypography>
+        <DigiTypography className="about-text">
           <h2>Om oss</h2>
           <p>
             Kodbanken - Branch Out är platsbanken för utvecklare, skapad av utvecklare. Vi vet att det kan vara svårt
