@@ -1,23 +1,18 @@
-.digi-list__list {
-    list-style-type: none;
-    color: #57A27E;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    
-    a {
-        color: #f3f0f1;
-        font-weight: bold;
-    }
-}
-
-.digi-typography a:visited {
-    color: #be70d2;
+ul {
+  list-style-type: none;
+  color: #57a27e;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  padding: 0;
+  --digi--color--text--link: #f3f0f1;
+  --digi--color--text--link-visited: #be70d2;
 }
 
 li {
-    background-color: #23262e;
-    padding: 1.5rem;
-    width: 100%;
+  background-color: #23262e;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 800px;
 }
