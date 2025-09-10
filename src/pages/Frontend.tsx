@@ -1,3 +1,3 @@
 export const Frontend = () => {
-  return <></>;
+  return <>Frontend</>;
 };
