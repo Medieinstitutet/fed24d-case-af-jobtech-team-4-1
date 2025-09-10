@@ -1,5 +1,6 @@
 import { FooterVariation } from "@digi/arbetsformedlingen";
 import { DigiFooter } from "@digi/arbetsformedlingen-react";
+import "./Footer.css";
 
 export const Footer = () => {
   return (
