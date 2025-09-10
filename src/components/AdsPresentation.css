@@ -1,0 +1,18 @@
+ul {
+  list-style-type: none;
+  color: #57a27e;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  padding: 0;
+  --digi--color--text--link: #f3f0f1;
+  --digi--color--text--link-visited: #be70d2;
+}
+
+li {
+  background-color: #23262e;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 800px;
+}
