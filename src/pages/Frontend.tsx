@@ -1,3 +1,9 @@
+import { FrontendJobSearch } from '../components/FrontendJobSearch';
+
 export const Frontend = () => {
-  return <>Frontend</>;
+  return (
+    <div>
+      <FrontendJobSearch />
+    </div>
+  );
 };

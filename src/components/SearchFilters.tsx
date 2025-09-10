@@ -4,7 +4,11 @@ import { CATEGORY, OMFATTNING, ANSTALLNINGSFORM, RADIUS } from '../models/ISearc
 import { DigiFormInput, DigiButton, DigiFormSelect, DigiTag, DigiLayoutBlock, DigiTypography } from '@digi/arbetsformedlingen-react';
 import { LayoutBlockVariation } from '@digi/arbetsformedlingen';
 import './SearchFilters.css';
-export const SearchFilters = ({ onFiltersChange, initialFilters }: SearchFiltersProps) => {
+interface SearchFiltersPropsExtended extends SearchFiltersProps {
+  onSearch?: (filters: SearchState) => void;
+}
+
+export const SearchFilters = ({ onFiltersChange, onSearch, initialFilters }: SearchFiltersPropsExtended) => {
   const [filters, setFilters] = useState<SearchState>({
     query: '',
     category: 'all',
@@ -31,6 +35,18 @@ export const SearchFilters = ({ onFiltersChange, initialFilters }: SearchFilters
     });
   };
 
+  const handleSearch = () => {
+    if (onSearch) {
+      onSearch(filters);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <DigiLayoutBlock afVariation={LayoutBlockVariation.SECONDARY}>
       <DigiTypography>
@@ -43,6 +59,7 @@ export const SearchFilters = ({ onFiltersChange, initialFilters }: SearchFilters
           afLabel="Sök"
           value={filters.query}
           onInput={(e: any) => setF('query', e.target.value)}
+          onKeyPress={handleKeyPress}
           style={{ fontSize: '14px', padding: '6px' }}
         />
         {filters.query && (
@@ -50,7 +67,7 @@ export const SearchFilters = ({ onFiltersChange, initialFilters }: SearchFilters
             Rensa
           </DigiButton>
         )}
-        <DigiButton onAfOnClick={(e) => { e.preventDefault(); }}>
+        <DigiButton onAfOnClick={handleSearch}>
           Sök
         </DigiButton>
       </div>

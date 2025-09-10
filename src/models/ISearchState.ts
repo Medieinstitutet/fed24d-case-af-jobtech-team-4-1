@@ -2,8 +2,9 @@ export interface SearchState {
     query: string;
     category: string; // "all", "frontend", "backend", "fullstack"
     omfattning: string; // "all", "full-time", "part-time", "remote"
-    anstallningsform: string; // "permanent", "temporary"
+    anstallningsform: string; // "permanent", "temporary", "contract", "internship"
     radius: number; // 8, 12, 20
+    location?: string; // "Stockholm", "Göteborg", "Malmö", etc.
   }
   
   export interface SearchFiltersProps {
@@ -25,10 +26,12 @@ export interface SearchState {
     REMOTE: "remote"
   } as const;
   
-  export const ANSTALLNINGSFORM = {
-    PERMANENT: "permanent",
-    TEMPORARY: "temporary"
-  } as const;
+export const ANSTALLNINGSFORM = {
+  PERMANENT: "permanent",
+  TEMPORARY: "temporary",
+  CONTRACT: "contract",
+  INTERNSHIP: "internship"
+} as const;
   
   export const RADIUS = {
     KM_8: 8,

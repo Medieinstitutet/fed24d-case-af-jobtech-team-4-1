@@ -1,3 +1,9 @@
+import { FullstackJobSearch } from '../components/FullstackJobSearch';
+
 export const Fullstack = () => {
-  return <>Fullstack</>;
+  return (
+    <div>
+      <FullstackJobSearch />
+    </div>
+  );
 };

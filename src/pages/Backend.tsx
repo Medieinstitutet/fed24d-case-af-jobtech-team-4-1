@@ -1,10 +1,9 @@
-import { AdsPresentation } from "../components/AdsPresentation";
-import { OccupationId } from "../services/jobAdService";
+import { BackendJobSearch } from '../components/BackendJobSearch';
 
 export const Backend = () => {
   return (
-    <>
-      <AdsPresentation occupation={OccupationId.BACKEND} />
-    </>
+    <div>
+      <BackendJobSearch />
+    </div>
   );
 };
