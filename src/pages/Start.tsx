@@ -1,3 +1,6 @@
 export const Start = () => {
-  return <></>;
+  return <>
+  <h2>Hem</h2>
+  Startsida
+  </>;
 };
