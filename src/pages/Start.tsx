@@ -1,12 +1,13 @@
 import { LayoutBlockVariation, LayoutColumnsElement, LayoutColumnsVariation, LinkButtonSize, LinkButtonVariation } from "@digi/arbetsformedlingen";
 import { DigiLayoutBlock, DigiLayoutColumns, DigiLayoutContainer, DigiLinkButton } from "@digi/arbetsformedlingen-react"
+import "./Start.css";
 
 export const Start = () => {
   return (
   <>
   <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+    <h2>Hem</h2>
     <DigiLayoutContainer>
-        <h2>Hem</h2>
         <h3>Välkommen till Kodbanken - Branch Out</h3>
         <p>Här hittar du jobbannonser för utvecklare, sorterat efter din stack. </p>
         <p>Dags att committa till nästa steg i karriären? </p>
