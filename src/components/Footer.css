@@ -1,11 +1,11 @@
 .sc-digi-layout-block-h .digi-layout-block--profile.sc-digi-layout-block {
-    background: #0d121e; 
+  background: #0d121e;
 }
 
 .sc-digi-layout-block.sc-digi-footer.sc-digi-layout-container {
-    display: flex;
-    justify-content: center; 
-    align-items: center;    
-    text-align: center;
-    margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 1rem;
 }
