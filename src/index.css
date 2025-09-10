@@ -1,2 +1,78 @@
 @import '@digi/arbetsformedlingen/dist/digi-arbetsformedlingen/digi-arbetsformedlingen.css';
 @import '@digi/arbetsformedlingen/dist/digi-arbetsformedlingen/fonts/src/fonts.css';
+
+
+digi-header-navigation a {
+  color: #57A27E !important;
+}
+
+digi-layout-block {
+  --digi--layout-block--background--primary: #0d121e !important;
+}
+
+digi-header-navigation {
+  --digi--header--border-width: 0;
+  --digi--header--border-color: transparent;
+}
+
+.digi-header-navigation-item--active {
+  --digi--header-navigation-item-indicator--active--color: transparent;
+}
+digi-header-navigation-item {
+  background: transparent !important;
+}
+.digi-header-navigation-item-indicator {
+  display: none !important;
+}
+
+.sc-digi-header-navigation-item:hover {
+  background: none !important;
+  background-color: transparent !important;
+}
+
+body {
+  background-color: #0d121e;
+  color: #57A27E; 
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+digi-layout-block {
+  --digi--layout-block--background--primary: #0d121e; 
+}
+
+digi-header-navigation {
+  --digi--color--background--neutral-8: #0d121e; 
+}
+
+.digi-header-navigation-item a {
+  font-weight: bold;
+}
+
+.digi-header-navigation-item--active a {
+  text-decoration: underline;
+  text-decoration-color: #57A27E;
+ 
+  text-underline-offset: 4px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-img {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+}
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.about-text {
+    color: #57A27E;
+}
