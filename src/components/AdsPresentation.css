@@ -3,6 +3,8 @@
     color: #57A27E;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    
     
     a {
         color: #f3f0f1;
@@ -12,4 +14,10 @@
 
 .digi-typography a:visited {
     color: #be70d2;
+}
+
+li {
+    background-color: #393d45;
+    padding: 1.5rem;
+    width: 100%;
 }
