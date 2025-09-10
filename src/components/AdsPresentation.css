@@ -1,0 +1,15 @@
+.digi-list__list {
+    list-style-type: none;
+    color: #57A27E;
+    display: flex;
+    flex-direction: column;
+    
+    a {
+        color: #f3f0f1;
+        font-weight: bold;
+    }
+}
+
+.digi-typography a:visited {
+    color: #be70d2;
+}
