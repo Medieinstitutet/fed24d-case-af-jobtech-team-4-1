@@ -1,3 +1,3 @@
 export const AllAds = () => {
-  return <></>;
+  return <>All ads</>;
 };
