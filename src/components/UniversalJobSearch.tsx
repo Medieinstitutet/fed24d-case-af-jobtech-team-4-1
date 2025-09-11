@@ -8,7 +8,7 @@ interface UniversalJobSearchProps {
   defaultCategory?: string;
   initialFilters?: Partial<SearchState>;
 }
-
+//
 export const UniversalJobSearch = ({ 
   showCategoryFilter = true, 
   defaultCategory = 'all',

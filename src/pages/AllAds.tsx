@@ -1,9 +1,0 @@
-import { AllJobsSearch } from '../components/AllJobsSearch';
-
-export const AllAds = () => {
-  return (
-    <div>
-      <AllJobsSearch />
-    </div>
-  );
-};

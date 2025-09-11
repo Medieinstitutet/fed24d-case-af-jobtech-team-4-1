@@ -1,22 +1,31 @@
-import { useEffect, useState } from "react";
-import type { IAd } from "../models/IAd";
+import { useContext, useEffect, useState } from "react";
 import { getJobAds, OccupationId } from "../services/jobAdService";
 import { Link } from "react-router";
-import "./AdsPresentation.css";
+import { JobContext } from "../contexts/JobContext";
+import { JobActionTypes } from "../reducers/JobReducer";
+import "./AdsPresentation.scss";
 
 type AdsPresentationProps = {
   occupation: OccupationId;
 };
 
 export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
-  const [jobs, setJobs] = useState<IAd[]>([]);
+  const { jobs, dispatch } = useContext(JobContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (jobs[occupation].length > 0) {
+      setLoading(false);
+      return;
+    }
+
     getJobAds(occupation)
       .then(data => {
-        setJobs(data);
+        dispatch({
+          type: JobActionTypes.SET_JOBS,
+          payload: { occupation, jobs: data },
+        });
         setLoading(false);
       })
       .catch(err => {
@@ -24,7 +33,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
         console.error(err);
         setLoading(false);
       });
-  }, [occupation]);
+  }, [occupation, dispatch]);
 
   if (loading) return <p>Loading jobs...</p>;
   if (error) return <p>{error}</p>;
@@ -39,7 +48,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
 
   return (
     <ul>
-      {jobs.map(job => (
+      {jobs[occupation].map(job => (
         <li key={job.id}>
           <Link to={`/${job.id}`}>
             <h3>{job.headline}</h3>

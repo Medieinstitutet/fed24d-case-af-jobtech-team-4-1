@@ -1,0 +1,20 @@
+@import "../styles/variables";
+
+ul {
+  list-style-type: none;
+  color: $color-primary;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  padding: 0;
+  --digi--color--text--link: #{$color-third};
+  --digi--color--text--link-visited: #{$color-visited};
+
+  li {
+    background-color: $color-secondary;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 800px;
+  }
+}
