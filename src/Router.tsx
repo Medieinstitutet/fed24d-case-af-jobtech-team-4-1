@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router";
 import { About } from "./pages/About";
-import { Backend } from "./pages/Backend";
 import { Occupation } from "./pages/Occupation";
 import { Layout } from "./pages/Layout";
 import { Start } from "./pages/Start";
