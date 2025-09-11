@@ -21,10 +21,6 @@ export const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "/backend",
-        element: <Backend />,
-      },
-      {
         path: "/:occupation",
         element: <Occupation />,
       },
