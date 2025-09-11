@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { IAd } from "../models/IAd";
 import { getJobAds, OccupationId } from "../services/jobAdService";
 import { Link } from "react-router";
-import "./AdsPresentation.css";
+import "./AdsPresentation.scss";
 
 type AdsPresentationProps = {
   occupation: OccupationId;

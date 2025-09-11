@@ -41,13 +41,13 @@ export const SingleAd = () => {
   return (
     <>
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
-        <DigiTypography>
+        <DigiTypography className="single-ad-text">
           <h1>{ad.headline}</h1>
           <h2>{ad.employer.name}</h2>
           <h3>Om jobbet:</h3>
           <p>Kategori:{ad.occupation.label}</p>
           <p>Omfattning:{ad.working_hours_type.label}</p>
-          <p>{ad.description.text}</p>
+          <p style={{ whiteSpace: "pre-line" }}>{ad.description.text}</p>
           <DigiLayoutContainer>
             <h3>Sök jobbet:</h3>
             <p>
@@ -59,7 +59,7 @@ export const SingleAd = () => {
               afVariation={LinkButtonVariation.PRIMARY}
               af-hide-icon={true}
             >
-              Ansök här
+              Commit ansökan 😉
             </DigiLinkButton>
           </DigiLayoutContainer>
         </DigiTypography>
