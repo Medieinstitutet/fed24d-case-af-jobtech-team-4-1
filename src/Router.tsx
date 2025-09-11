@@ -1,9 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import { About } from "./pages/About";
-import { AllAds } from "./pages/AllAds";
-import { Backend } from "./pages/Backend";
-import { Frontend } from "./pages/Frontend";
-import { Fullstack } from "./pages/Fullstack";
+import { Occupation } from "./pages/Occupation";
 import { Layout } from "./pages/Layout";
 import { Start } from "./pages/Start";
 import { Error } from "./pages/Error";
@@ -23,20 +20,8 @@ export const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "/backend",
-        element: <Backend />,
-      },
-      {
-        path: "/frontend",
-        element: <Frontend />,
-      },
-      {
-        path: "/fullstack",
-        element: <Fullstack />,
-      },
-      {
-        path: "/all-ads",
-        element: <AllAds />,
+        path: "/:occupation",
+        element: <Occupation />,
       },
       {
         path: "/:id",
