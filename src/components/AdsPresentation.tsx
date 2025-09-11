@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { getJobAds, OccupationId } from "../services/jobAdService";
 import { Link } from "react-router";
-import "./AdsPresentation.css";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
+import "./AdsPresentation.scss";
 
 type AdsPresentationProps = {
   occupation: OccupationId;

@@ -1,5 +1,5 @@
 import { DigiHeaderNavigation, DigiHeaderNavigationItem } from "@digi/arbetsformedlingen-react";
-import "../index.css";
+import "../index.scss";
 import { useLocation } from "react-router";
 
 export const Navigation = () => {
