@@ -7,8 +7,8 @@ export const Occupation = () => {
   const occ = occupation as OccupationId;
 
   return (
-  <>
-    <AdsPresentation occupation={occ}></AdsPresentation>
-  </>
-  )
+    <>
+      <AdsPresentation occupation={occ}></AdsPresentation>
+    </>
+  );
 };
