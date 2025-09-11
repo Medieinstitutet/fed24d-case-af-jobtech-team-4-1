@@ -1,0 +1,47 @@
+@import "../styles/variables";
+
+digi-layout-columns.sc-digi-layout-columns {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+digi-link-button {
+  display: block !important;
+  width: 100% !important;
+  margin-top: 3rem;
+
+  --BACKGROUND--DEFAULT: #{$color-secondary} !important;
+  --BORDER-COLOR--DEFAULT: #{$color-primary} !important;
+  --BACKGROUND--HOVER: #{$color-secondary} !important;
+  --BORDER-COLOR--HOVER: #{$color-third} !important;
+  --COLOR--DEFAULT: #{$color-primary} !important;
+  --COLOR--HOVER: #{$color-third} !important;
+
+  --PADDING: 4.5rem 5rem !important;
+  --FONT-SIZE: 1.3rem !important;
+
+  a {
+    display: flex !important;
+    width: 90% !important;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}
+
+h1 {
+  color: #{$color-primary};
+}
+
+.home-text {
+  color: #{$color-primary};
+  margin-top: 1rem;
+  text-align: center;
+  --digi--paragraph-width--medium: 100%;
+
+  h2,
+  p {
+    margin-bottom: 10px;
+  }
+}

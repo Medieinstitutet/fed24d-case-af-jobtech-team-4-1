@@ -11,15 +11,15 @@ import {
   DigiLayoutContainer,
   DigiLinkButton,
 } from "@digi/arbetsformedlingen-react";
-import "./Start.css";
+import "./Start.scss";
 
 export const Start = () => {
   return (
     <>
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
-        <h2>Hem</h2>
-        <DigiLayoutContainer>
-          <h3>Välkommen till Kodbanken - Branch Out</h3>
+        <h1>Hem</h1>
+        <DigiLayoutContainer className="home-text">
+          <h2>Välkommen till Kodbanken - Branch Out</h2>
           <p>Här hittar du jobbannonser för utvecklare, sorterat efter din stack. </p>
           <p>Dags att committa till nästa steg i karriären? </p>
           <p>Välj ditt spår och pusha din framtid framåt.</p>

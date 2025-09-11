@@ -1,5 +1,7 @@
+@import "../styles/variables";
+
 .sc-digi-layout-block-h .digi-layout-block--profile.sc-digi-layout-block {
-  background: #0d121e;
+  background: #{$color-background};
 }
 
 .sc-digi-layout-block.sc-digi-footer.sc-digi-layout-container {
@@ -7,5 +9,5 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 0.3rem;
 }
