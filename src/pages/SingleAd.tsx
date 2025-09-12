@@ -2,7 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import type { IAd } from "../models/IAd";
 import { getJobAds, OccupationId } from "../services/jobAdService";
-import { DigiLayoutBlock, DigiLayoutContainer, DigiLinkButton, DigiLoaderSpinner, DigiTypography } from "@digi/arbetsformedlingen-react";
+import {
+  DigiLayoutBlock,
+  DigiLayoutContainer,
+  DigiLinkButton,
+  DigiLoaderSpinner,
+  DigiTypography,
+} from "@digi/arbetsformedlingen-react";
 import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 import { JobActionTypes } from "../reducers/JobReducer";
 import { JobContext } from "../contexts/JobContext";
@@ -68,7 +74,18 @@ export const SingleAd = () => {
     <>
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
         <DigiLayoutContainer>
-          <DigiLinkButton afSize={LinkButtonSize.MEDIUM} afVariation={LinkButtonVariation.SECONDARY} af-hide-icon={true} onClick={() => {navigate(`/${occupation}`)}} >
+          <DigiLinkButton
+            afSize={LinkButtonSize.MEDIUM}
+            afVariation={LinkButtonVariation.SECONDARY}
+            af-hide-icon={true}
+            onClick={() => {
+              if (window.history.length > 1) {
+                navigate(-1);
+              } else {
+                navigate(`/${occupation}`);
+              }
+            }}
+          >
             ⬅️ Tillbaka
           </DigiLinkButton>
         </DigiLayoutContainer>
