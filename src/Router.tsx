@@ -20,12 +20,12 @@ export const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "/:occupationSlug",
-        element: <Occupation />,
+        path: "/:occupationSlug/:id",
+        element: <SingleAd />,
       },
       {
-        path: "/:occupation/:id",
-        element: <SingleAd />,
+        path: "/:occupationSlug",
+        element: <Occupation />,
       },
     ],
     errorElement: <Error />,

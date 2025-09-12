@@ -12,6 +12,7 @@ import {
 import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 import { JobActionTypes } from "../reducers/JobReducer";
 import { JobContext } from "../contexts/JobContext";
+import { slugToOccupation } from "../utils/occupationUtils";
 import "./SingleAd.scss"; 
 
 const findAd = (ads: IAd[], id?: string) => {
@@ -24,8 +25,12 @@ const getAdFromContext = (jobs: Record<OccupationId, IAd[]>, occ: OccupationId, 
 };
 
 export const SingleAd = () => {
-  const { id, occupation } = useParams();
-  const occ = occupation as OccupationId;
+  const { occupationSlug, id } = useParams<{ occupationSlug?: string; id?: string }>();
+  if (!occupationSlug || !(occupationSlug in slugToOccupation)) {
+  return <p>Kunde inte hitta annonsen</p>;
+}
+
+const occupation = slugToOccupation[occupationSlug]; 
   const { jobs, dispatch } = useContext(JobContext);
   const navigate = useNavigate();
 
@@ -33,9 +38,9 @@ export const SingleAd = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id || !occ) return;
+    if (!id || !occupation) return;
 
-    const found = getAdFromContext(jobs, occ, id);
+    const found = getAdFromContext(jobs, occupation, id);
     if (found) {
       setAd(found);
       setLoading(false);
@@ -44,10 +49,10 @@ export const SingleAd = () => {
 
     const fetchAd = async () => {
       try {
-        const allAds = await getJobAds(occ);
+        const allAds = await getJobAds(occupation);
         dispatch({
           type: JobActionTypes.SET_JOBS,
-          payload: { occupation: occ, jobs: allAds },
+          payload: { occupation: occupation, jobs: allAds },
         });
         setAd(findAd(allAds, id));
       } catch (error) {
@@ -57,7 +62,7 @@ export const SingleAd = () => {
       }
     };
     fetchAd();
-  }, [id, occ, jobs, dispatch]);
+  }, [id, occupation, jobs, dispatch]);
 
   if (loading) return <DigiLoaderSpinner afSize={LoaderSpinnerSize.MEDIUM} afText="Laddar"></DigiLoaderSpinner>;
   if (!ad) return <p>Annonsen hittades inte.</p>;
