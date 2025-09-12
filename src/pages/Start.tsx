@@ -13,6 +13,7 @@ import {
 } from "@digi/arbetsformedlingen-react";
 import { OccupationId } from "../services/jobAdService";
 import "./Start.scss";
+import { occupationSlugs } from "../utils/occupationUtils";
 
 export const Start = () => {
   return (
@@ -28,28 +29,28 @@ export const Start = () => {
 
         <DigiLayoutColumns afElement={LayoutColumnsElement.DIV} afVariation={LayoutColumnsVariation.TWO}>
           <DigiLinkButton
-            afHref={`/${OccupationId.FRONTEND}`}
+            afHref={`/${occupationSlugs[OccupationId.FRONTEND]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Frontend
           </DigiLinkButton>
           <DigiLinkButton
-            afHref={`/${OccupationId.BACKEND}`}
+            afHref={`/${occupationSlugs[OccupationId.BACKEND]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Backend
           </DigiLinkButton>
           <DigiLinkButton
-            afHref={`/${OccupationId.FULLSTACK}`}
+            afHref={`/${occupationSlugs[OccupationId.FULLSTACK]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Fullstack
           </DigiLinkButton>
           <DigiLinkButton
-            afHref={`/${OccupationId.ALL}`}
+            afHref={`/${occupationSlugs[OccupationId.ALL]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >

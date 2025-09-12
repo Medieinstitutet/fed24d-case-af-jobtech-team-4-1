@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "/:occupation",
+        path: "/:occupationSlug",
         element: <Occupation />,
       },
       {

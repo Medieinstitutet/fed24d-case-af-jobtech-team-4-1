@@ -1,14 +1,21 @@
 import { useParams } from "react-router";
 import { AdsPresentation } from "../components/AdsPresentation";
-import type { OccupationId } from "../services/jobAdService";
+import { DigiTypographyPreamble } from "@digi/arbetsformedlingen-react";
+import { slugToOccupation } from "../utils/occupationUtils";
 
 export const Occupation = () => {
-  const { occupation } = useParams();
-  const occ = occupation as OccupationId;
+  const { occupationSlug } = useParams<{ occupationSlug?: string }>();
+
+  if (!occupationSlug || !(occupationSlug in slugToOccupation)) {
+  return <p>Ogiltig kategori</p>;
+  }
+
+  const occupation = slugToOccupation[occupationSlug];
 
   return (
     <>
-      <AdsPresentation occupation={occ}></AdsPresentation>
+      <DigiTypographyPreamble>Här hittar du alla annonser inom {occupationSlug}.</DigiTypographyPreamble>
+      <AdsPresentation occupation={occupation}></AdsPresentation>
     </>
   );
 };
