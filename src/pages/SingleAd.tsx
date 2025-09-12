@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import type { IAd } from "../models/IAd";
 import { getJobAds, OccupationId } from "../services/jobAdService";
 import {
@@ -12,6 +12,7 @@ import {
 import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 import { JobActionTypes } from "../reducers/JobReducer";
 import { JobContext } from "../contexts/JobContext";
+import "./SingleAd.scss"; 
 
 const findAd = (ads: IAd[], id?: string) => {
   if (!id) return undefined;
@@ -26,6 +27,7 @@ export const SingleAd = () => {
   const { id, occupation } = useParams();
   const occ = occupation as OccupationId;
   const { jobs, dispatch } = useContext(JobContext);
+  const navigate = useNavigate();
 
   const [ad, setAd] = useState<IAd | undefined>(undefined);
   const [loading, setLoading] = useState(true);
@@ -72,6 +74,22 @@ export const SingleAd = () => {
   return (
     <>
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+        <DigiLayoutContainer>
+          <DigiLinkButton
+            afSize={LinkButtonSize.MEDIUM}
+            afVariation={LinkButtonVariation.SECONDARY}
+            af-hide-icon={true}
+            onClick={() => {
+              if (window.history.length > 1) {
+                navigate(-1);
+              } else {
+                navigate(`/${occupation}`);
+              }
+            }}
+          >
+            ⬅️ Tillbaka
+          </DigiLinkButton>
+        </DigiLayoutContainer>
         <DigiTypography className="single-ad-text">
           <h1>{ad.headline}</h1>
           <h2>{ad.employer.name}</h2>
@@ -85,6 +103,7 @@ export const SingleAd = () => {
               Ansök senast <strong>{formattedDate}</strong> {diffDays > 0 && <span>(om {diffDays} dagar)</span>}
             </p>
             <DigiLinkButton
+            className="apply-btn"
               afHref="#"
               afSize={LinkButtonSize.MEDIUM}
               afVariation={LinkButtonVariation.PRIMARY}

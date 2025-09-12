@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { getJobAds, OccupationId } from "../services/jobAdService";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useNavigate } from "react-router";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
 import "./AdsPresentation.scss";
-import { DigiLoaderSpinner } from "@digi/arbetsformedlingen-react";
-import { LoaderSpinnerSize } from "@digi/arbetsformedlingen";
+import { DigiLayoutContainer, DigiLinkButton, DigiLoaderSpinner } from "@digi/arbetsformedlingen-react";
+import { LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 
 type AdsPresentationProps = {
   occupation: OccupationId;
@@ -15,6 +15,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
   const { jobs, dispatch } = useContext(JobContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
   const { occupationSlug } = useParams<{ occupationSlug?: string }>();
 
   useEffect(() => {
@@ -56,6 +57,20 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
 
   return (
     <>
+      <DigiLayoutContainer>
+        <DigiLinkButton
+        className="back-btn"
+          afSize={LinkButtonSize.MEDIUM}
+          afVariation={LinkButtonVariation.SECONDARY}
+          af-hide-icon={true}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          ⬅️ Tillbaka
+        </DigiLinkButton>
+      </DigiLayoutContainer>
+      
       {jobs[occupation].length === 0 ? (
         <p>Inga jobbannonser hittades för {occupationSlug}.</p>
       ) : (
