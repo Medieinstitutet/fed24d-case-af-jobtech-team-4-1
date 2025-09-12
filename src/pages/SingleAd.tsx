@@ -12,6 +12,7 @@ import {
 import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 import { JobActionTypes } from "../reducers/JobReducer";
 import { JobContext } from "../contexts/JobContext";
+import "./SingleAd.scss"; 
 
 const findAd = (ads: IAd[], id?: string) => {
   if (!id) return undefined;
@@ -102,6 +103,7 @@ export const SingleAd = () => {
               Ansök senast <strong>{formattedDate}</strong> {diffDays > 0 && <span>(om {diffDays} dagar)</span>}
             </p>
             <DigiLinkButton
+            className="apply-btn"
               afHref="#"
               afSize={LinkButtonSize.MEDIUM}
               afVariation={LinkButtonVariation.PRIMARY}
