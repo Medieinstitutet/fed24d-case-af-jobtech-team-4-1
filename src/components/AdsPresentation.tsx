@@ -46,19 +46,27 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
     });
   };
 
+//    if (jobs[occupation].length = 0) return <p>Det verkar inte finnas några jobb just nu.</p>
+
   return (
-    <ul>
-      {jobs[occupation].map(job => (
-        <li key={job.id}>
-          <Link to={`/${job.id}`}>
-            <h3>{job.headline}</h3>
-          </Link>
-          <p>
-            {job.employer?.name} - {job.workplace_address.municipality}
-          </p>
-          <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
-        </li>
-      ))}
-    </ul>
-  );
+  <>
+    {jobs[occupation].length === 0 ? (
+      <p>Inga jobbannonser hittades för denna kategori.</p>
+    ) : (
+      <ul>
+        {jobs[occupation].map(job => (
+          <li key={job.id}>
+            <Link to={`/${job.id}`}>
+              <h3>{job.headline}</h3>
+            </Link>
+            <p>
+              {job.employer?.name} - {job.workplace_address.municipality}
+            </p>
+            <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
+          </li>
+        ))}
+      </ul>
+    )}
+  </>
+);
 };
