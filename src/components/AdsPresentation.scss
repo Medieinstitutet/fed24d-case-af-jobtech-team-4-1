@@ -18,3 +18,11 @@ ul {
     max-width: 800px;
   }
 }
+
+.back-btn {
+  position: fixed;
+  bottom: 1rem;
+  right: 3rem;
+  z-index: 999;
+  cursor: pointer;
+}
