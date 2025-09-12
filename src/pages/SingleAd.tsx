@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import type { IAd } from "../models/IAd";
 import { getJobAds, OccupationId } from "../services/jobAdService";
 import { DigiLayoutBlock, DigiLayoutContainer, DigiLinkButton, DigiLoaderSpinner, DigiTypography } from "@digi/arbetsformedlingen-react";
@@ -20,6 +20,7 @@ export const SingleAd = () => {
   const { id, occupation } = useParams();
   const occ = occupation as OccupationId;
   const { jobs, dispatch } = useContext(JobContext);
+  const navigate = useNavigate();
 
   const [ad, setAd] = useState<IAd | undefined>(undefined);
   const [loading, setLoading] = useState(true);
@@ -66,6 +67,11 @@ export const SingleAd = () => {
   return (
     <>
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+        <DigiLayoutContainer>
+          <DigiLinkButton afSize={LinkButtonSize.MEDIUM} afVariation={LinkButtonVariation.SECONDARY} af-hide-icon={true} onClick={() => {navigate(`/${occupation}`)}} >
+            ⬅️ Tillbaka
+          </DigiLinkButton>
+        </DigiLayoutContainer>
         <DigiTypography className="single-ad-text">
           <h1>{ad.headline}</h1>
           <h2>{ad.employer.name}</h2>

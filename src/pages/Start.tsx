@@ -17,7 +17,7 @@ import "./Start.scss";
 export const Start = () => {
   return (
     <>
-      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY} className="home-block">
         <h1>Hem</h1>
         <DigiLayoutContainer className="home-text">
           <h2>Välkommen till Kodbanken - Branch Out</h2>
