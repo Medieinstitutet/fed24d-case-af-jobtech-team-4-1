@@ -4,6 +4,8 @@ import { Link } from "react-router";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
 import "./AdsPresentation.scss";
+import { DigiLoaderSpinner } from "@digi/arbetsformedlingen-react";
+import { LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 
 type AdsPresentationProps = {
   occupation: OccupationId;
@@ -35,7 +37,10 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       });
   }, [occupation, dispatch]);
 
-  if (loading) return <p>Loading jobs...</p>;
+  if (loading) return (<>
+      <DigiLoaderSpinner afSize={LoaderSpinnerSize.MEDIUM} afText="Laddar"></DigiLoaderSpinner>
+    </> 
+  );
   if (error) return <p>{error}</p>;
 
   const formatDeadline = (dateString: string) => {

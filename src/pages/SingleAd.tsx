@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import type { IAd } from "../models/IAd";
 import { getJobAds, OccupationId } from "../services/jobAdService";
-import { DigiLayoutBlock, DigiLayoutContainer, DigiLinkButton, DigiTypography } from "@digi/arbetsformedlingen-react";
-import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation } from "@digi/arbetsformedlingen";
+import { DigiLayoutBlock, DigiLayoutContainer, DigiLinkButton, DigiLoaderSpinner, DigiTypography } from "@digi/arbetsformedlingen-react";
+import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 
 export const SingleAd = () => {
   const { id } = useParams();
@@ -26,7 +26,7 @@ export const SingleAd = () => {
     fetchAd();
   }, [id]);
 
-  if (loading) return <p>Laddar...</p>;
+  if (loading) return <DigiLoaderSpinner afSize={LoaderSpinnerSize.MEDIUM} afText="Laddar"></DigiLoaderSpinner>;
   if (!ad) return <p>Annonsen hittades inte.</p>;
 
   const deadline = new Date(ad.application_deadline);
