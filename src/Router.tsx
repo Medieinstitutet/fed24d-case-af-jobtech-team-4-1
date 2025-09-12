@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
         element: <Occupation />,
       },
       {
-        path: "/:id",
+        path: "/:occupation/:id",
         element: <SingleAd />,
       },
     ],
