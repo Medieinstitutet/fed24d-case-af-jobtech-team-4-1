@@ -46,8 +46,6 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
     });
   };
 
-//    if (jobs[occupation].length = 0) return <p>Det verkar inte finnas några jobb just nu.</p>
-
   return (
   <>
     {jobs[occupation].length === 0 ? (
