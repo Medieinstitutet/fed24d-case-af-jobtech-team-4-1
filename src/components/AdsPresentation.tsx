@@ -38,10 +38,12 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       });
   }, [occupation, dispatch]);
 
-  if (loading) return (<>
-      <DigiLoaderSpinner afSize={LoaderSpinnerSize.MEDIUM} afText="Laddar"></DigiLoaderSpinner>
-    </> 
-  );
+  if (loading)
+    return (
+      <>
+        <DigiLoaderSpinner afSize={LoaderSpinnerSize.MEDIUM} afText="Laddar"></DigiLoaderSpinner>
+      </>
+    );
   if (error) return <p>{error}</p>;
 
   const formatDeadline = (dateString: string) => {
@@ -53,24 +55,24 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
   };
 
   return (
-  <>
-    {jobs[occupation].length === 0 ? (
-      <p>Inga jobbannonser hittades för {occupationSlug}.</p>
-    ) : (
-      <ul>
-        {jobs[occupation].map(job => (
-          <li key={job.id}>
-            <Link to={`/${job.id}`}>
-              <h3>{job.headline}</h3>
-            </Link>
-            <p>
-              {job.employer?.name} - {job.workplace_address.municipality}
-            </p>
-            <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
-          </li>
-        ))}
-      </ul>
-    )}
-  </>
-);
+    <>
+      {jobs[occupation].length === 0 ? (
+        <p>Inga jobbannonser hittades för {occupationSlug}.</p>
+      ) : (
+        <ul>
+          {jobs[occupation].map(job => (
+            <li key={job.id}>
+              <Link to={`/${job.id}`}>
+                <h3>{job.headline}</h3>
+              </Link>
+              <p>
+                {job.employer?.name} - {job.workplace_address.municipality}
+              </p>
+              <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
 };

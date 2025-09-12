@@ -7,7 +7,7 @@ export const Occupation = () => {
   const { occupationSlug } = useParams<{ occupationSlug?: string }>();
 
   if (!occupationSlug || !(occupationSlug in slugToOccupation)) {
-  return <p>Ogiltig kategori</p>;
+    return <p>Ogiltig kategori</p>;
   }
 
   const occupation = slugToOccupation[occupationSlug];
