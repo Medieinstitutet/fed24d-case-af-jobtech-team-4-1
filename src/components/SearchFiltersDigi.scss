@@ -1,0 +1,181 @@
+@import "../styles/variables.scss";
+
+
+.search-filters-digi {
+  background-color: $color-secondary;
+  border: 1px solid $color-primary;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 100%;
+
+  .title {
+    color: $color-third;
+    font-weight: 700;
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+
+  digi-layout-columns {
+    display: block;
+    margin-bottom: 0.75rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  /* ROW as grid — single place for layout control */
+  .row {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* Search row: input stretches, button fixed */
+  .row--search {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+
+    .btn-search {
+      height: 44px;
+      padding-inline: 16px;
+      white-space: nowrap;
+    }
+  }
+
+  /* Filters row*/
+  .row--filters {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    align-items: end;
+
+    >digi-form-select,
+    >digi-form-input,
+    >.actions {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+
+  .actions {
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+
+  .status {
+    margin-top: .5rem;
+    color: $color-third;
+    font-size: .875rem;
+    text-align: center;
+
+    .error {
+      color: #e64646;
+    }
+  }
+
+  &.loading {
+    opacity: .6;
+  }
+}
+
+/* Built-in cross in field */
+.input-wrap {
+  position: relative;
+  min-width: 240px;
+
+  /* web-components full column width */
+  digi-form-input,
+  .hydrated {
+    display: block;
+    width: 100%;
+  }
+
+  .clear-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 2;
+    border: none;
+    background: none;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    color: $color-primary;
+    padding: 0 4px;
+    border-radius: 6px;
+
+    &:hover {
+      opacity: .75;
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba(0, 0, 0, .2);
+    }
+  }
+
+
+  digi-form-input::part(input) {
+    padding-right: 2.25rem;
+    height: 44px;
+    box-sizing: border-box;
+  }
+
+
+  @supports not (selector(digi-form-input::part(input))) {
+    padding-right: 2.25rem;
+  }
+}
+
+
+digi-form-input::part(input),
+digi-form-select::part(select) {
+  border: 1px solid $color-primary !important;
+  border-radius: 4px !important;
+  padding: 0.5rem !important;
+  font-size: 0.875rem !important;
+}
+
+.sc-digi-layout-block-h .digi-layout-block--secondary.sc-digi-layout-block {
+  background-color: $color-secondary;
+}
+
+.sc-digi-form-label-h .digi-form-label__label--label.sc-digi-form-label {
+  color: $color-third;
+}
+
+.input-wrap .clear-btn {
+  padding: 4px !important;
+  font-size: 1.4rem;
+}
+
+digi-form-input::part(label),
+digi-form-select::part(label) {
+  color: #999 !important;
+  font-size: 0.875rem !important;
+}
+
+
+.sc-digi-button-h .digi-button.sc-digi-button {
+  background-color: $color-primary;
+}
+
+
+
+@media (max-width: 768px) {
+  .search-filters-digi {
+    padding: .75rem;
+  }
+
+  .row--search {
+    grid-template-columns: 1fr;
+  }
+}
