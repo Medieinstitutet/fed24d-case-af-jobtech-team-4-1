@@ -59,7 +59,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
     <>
       <DigiLayoutContainer>
         <DigiLinkButton
-        className="back-btn"
+          className="back-btn"
           afSize={LinkButtonSize.MEDIUM}
           afVariation={LinkButtonVariation.SECONDARY}
           af-hide-icon={true}
@@ -70,7 +70,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
           ⬅️ Tillbaka
         </DigiLinkButton>
       </DigiLayoutContainer>
-      
+
       {jobs[occupation].length === 0 ? (
         <p>Inga jobbannonser hittades för {occupationSlug}.</p>
       ) : (
