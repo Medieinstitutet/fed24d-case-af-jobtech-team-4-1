@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { getJobAds, OccupationId } from "../services/jobAdService";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
 import "./AdsPresentation.scss";
@@ -13,6 +13,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
   const { jobs, dispatch } = useContext(JobContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { occupationSlug } = useParams<{ occupationSlug?: string }>();
 
   useEffect(() => {
     if (jobs[occupation].length > 0) {
@@ -49,7 +50,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
   return (
   <>
     {jobs[occupation].length === 0 ? (
-      <p>Inga jobbannonser hittades för denna kategori.</p>
+      <p>Inga jobbannonser hittades för {occupationSlug}.</p>
     ) : (
       <ul>
         {jobs[occupation].map(job => (
