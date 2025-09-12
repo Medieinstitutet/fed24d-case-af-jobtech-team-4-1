@@ -2,7 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import type { IAd } from "../models/IAd";
 import { getJobAds, OccupationId } from "../services/jobAdService";
-import { DigiLayoutBlock, DigiLayoutContainer, DigiLinkButton, DigiLoaderSpinner, DigiTypography } from "@digi/arbetsformedlingen-react";
+import {
+  DigiLayoutBlock,
+  DigiLayoutContainer,
+  DigiLinkButton,
+  DigiLoaderSpinner,
+  DigiTypography,
+} from "@digi/arbetsformedlingen-react";
 import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 import { JobActionTypes } from "../reducers/JobReducer";
 import { JobContext } from "../contexts/JobContext";
