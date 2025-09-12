@@ -13,7 +13,7 @@ import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation, LoaderSpinne
 import { JobActionTypes } from "../reducers/JobReducer";
 import { JobContext } from "../contexts/JobContext";
 import { slugToOccupation } from "../utils/occupationUtils";
-import "./SingleAd.scss"; 
+import "./SingleAd.scss";
 
 const findAd = (ads: IAd[], id?: string) => {
   if (!id) return undefined;
@@ -27,10 +27,10 @@ const getAdFromContext = (jobs: Record<OccupationId, IAd[]>, occ: OccupationId, 
 export const SingleAd = () => {
   const { occupationSlug, id } = useParams<{ occupationSlug?: string; id?: string }>();
   if (!occupationSlug || !(occupationSlug in slugToOccupation)) {
-  return <p>Kunde inte hitta annonsen</p>;
-}
+    return <p>Kunde inte hitta annonsen</p>;
+  }
 
-const occupation = slugToOccupation[occupationSlug]; 
+  const occupation = slugToOccupation[occupationSlug];
   const { jobs, dispatch } = useContext(JobContext);
   const navigate = useNavigate();
 
@@ -81,6 +81,7 @@ const occupation = slugToOccupation[occupationSlug];
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
         <DigiLayoutContainer>
           <DigiLinkButton
+            className="go-back"
             afSize={LinkButtonSize.MEDIUM}
             afVariation={LinkButtonVariation.SECONDARY}
             af-hide-icon={true}
@@ -108,7 +109,7 @@ const occupation = slugToOccupation[occupationSlug];
               Ansök senast <strong>{formattedDate}</strong> {diffDays > 0 && <span>(om {diffDays} dagar)</span>}
             </p>
             <DigiLinkButton
-            className="apply-btn"
+              className="apply-btn"
               afHref="#"
               afSize={LinkButtonSize.MEDIUM}
               afVariation={LinkButtonVariation.PRIMARY}

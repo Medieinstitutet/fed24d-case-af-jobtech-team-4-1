@@ -1,12 +1,12 @@
 @import "../styles/variables";
 
-.go-back sc-digi-link-button-s> a {
-    --BACKGROUND--DEFAULT: #{$color-third};
-    --BORDER-COLOR--DEFAULT: #{$color-third};
-    --COLOR--DEFAULT: #{$color-background};
+.go-back sc-digi-link-button-s > a {
+  --BACKGROUND--DEFAULT: #{$color-third};
+  --BORDER-COLOR--DEFAULT: #{$color-third};
+  --COLOR--DEFAULT: #{$color-background};
 }
 
 .digi-link-button--primary.sc-digi-link-button-h {
-    --digi--link-button--background--primary--hover: #{$color-background};
-    --digi--link-button--border-color--primary--hover: #{$color-primary};
+  --digi--link-button--background--primary--hover: #{$color-background};
+  --digi--link-button--border-color--primary--hover: #{$color-primary};
 }
