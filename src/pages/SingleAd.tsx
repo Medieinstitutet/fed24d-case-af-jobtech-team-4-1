@@ -24,9 +24,6 @@ export const SingleAd = () => {
   const [ad, setAd] = useState<IAd | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
-  // const [ad, setAd] = useState<IAd | undefined>(() => getAdFromContext(jobs, occ, id));
-  // const [loading, setLoading] = useState(ad ? false : true);
-
   useEffect(() => {
     if (!id || !occ) return;
 
