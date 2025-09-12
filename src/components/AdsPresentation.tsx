@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { getJobAds, OccupationId } from "../services/jobAdService";
-import { Link, useNavigate } from "react-router";
+import { Link, useParams, useNavigate } from "react-router";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
 import "./AdsPresentation.scss";
@@ -16,6 +16,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { occupationSlug } = useParams<{ occupationSlug?: string }>();
 
   useEffect(() => {
     if (jobs[occupation].length > 0) {
@@ -69,19 +70,24 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
           ⬅️ Tillbaka
         </DigiLinkButton>
       </DigiLayoutContainer>
-      <ul>
-        {jobs[occupation].map(job => (
-          <li key={job.id}>
-            <Link to={`/${occupation}/${job.id}`}>
-              <h3>{job.headline}</h3>
-            </Link>
-            <p>
-              {job.employer?.name} - {job.workplace_address.municipality}
-            </p>
-            <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
-          </li>
-        ))}
-      </ul>
+      
+      {jobs[occupation].length === 0 ? (
+        <p>Inga jobbannonser hittades för {occupationSlug}.</p>
+      ) : (
+        <ul>
+          {jobs[occupation].map(job => (
+            <li key={job.id}>
+              <Link to={`/${job.id}`}>
+                <h3>{job.headline}</h3>
+              </Link>
+              <p>
+                {job.employer?.name} - {job.workplace_address.municipality}
+              </p>
+              <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 };
