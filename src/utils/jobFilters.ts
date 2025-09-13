@@ -1,4 +1,3 @@
-
 import type { IAd } from "../models/IAd";
 
 export type ContractType = "all" | "permanent" | "temporary";
@@ -71,13 +70,39 @@ const fuzzyIncludes = (hayRaw: string, needleRaw: string): boolean => {
   const needle = normalize(needleRaw);
   if (!needle) return true;
   if (hay.includes(needle)) return true;
+  
   const words = hay.split(" ");
   const tokens = needle.split(" ");
+  
   for (const tok of tokens) {
-    const maxDist = tok.length <= 4 ? 1 : tok.length <= 7 ? 2 : 3;
+    // More lenient distance calculation based on word length
+    let maxDist = 1;
+    if (tok.length <= 3) maxDist = 1;
+    else if (tok.length <= 5) maxDist = 2;
+    else if (tok.length <= 8) maxDist = 3;
+    else maxDist = Math.floor(tok.length / 3); // For longer words, allow more errors
+    
     let ok = false;
     for (const w of words) {
-      if (w.includes(tok) || levenshtein(w, tok) <= maxDist) { ok = true; break; }
+      // Check for substring match first (most common case)
+      if (w.includes(tok) || tok.includes(w)) {
+        ok = true;
+        break;
+      }
+      // Check for fuzzy match with Levenshtein distance
+      if (levenshtein(w, tok) <= maxDist) {
+        ok = true;
+        break;
+      }
+      // Check for partial character matches (for typos like missing letters)
+      if (tok.length > 3 && w.length > 3) {
+        const commonChars = [...tok].filter(char => w.includes(char)).length;
+        const similarity = commonChars / Math.max(tok.length, w.length);
+        if (similarity >= 0.7) { // 70% character similarity
+          ok = true;
+          break;
+        }
+      }
     }
     if (!ok) return false;
   }
@@ -109,38 +134,17 @@ const coordsFromAd = (ad: IAd): { lat:number; lon:number } | null => {
     : null;
 };
 
-// Extract city from search query
-const extractCityFromQuery = (query: string): string => {
-  const cities = Object.keys(CITY_COORDS);
-  const normalizedQuery = normalize(query);
-  
-  for (const city of cities) {
-    if (normalizedQuery.includes(city)) {
-      return city;
-    }
-  }
-  return "";
-};
-
-// ---------- apply filters & score ----------
+// ---------- main: apply filters & score ----------
 export function applyFilters(ads: IAd[], f: JobSearchFilters): IAd[] {
   const q = f.query.trim();
-  console.log('🔍 applyFilters called with:', { 
-    query: q, 
-    totalAds: ads.length,
-    normalizedQuery: normalize(q)
-  });
-  
-  // Extract city from query if no explicit location is provided
-  const extractedCity = extractCityFromQuery(q);
-  const loc = normalize(f.location ?? extractedCity);
+  const loc = normalize(f.location ?? "");
   const hasLoc = !!loc;
   const center = hasLoc && CITY_COORDS[loc] ? CITY_COORDS[loc] : null;
 
   const filtered = ads.filter(ad => {
     if (f.contractType !== "all" && contractTypeOf(ad) !== f.contractType) return false;
 
-    // Client-side radius
+    // Client-side radius (API has no radius)
     if (f.radiusKm > 0 && hasLoc) {
       const c = coordsFromAd(ad);
       if (center && c) {
@@ -165,34 +169,80 @@ export function applyFilters(ads: IAd[], f: JobSearchFilters): IAd[] {
         ad.description?.text ?? "",
       ];
       
-      // Enhanced search for programming languages and frameworks
+      // Enhanced search for programming languages, frameworks, professions and cities
       const normalizedQuery = normalize(q);
       
-      // Special handling for C# - check both original and normalized versions
+      // First try exact fuzzy match across all fields
       let matches = any(fields, q);
       
+      // If no exact match, try flexible word-by-word matching
+      if (!matches) {
+        const queryWords = normalizedQuery.split(" ").filter(w => w.length > 1);
+        
+        // Check if at least one query word appears in any field (more flexible)
+        const anyWordMatches = queryWords.some(word => 
+          fields.some(field => fuzzyIncludes(field, word))
+        );
+        
+        if (anyWordMatches) {
+          matches = true;
+        }
+      }
+      
+      // Special handling for common typos and variations
+      const commonTypos: Record<string, string[]> = {
+        'react': ['reakt', 'reac', 'reactjs', 'react.js'],
+        'javascript': ['javascrip', 'javasript', 'js', 'java script'],
+        'typescript': ['typescrip', 'typescri', 'ts', 'type script'],
+        'python': ['pytho', 'pythn', 'py'],
+        'angular': ['angula', 'angulr', 'ng'],
+        'vue': ['vuejs', 'vue.js'],
+        'node': ['nodejs', 'node.js'],
+        'frontend': ['front-end', 'front end', 'frontend'],
+        'backend': ['back-end', 'back end', 'backend'],
+        'fullstack': ['full-stack', 'full stack', 'fullstack'],
+        'developer': ['develper', 'developr', 'dev'],
+        'programmer': ['programer', 'programmr', 'programing'],
+        'stockholm': ['stockhol', 'stockholms'],
+        'göteborg': ['goteborg', 'götebor', 'gothenburg'],
+        'malmö': ['malmo', 'malm', 'malmö'],
+        'uppsala': ['uppsal', 'upsala'],
+        'västerås': ['vasteras', 'västerå', 'vasteras'],
+        'örebro': ['orebro', 'öreb', 'orebro'],
+        'linköping': ['linkoping', 'linköp', 'linkoping'],
+        'helsingborg': ['helsingbor', 'helsingburg'],
+        'norrköping': ['norrkoping', 'norrköp', 'norrkoping']
+      };
+      
+      // Check for common typos
+      for (const [correct, typos] of Object.entries(commonTypos)) {
+        if (typos.some(typo => q.toLowerCase().includes(typo))) {
+          if (any(fields, correct)) {
+            matches = true;
+            break;
+          }
+        }
+      }
+      
       // Special handling for C# - check both original and normalized versions
-      if (q.toLowerCase().includes('c#') || q.toLowerCase().includes('csharp')) {
+      if (q.toLowerCase().includes('c#') || q.toLowerCase().includes('csharp') || q.toLowerCase().includes('c sharp')) {
         const csharpQuery = q.toLowerCase().replace(/c#/g, 'csharp').replace(/csharp/g, 'c sharp');
-        console.log('🔍 C# special handling:', { original: q, csharpQuery });
         if (any(fields, csharpQuery)) matches = true;
       }
       
       // Special handling for .NET - check for net, dotnet, asp.net
-      if (q.toLowerCase().includes('net') || q.toLowerCase().includes('dotnet')) {
+      if (q.toLowerCase().includes('net') || q.toLowerCase().includes('dotnet') || q.toLowerCase().includes('asp net')) {
         const netQuery = q.toLowerCase().replace(/net/g, 'dotnet').replace(/dotnet/g, 'asp.net');
-        console.log('🔍 .NET special handling:', { original: q, netQuery });
         if (any(fields, netQuery)) matches = true;
       }
       
       // Special handling for Swift - check for swift, swiftui, ios
-      if (q.toLowerCase().includes('swift') || q.toLowerCase().includes('syit')) {
+      if (q.toLowerCase().includes('swift') || q.toLowerCase().includes('syit') || q.toLowerCase().includes('swiftui')) {
         const swiftQuery = q.toLowerCase().replace(/syit/g, 'swift').replace(/swift/g, 'swiftui');
-        console.log('🔍 Swift special handling:', { original: q, swiftQuery });
         if (any(fields, swiftQuery)) matches = true;
       }
       
-      // Additional search for programming languages and frameworks
+      // Additional fallback search for known terms
       if (!matches) {
         const programmingTerms = [
           'javascript', 'js', 'typescript', 'ts', 'python', 'java', 'c#', 'csharp', 'c sharp',
@@ -203,28 +253,74 @@ export function applyFilters(ads: IAd[], f: JobSearchFilters): IAd[] {
           'mongodb', 'mysql', 'postgresql', 'redis', 'elasticsearch',
           'docker', 'kubernetes', 'aws', 'azure', 'gcp', 'firebase',
           'git', 'github', 'gitlab', 'jenkins', 'ci/cd', 'devops',
-          'frontend', 'backend', 'fullstack', 'full-stack', 'full stack',
-          'utvecklare', 'developer', 'programmerare', 'programmer',
+          'next.js', 'nextjs', 'nuxt', 'svelte', 'jquery', 'lodash',
+          'webpack', 'vite', 'babel', 'eslint', 'prettier', 'jest', 'cypress',
+          'graphql', 'rest', 'api', 'microservices', 'serverless',
+          'tensorflow', 'pytorch', 'machine learning', 'ai', 'artificial intelligence',
+          'blockchain', 'ethereum', 'solidity', 'web3', 'cryptocurrency'
+        ];
+        
+        const professionTerms = [
+          'utvecklare', 'developer', 'programmerare', 'programmer', 'kodare', 'coder',
           'webbutvecklare', 'web developer', 'apputvecklare', 'app developer',
-          'swift', 'swiftui', 'ios', 'android', 'kotlin', 'flutter', 'dart'
+          'frontend', 'frontend utvecklare', 'frontend developer', 'backend', 'backend utvecklare', 'backend developer',
+          'fullstack', 'fullstack utvecklare', 'fullstack developer', 'full-stack', 'full-stack utvecklare', 'full-stack developer',
+          'systemutvecklare', 'system developer', 'mjukvaruutvecklare', 'software developer',
+          'mobila utvecklare', 'mobile developer', 'ios utvecklare', 'ios developer',
+          'android utvecklare', 'android developer', 'data scientist', 'dataanalytiker',
+          'data engineer', 'dataingenjör', 'devops engineer', 'devops ingenjör',
+          'cloud engineer', 'cloud ingenjör', 'security engineer', 'säkerhetsingenjör',
+          'test engineer', 'testare', 'tester', 'qa engineer', 'quality assurance',
+          'tech lead', 'teknisk ledare', 'arkitekt', 'architect', 'consultant', 'konsult'
+        ];
+        
+        const cityTerms = [
+          'stockholm', 'göteborg', 'goteborg', 'malmö', 'malmo', 'uppsala', 'västerås', 
+          'vasteras', 'örebro', 'orebro', 'linköping', 'linkoping', 'helsingborg', 
+          'lund', 'norrköping', 'norrkoping', 'umeå', 'umea', 'luleå', 'lulea',
+          'växjö', 'vaxjo', 'karlstad', 'jönköping', 'jonkoping', 'borås', 'boras',
+          'eskilstuna', 'sundsvall', 'gävle', 'gavle', 'huddinge', 'nacka', 'solna',
+          'södertälje', 'sodertalje', 'hässleholm', 'hassleholm', 'östersund', 'ostersund',
+          'trollhättan', 'trollhattan', 'kristianstad', 'karlskrona', 'skövde', 'skovde',
+          'uddevalla', 'landskrona', 'motala', 'piteå', 'pitea', 'vänersborg', 'vanersborg',
+          'borlänge', 'borlange', 'säffle', 'saffle', 'kungsbacka', 'kristinehamn',
+          'karlshamn', 'falkenberg', 'sandviken', 'varberg', 'trelleborg', 'lindesberg',
+          'kramfors', 'haparanda', 'kristianstad', 'hässleholm', 'hassleholm'
         ];
         
         const queryWords = normalizedQuery.split(" ").filter(w => w.length > 1);
-        matches = queryWords.some(word => 
-          programmingTerms.some(term => 
-            term.includes(word) || word.includes(term) || 
-            levenshtein(term, word) <= 2
+        
+        // Check if any query word matches any known term with fuzzy matching
+        const hasKnownTerms = queryWords.some(word => 
+          [...programmingTerms, ...professionTerms, ...cityTerms].some(term => {
+            // Exact substring match
+            if (term.includes(word) || word.includes(term)) return true;
+            
+            // Fuzzy match with Levenshtein distance
+            const maxDist = word.length <= 4 ? 1 : word.length <= 7 ? 2 : 3;
+            if (levenshtein(term, word) <= maxDist) return true;
+            
+            // Character similarity for typos
+            if (word.length > 3 && term.length > 3) {
+              const commonChars = [...word].filter(char => term.includes(char)).length;
+              const similarity = commonChars / Math.max(word.length, term.length);
+              if (similarity >= 0.6) return true; // 60% similarity for known terms
+            }
+            
+            return false;
+          })
+        );
+        
+        // Also check if any field contains any part of the query (very flexible)
+        const hasPartialMatch = fields.some(field => 
+          queryWords.some(word => 
+            normalize(field).includes(word) && word.length > 2
           )
         );
         
-        // Also check if any field contains the full query
-        if (!matches) {
-          matches = fields.some(field => 
-            normalize(field).includes(normalizedQuery) ||
-            normalizedQuery.split(" ").some(word => 
-              normalize(field).includes(word) && word.length > 2
-            )
-          );
+        
+        if (hasKnownTerms || hasPartialMatch) {
+          matches = true;
         }
       }
       
@@ -241,17 +337,32 @@ export function applyFilters(ads: IAd[], f: JobSearchFilters): IAd[] {
     const headline = normalize(ad.headline ?? "");
     const occupation = normalize(ad.occupation?.label ?? "");
     const description = normalize(ad.description?.text ?? "");
+    const employer = normalize(ad.employer?.name ?? "");
     
     // Exact matches get highest score
     if (normQ && headline.includes(normQ)) s += 10;
     if (normQ && occupation.includes(normQ)) s += 8;
     if (normQ && description.includes(normQ)) s += 6;
+    if (normQ && employer.includes(normQ)) s += 4;
     
-    // Partial matches
-    if (normQ && headline.includes(normQ.split(" ")[0])) s += 5;
-    if (normQ && occupation.includes(normQ.split(" ")[0])) s += 4;
+    // Word-by-word scoring for flexible matching
+    if (normQ) {
+      const queryWords = normQ.split(" ").filter(w => w.length > 1);
+      
+      queryWords.forEach(word => {
+        // Headline matches get highest score
+        if (headline.includes(word)) s += 6;
+        if (occupation.includes(word)) s += 5;
+        if (description.includes(word)) s += 3;
+        if (employer.includes(word)) s += 2;
+        
+        // Partial word matches
+        if (headline.includes(word.substring(0, Math.max(3, word.length - 1)))) s += 3;
+        if (occupation.includes(word.substring(0, Math.max(3, word.length - 1)))) s += 2;
+      });
+    }
     
-    // Programming language matches in description
+    // Programming language and framework bonus
     if (normQ) {
       const programmingTerms = [
         'javascript', 'js', 'typescript', 'ts', 'python', 'java', 'c#', 'csharp', 'c sharp',
@@ -261,12 +372,29 @@ export function applyFilters(ads: IAd[], f: JobSearchFilters): IAd[] {
         'swift', 'swiftui', 'ios', 'android', 'kotlin', 'flutter', 'dart'
       ];
       
+      const professionTerms = [
+        'developer', 'utvecklare', 'programmer', 'programmerare', 'coder', 'kodare',
+        'frontend', 'backend', 'fullstack', 'full-stack', 'full stack',
+        'webbutvecklare', 'web developer', 'apputvecklare', 'app developer'
+      ];
+      
       const queryWords = normQ.split(" ");
       queryWords.forEach(word => {
+        // Programming terms bonus
         programmingTerms.forEach(term => {
           if (term.includes(word) || word.includes(term)) {
-            if (description.includes(term)) s += 3;
+            if (description.includes(term)) s += 2;
+            if (headline.includes(term)) s += 3;
+            if (occupation.includes(term)) s += 4;
+          }
+        });
+        
+        // Profession terms bonus
+        professionTerms.forEach(term => {
+          if (term.includes(word) || word.includes(term)) {
             if (headline.includes(term)) s += 4;
+            if (occupation.includes(term)) s += 5;
+            if (description.includes(term)) s += 2;
           }
         });
       });
@@ -275,8 +403,7 @@ export function applyFilters(ads: IAd[], f: JobSearchFilters): IAd[] {
     // Location bonus
     if (hasLoc && normalize(ad.workplace_address?.municipality ?? "").includes(loc)) s += 3;
     
-    
-    return -s; 
+    return -s; // lower is better
   };
 
   return filtered.sort((a,b)=> score(a)-score(b));

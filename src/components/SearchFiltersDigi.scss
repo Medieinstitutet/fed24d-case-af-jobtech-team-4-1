@@ -35,6 +35,39 @@
     width: 100%;
   }
 
+  /* Input wrapper for search field with clear button */
+  .input-wrap {
+    position: relative;
+    
+    .clear-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #666;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      z-index: 10;
+      
+      &:hover {
+        color: #333;
+        background-color: #f0f0f0;
+        border-radius: 50%;
+      }
+      
+      /* Mobile responsive */
+      @media (max-width: 480px) {
+        right: 6px;
+        font-size: 16px;
+        padding: 2px;
+      }
+    }
+  }
+
   /* Search row: input stretches, button fixed */
   .row--search {
     grid-template-columns: 1fr auto;
@@ -44,6 +77,29 @@
       height: 44px;
       padding-inline: 16px;
       white-space: nowrap;
+    }
+    
+    /* Mobile responsive - keep button next to input */
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      
+      .btn-search {
+        padding-inline: 12px;
+        font-size: 0.9rem;
+      }
+    }
+    
+    /* Small mobile - still keep button next to input */
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr auto;
+      gap: 6px;
+      
+      .btn-search {
+        padding-inline: 8px;
+        font-size: 0.85rem;
+        height: 40px;
+      }
     }
   }
 
@@ -64,12 +120,55 @@
       justify-content: flex-end;
       align-items: center;
     }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      
+      .actions {
+        justify-content: center;
+        margin-top: 8px;
+      }
+    }
+    
+    /* Small mobile */
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
   }
 
   .actions {
     gap: .5rem;
     flex-wrap: wrap;
   }
+  
+  /* General responsive styles */
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    
+    .title {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    
+    .title {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    digi-layout-columns {
+      margin-bottom: 0.5rem;
+    }
+  }
+
 
   .status {
     margin-top: .5rem;
@@ -100,28 +199,8 @@
   }
 
   .clear-btn {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    z-index: 2;
-    border: none;
-    background: none;
-    font-size: 18px;
-    line-height: 1;
-    cursor: pointer;
-    color: $color-primary;
-    padding: 0 4px;
-    border-radius: 6px;
-
-    &:hover {
-      opacity: .75;
-    }
-
-    &:focus-visible {
-      outline: 2px solid rgba(0, 0, 0, .2);
-    }
+    top: 3rem !important;
   }
-
 
   digi-form-input::part(input) {
     padding-right: 2.25rem;
@@ -167,6 +246,13 @@ digi-form-select::part(label) {
 .sc-digi-button-h .digi-button.sc-digi-button {
   background-color: $color-primary;
 }
+
+.sc-digi-button-h .digi-button--variation-primary.sc-digi-button {
+  
+  --COLOR--BACKGROUND--HOVER: $color-third;
+  --COLOR--BORDER--HOVER:$color-primary;
+}
+  
 
 
 
