@@ -10,8 +10,19 @@ export enum OccupationId {
   ALL = "group=2512",
 }
 
-export const getJobAds = async (occupation: OccupationId): Promise<IAd[]> => {
-  const data = await get<IAds>(`${BASE_URL}occupation-${occupation}&offset=0&limit=25`);
+export const getJobAds = async (occupation: OccupationId, offset: number = 0, limit: number = 25): Promise<IAd[]> => {
+  const data = await get<IAds>(`${BASE_URL}occupation-${occupation}&offset=${offset}&limit=${limit}`);
 
   return data.hits;
+};
+
+// ADDED: New function for paginated data with total count
+export const getJobAdsPaginated = async (occupation: OccupationId, offset: number = 0, limit: number = 25) => {
+  const data = await get<IAds>(`${BASE_URL}occupation-${occupation}&offset=${offset}&limit=${limit}`);
+  return {
+    hits: data.hits,
+    totalCount: data.total?.value || 0, // ADDED: Extract total count from API response
+    offset,
+    limit
+  };
 };

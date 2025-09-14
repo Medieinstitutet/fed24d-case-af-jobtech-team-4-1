@@ -26,3 +26,91 @@ ul {
   z-index: 999;
   cursor: pointer;
 }
+
+/* ADDED: Pagination controls styling */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.pagination-controls digi-button {
+  min-width: 100px;
+}
+
+/* ADDED: Page numbers styling */
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 1rem;
+}
+
+.page-numbers digi-button {
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-numbers .ellipsis {
+  padding: 0 0.5rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* ADDED: Active page styling */
+.page-numbers .current-page {
+  --digi--color--background--primary: #{$color-primary} !important;
+  --digi--color--text--primary: white !important;
+}
+
+/* ADDED: More specific styling for active page button */
+.pagination-controls .page-numbers digi-button[af-variation="primary"] {
+  --COLOR--BACKGROUND--DEFAULT: #{$color-primary} !important;
+  --COLOR--TEXT--DEFAULT: white !important;
+  --COLOR--BORDER--DEFAULT: #{$color-primary} !important;
+}
+
+.pagination-controls .page-numbers digi-button[af-variation="primary"]:hover {
+  --COLOR--BACKGROUND--HOVER: #{$color-primary} !important;
+  --COLOR--TEXT--HOVER: white !important;
+  --COLOR--BORDER--HOVER: #{$color-primary} !important;
+}
+
+.sc-digi-button-h .digi-button--variation-primary.sc-digi-button {
+  --COLOR--BACKGROUND--DEFAULT: #{$color-primary} !important;
+  --COLOR--TEXT--DEFAULT: white !important;
+  --COLOR--BORDER--DEFAULT: #{$color-primary} !important;
+}
+
+.sc-digi-button-h .digi-button.sc-digi-button:hover {
+  --COLOR--BACKGROUND--HOVER: #{$color-third};
+  --COLOR--TEXT--HOVER: #{$color-primary};
+}
+
+.sc-digi-button-h .digi-button--variation-primary.sc-digi-button:hover {
+  --COLOR--BACKGROUND--HOVER: #{$color-primary} !important;
+  --COLOR--TEXT--HOVER: white !important;
+  --COLOR--BORDER--HOVER: #{$color-primary} !important;
+}
+
+/* ADDED: Disabled button styling for pagination */
+.pagination-controls digi-button[disabled] {
+  --COLOR--BACKGROUND--DEFAULT: #ccc !important;
+  --COLOR--TEXT--DEFAULT: #666 !important;
+  --COLOR--BORDER--DEFAULT: #ccc !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+.pagination-controls digi-button[disabled]:hover {
+  --COLOR--BACKGROUND--HOVER: #ccc !important;
+  --COLOR--TEXT--HOVER: #666 !important;
+  --COLOR--BORDER--HOVER: #ccc !important;
+}

@@ -1,5 +1,8 @@
 export interface IAds {
   hits: IAd[];
+  total?: {
+    value: number;
+  };
 }
 
 export interface IAd {
