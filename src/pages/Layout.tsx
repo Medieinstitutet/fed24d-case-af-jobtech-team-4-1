@@ -7,6 +7,7 @@ import { JobContext } from "../contexts/JobContext";
 import { useReducer } from "react";
 import { JobReducer } from "../reducers/JobReducer";
 import { initialState } from "../contexts/JobContext";
+import { Header } from "../components/Header";
 
 export const Layout = () => {
   const [jobs, dispatch] = useReducer(JobReducer, initialState);
@@ -14,9 +15,10 @@ export const Layout = () => {
     <JobContext.Provider value={{ jobs, dispatch }}>
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
         <DigiTypography>
-          <header>
+          <Header/>
+          {/* <header>
             <Navigation />
-          </header>
+          </header> */}
           <main>
             <Outlet />
           </main>
