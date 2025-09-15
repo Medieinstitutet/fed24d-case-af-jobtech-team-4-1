@@ -7,9 +7,9 @@ export const Navigation = () => {
   return (
     <>
       <DigiHeaderNavigation afCloseButtonText="Stäng" afCloseButtonAriaLabel="Stäng meny" afNavAriaLabel="Huvudmeny">
-        <a href="/" className="nav-logo">
+        {/* <a href="/" className="nav-logo">
           <img src="/logo.png" alt="Min logga" className="logo-img" />
-        </a>
+        </a> */}
         <div className="nav-links">
           <DigiHeaderNavigationItem afCurrentPage={whichPage.pathname === "/"}>
             <a href="/">Hem</a>

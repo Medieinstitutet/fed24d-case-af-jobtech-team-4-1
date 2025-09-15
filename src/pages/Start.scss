@@ -7,6 +7,7 @@ digi-layout-columns.sc-digi-layout-columns {
   width: 100%;
 }
 
+
 .home-block digi-link-button {
   display: block !important;
   width: 100% !important;
@@ -43,5 +44,10 @@ h1 {
   h2,
   p {
     margin-bottom: 10px;
+  }
+}
+@media (max-width: 768px) {
+  .home-block {
+    margin-top: 5rem;
   }
 }

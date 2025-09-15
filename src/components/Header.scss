@@ -1,0 +1,33 @@
+@import "../styles/variables";
+
+.sc-digi-logo-h .digi-logo--system-name.sc-digi-logo svg.sc-digi-logo {
+  display: none !important;
+}
+
+digi-logo {
+  width: auto !important;
+  height: auto !important;
+  display: flex;
+  align-items: center;
+}
+
+digi-logo img.logo-img {
+  max-height: 40px; 
+  width: auto;
+}
+
+.sc-digi-header-h {
+    --digi--header--border-color: #{$color-third};
+}
+
+@media (max-width: 768px) {
+  digi-logo img.logo-img {
+    max-height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  digi-logo img.logo-img {
+    max-height: 28px;
+  }
+}

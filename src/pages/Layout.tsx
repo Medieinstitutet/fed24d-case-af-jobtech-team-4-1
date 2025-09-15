@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 import { Footer } from "../components/Footer";
 import { DigiLayoutBlock, DigiTypography } from "@digi/arbetsformedlingen-react";
 import { LayoutBlockVariation } from "@digi/arbetsformedlingen";
-import { Navigation } from "../components/Navigation";
+// import { Navigation } from "../components/Navigation";
 import { JobContext } from "../contexts/JobContext";
 import { useReducer } from "react";
 import { JobReducer } from "../reducers/JobReducer";
