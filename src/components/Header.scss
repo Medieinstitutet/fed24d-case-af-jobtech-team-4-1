@@ -37,13 +37,6 @@ digi-header .digi-button:hover digi-icon-x::part(icon) {
     --digi--header--border-color: transparent;
 }
 
-// @media (max-width: 768px) {
-// .sc-digi-header-h {
-//   --digi--header--border-width: 0; // stäng av den inbyggda border
-//   border-bottom: 2px solid #{$color-secondary}; // din egen border
-// }
-// }
-
 @media (max-width: 475px) {
 .sc-digi-button-h .digi-button.sc-digi-button {
   border: none;
@@ -58,9 +51,9 @@ digi-header .digi-button:hover digi-icon-x::part(icon) {
 
 .sc-digi-header-h img.logo-img {
   width: clamp(
-    120px, /* minsta storlek */
+    120px, 
     calc(175px + (200 * ((100vw - 320px) / (768 - 320)))), 
-    270px /* största storlek */
+    270px 
   ) !important;
   height: auto !important;
   display: block;
