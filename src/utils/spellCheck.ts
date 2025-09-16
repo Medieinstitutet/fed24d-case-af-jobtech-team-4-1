@@ -1,6 +1,12 @@
 /**
  * Spell checking utilities for search queries
  * Handles typo detection and correction for better search results
+ * 
+ * Functions:
+ * - levenshteinDistance: Calculates edit distance between two strings
+ * - findSimilarKeywords: Finds keywords within maximum distance threshold
+ * - correctTypo: Corrects single word by finding closest match
+ * - correctQuery: Corrects entire search query by processing each word
  */
 
 /**

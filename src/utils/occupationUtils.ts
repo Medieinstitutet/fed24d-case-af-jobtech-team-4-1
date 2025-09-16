@@ -1,3 +1,12 @@
+/**
+ * Occupation utilities
+ * Maps between API-friendly occupation IDs and user-friendly slugs
+ * 
+ * Functions:
+ * - occupationSlugs: Maps OccupationId enum to URL-friendly strings (frontend, backend, fullstack, alla-jobb)
+ * - slugToOccupation: Reverse mapping from URL slugs back to OccupationId enum values
+ */
+
 import { OccupationId } from "../services/jobAdService";
 
 //Give occupationIds userfriendly names

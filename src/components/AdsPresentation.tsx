@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { getJobAds, OccupationId } from "../services/jobAdService";
+import { getJobAdsLegacy, OccupationId } from "../services/jobAdService";
 import { Link, useParams, useNavigate } from "react-router";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
@@ -24,7 +24,8 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       return;
     }
 
-    getJobAds(occupation)
+    // OPTIMIZATION: Use legacy function for backward compatibility
+    getJobAdsLegacy(occupation)
       .then(data => {
         dispatch({
           type: JobActionTypes.SET_JOBS,

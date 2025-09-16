@@ -31,6 +31,8 @@ export const LocationButton: React.FC<LocationButtonProps> = ({
           lat: position.coords.latitude,
           lon: position.coords.longitude
         };
+        
+        
         onLocationFound(coordinates);
         setLoading(false);
       },
@@ -63,8 +65,12 @@ export const LocationButton: React.FC<LocationButtonProps> = ({
 
   return (
     <DigiButton 
-      onClick={getCurrentLocation} 
+      onClick={disabled || loading ? undefined : getCurrentLocation} 
       className="location-button"
+      style={{ 
+        opacity: disabled || loading ? 0.6 : 1,
+        cursor: disabled || loading ? 'not-allowed' : 'pointer'
+      }}
     >
       {loading ? "Hämtar position..." : "Hitta nära mig"}
     </DigiButton>

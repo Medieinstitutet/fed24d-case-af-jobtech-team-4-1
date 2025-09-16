@@ -1,6 +1,7 @@
 import { get } from "./serviceBase";
-import type { IAd, IAds } from "../models/IAd";
-import { correctQuery } from "../utils/spellCheck";
+import type { IAd, IAds, LocationCoordinates } from "../models/IAd";
+import type { JobSearchFilters } from "../utils/jobFilters";
+import { extractTechKeywords, sortByRelevance } from "../utils/searchUtils";
 
 const BASE_URL = "https://jobsearch.api.jobtechdev.se/search?";
 
@@ -11,121 +12,71 @@ export enum OccupationId {
   ALL = "group=2512",
 }
 
-// Extract technology keywords from search query
-// Example: "react stockholm" -> "react" (for API)
-// Example: "javascript developer malmö" -> "javascript developer" (for API)
-const extractTechKeywords = (query: string): string => {
-  const techKeywords = [
-    'react', 'angular', 'vue', 'javascript', 'typescript', 'node', 'python', 'java',
-    'c#', 'csharp', '.net', 'dotnet', 'asp.net',
-    'frontend', 'backend', 'fullstack', 'developer', 'programmer', 'engineer',
-    'web', 'mobile', 'app', 'api', 'database', 'sql'
-  ];
-  
-  // typos in the query
-  const correctedQuery = correctQuery(query, techKeywords, 2);
-  
-  const words = correctedQuery.toLowerCase().split(' ');
-  const techWords = words.filter(word => 
-    techKeywords.includes(word) || 
-    techKeywords.some(keyword => keyword.includes(word) || word.includes(keyword))
-  );
-  
-  return techWords.join(' ');
-};
 
-export const getJobAds = async (occupation: OccupationId, query?: string): Promise<IAd[]> => {
+/**
+ * Builds API URL with search and filter parameters including radius
+ * @param occupation - Job occupation category
+ * @param filters - Search and filter parameters
+ * @param userLocation - Optional user location for radius filtering
+ * @returns Complete API URL with parameters
+ */
+const buildSearchUrl = (occupation: OccupationId, filters: JobSearchFilters, userLocation?: LocationCoordinates | null): string => {
   let url = `${BASE_URL}occupation-${occupation}&offset=0&limit=25`;
   
-  if (query && query.trim()) {
-    
-    // This allows API to find tech-related jobs
-    const techQuery = extractTechKeywords(query.trim());
-    
+  // Add text search query to API
+  if (filters.query && filters.query.trim()) {
+    const techQuery = extractTechKeywords(filters.query.trim());
     if (techQuery) {
       url += `&q=${encodeURIComponent(techQuery)}`;
     }
   }
   
+  // OPTIMIZATION: Add radius filtering through API instead of client-side
+  if (filters.radiusKm > 0 && userLocation) {
+    // CORRECTED: Use location__radius format as per JobTech API documentation
+    const radiusParam = `${userLocation.lat},${userLocation.lon}__${filters.radiusKm}`;
+    url += `&location__radius=${radiusParam}`;
+    
+    // ALTERNATIVE: Try municipality filter as backup
+    if (userLocation.lat >= 59.2 && userLocation.lat <= 59.4 && 
+        userLocation.lon >= 17.8 && userLocation.lon <= 18.3) {
+      url += `&municipality=Stockholm`;
+    }
+  }
+  
+  
+  return url;
+};
+
+/**
+ * Fetches job ads from JobTech API with search and filter parameters including radius
+ * @param occupation - Job occupation category
+ * @param filters - Search and filter parameters
+ * @param userLocation - Optional user location for radius filtering
+ * @returns Promise with filtered job ads from API
+ */
+export const getJobAds = async (occupation: OccupationId, filters: JobSearchFilters, userLocation?: LocationCoordinates | null): Promise<IAd[]> => {
+  const url = buildSearchUrl(occupation, filters, userLocation);
+  
   const data = await get<IAds>(url);
   
-  // Apply client-side sorting 
-  if (query && query.trim()) {
-    return sortByRelevance(data.hits, query.trim());
+  // Apply client-side sorting for better relevance
+  if (filters.query && filters.query.trim()) {
+    return sortByRelevance(data.hits, filters.query.trim());
   }
   
   return data.hits;
 };
 
-// Sort ads by relevance to search query
-export const sortByRelevance = (ads: IAd[], query: string, hasLocation?: boolean, locationQuery?: string): IAd[] => {
-  const normalizedQuery = query.toLowerCase();
-  
-  return ads.sort((a, b) => {
-    const scoreA = calculateRelevanceScore(a, normalizedQuery, hasLocation, locationQuery);
-    const scoreB = calculateRelevanceScore(b, normalizedQuery, hasLocation, locationQuery);
-    return scoreB - scoreA; // Higher score first
-  });
+
+/**
+ * Legacy function for backward compatibility - fetches job ads with query string
+ * @param occupation - Job occupation category  
+ * @param query - Search query string
+ * @returns Promise with job ads
+ */
+export const getJobAdsLegacy = async (occupation: OccupationId, query?: string): Promise<IAd[]> => {
+  const filters: JobSearchFilters = { query: query || "", radiusKm: 0 };
+  return getJobAds(occupation, filters);
 };
 
-// Calculate relevance score for an ad
-export const calculateRelevanceScore = (ad: IAd, query: string, hasLocation?: boolean, locationQuery?: string): number => {
-  let score = 0;
-  
-  // Split query into individual words for better matching
-  // Example: "react stockholm" -> ["react", "stockholm"]
-  // This allows finding "React Developer" when searching "react stockholm"
-  const queryWords = query.split(" ").filter(word => word.length > 0);
-  
-  // Check headline - exact phrase match gets highest score
-  const headline = ad.headline?.toLowerCase() || "";
-  if (headline.includes(query)) score += 10;
-  
-  // Check headline - individual word matches
-  queryWords.forEach(word => {
-    if (headline.includes(word)) score += 6;
-  });
-  
-  // Check occupation - exact phrase match
-  const occupation = ad.occupation?.label?.toLowerCase() || "";
-  if (occupation.includes(query)) score += 8;
-  
-  // Check occupation - individual word matches
-  queryWords.forEach(word => {
-    if (occupation.includes(word)) score += 5;
-  });
-  
-  // Check description - exact phrase match
-  const description = ad.description?.text?.toLowerCase() || "";
-  if (description.includes(query)) score += 5;
-  
-  // Check description - individual word matches
-  queryWords.forEach(word => {
-    if (description.includes(word)) score += 3;
-  });
-  
-  // Check employer - exact phrase match
-  const employer = ad.employer?.name?.toLowerCase() || "";
-  if (employer.includes(query)) score += 3;
-  
-  // Check employer - individual word matches
-  queryWords.forEach(word => {
-    if (employer.includes(word)) score += 2;
-  });
-  
-  // Check location - exact phrase match
-  const municipality = ad.workplace_address?.municipality?.toLowerCase() || "";
-  if (municipality.includes(query)) score += 7;
-  
-  // Check location - individual word matches
-  queryWords.forEach(word => {
-    if (municipality.includes(word)) score += 4;
-  });
-  
-  // Location for user's specific location
-  if (hasLocation && locationQuery && municipality.includes(locationQuery.toLowerCase())) {
-    score += 3;
-  }
-  
-  return score; 
-};

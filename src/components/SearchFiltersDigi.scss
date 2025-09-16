@@ -38,7 +38,7 @@
   /* Input wrapper for search field with clear button */
   .input-wrap {
     position: relative;
-    
+
     .clear-btn {
       position: absolute;
       right: 8px;
@@ -52,13 +52,13 @@
       padding: 4px;
       line-height: 1;
       z-index: 10;
-      
+
       &:hover {
         color: #333;
         background-color: #f0f0f0;
         border-radius: 50%;
       }
-      
+
       /* Mobile responsive */
       @media (max-width: 480px) {
         right: 6px;
@@ -68,45 +68,18 @@
     }
   }
 
-  /* Search row: input stretches, button fixed */
+  /* Search row: input stretches */
   .row--search {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
     align-items: end;
-
-    .btn-search {
-      height: 44px;
-      padding-inline: 16px;
-      white-space: nowrap;
-    }
-    
-    /* Mobile responsive - keep button next to input */
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-      
-      .btn-search {
-        padding-inline: 12px;
-        font-size: 0.9rem;
-      }
-    }
-    
-    /* Small mobile - still keep button next to input */
-    @media (max-width: 480px) {
-      grid-template-columns: 1fr auto;
-      gap: 6px;
-      
-      .btn-search {
-        padding-inline: 8px;
-        font-size: 0.85rem;
-        height: 40px;
-      }
-    }
   }
 
   /* Filters row*/
   .row--filters {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     align-items: end;
+    position: relative;
+    z-index: 1;
 
     >digi-form-select,
     >digi-form-input,
@@ -120,18 +93,18 @@
       justify-content: flex-end;
       align-items: center;
     }
-    
+
     /* Mobile responsive */
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
       gap: 12px;
-      
+
       .actions {
         justify-content: center;
         margin-top: 8px;
       }
     }
-    
+
     /* Small mobile */
     @media (max-width: 480px) {
       grid-template-columns: 1fr;
@@ -143,27 +116,27 @@
     gap: .5rem;
     flex-wrap: wrap;
   }
-  
+
   /* General responsive styles */
   @media (max-width: 768px) {
     padding: 0.75rem;
     margin-bottom: 0.75rem;
-    
+
     .title {
       font-size: 1.1rem;
       margin-bottom: 0.75rem;
     }
   }
-  
+
   @media (max-width: 480px) {
     padding: 0.5rem;
     margin-bottom: 0.5rem;
-    
+
     .title {
       font-size: 1rem;
       margin-bottom: 0.5rem;
     }
-    
+
     digi-layout-columns {
       margin-bottom: 0.5rem;
     }
@@ -223,6 +196,26 @@ digi-form-select::part(select) {
   font-size: 0.875rem !important;
 }
 
+/* Fix dropdown positioning to open downward */
+digi-form-select {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+digi-form-select::part(select) {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+digi-form-select::part(select) option {
+  position: relative !important;
+}
+
+/* Ensure dropdown opens downward */
+digi-form-select::part(select):focus {
+  z-index: 10 !important;
+}
+
 .sc-digi-layout-block-h .digi-layout-block--secondary.sc-digi-layout-block {
   background-color: $color-secondary;
 }
@@ -248,12 +241,10 @@ digi-form-select::part(label) {
 }
 
 .sc-digi-button-h .digi-button--variation-primary.sc-digi-button {
-  
-  --COLOR--BACKGROUND--HOVER: $color-third;
-  --COLOR--BORDER--HOVER:$color-primary;
-}
-  
 
+  --COLOR--BACKGROUND--HOVER: $color-third;
+  --COLOR--BORDER--HOVER: $color-primary;
+}
 
 
 @media (max-width: 768px) {

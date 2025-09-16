@@ -8,17 +8,14 @@ import {
   DigiTypography,
 } from "@digi/arbetsformedlingen-react";
 import { LayoutBlockVariation } from "@digi/arbetsformedlingen";
-
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
-
 import type { JobSearchFilters } from "../utils/jobFilters";
 import { DEFAULT_FILTERS, applyFilters } from "../utils/jobFilters";
 import { RADIUS_OPTIONS } from "../utils/constants";
 import { getJobAds, type OccupationId } from "../services/jobAdService";
 import type { IAd, LocationCoordinates } from "../models/IAd";
 import { LocationButton } from "./LocationButton";
-
 import "./SearchFiltersDigi.scss";
 
 type Props = {
@@ -46,16 +43,18 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<LocationCoordinates | null>(null);
+  const [locationButtonDisabled, setLocationButtonDisabled] = useState(false);
 
   const debounced = useDebounce(filters, debounceMs);
 
-  // Fetch base ads ONCE per occupation
+  // OPTIMIZATION: Fetch filtered ads from API including radius filtering
   useEffect(() => {
     let cancel = false;
     (async () => {
       setLoading(true); setErr(null);
       try {
-        const ads = await getJobAds(occupation, debounced.query);
+        // CHANGED: Pass filters + userLocation to API for radius filtering
+        const ads = await getJobAds(occupation, debounced, userLocation);
         if (!cancel) setBaseAds(ads);
       } catch (e: any) {
         if (!cancel) setErr(e?.message ?? "Failed to fetch base ads.");
@@ -64,14 +63,21 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
       }
     })();
     return () => { cancel = true; };
-  }, [occupation, debounced.query || ""]);
+  }, [occupation, debounced.query || "", debounced.radiusKm, userLocation]);
 
-  // Apply client-side filters and write to context
+  // OPTIMIZATION: Apply client-side radius filtering as fallback
   useEffect(() => {
-    const filtered = applyFilters(baseAds, debounced, userLocation);
+    // CHANGED: Apply radius filtering client-side if API doesn't support it
+    let filteredAds = baseAds;
+    
+    // If we have radius filter and user location, apply client-side filtering
+    if (debounced.radiusKm > 0 && userLocation) {
+      filteredAds = applyFilters(baseAds, debounced, userLocation);
+    }
+    
     dispatch({
       type: JobActionTypes.SET_JOBS,
-      payload: { occupation, jobs: filtered },
+      payload: { occupation, jobs: filteredAds },
     });
   }, [baseAds, debounced, userLocation, occupation, dispatch]);
 
@@ -79,15 +85,17 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
   const updateFilter = <K extends keyof JobSearchFilters>(k: K, v: JobSearchFilters[K]) =>
     setFilters(prev => ({ ...prev, [k]: v }));
 
-  // Update search query - API will handle city detection
+  // OPTIMIZATION: Update search query - API will handle text search and city detection
   const updateSearch = (query: string) => {
     updateFilter("query", query);
-    // API will automatically detect cities in the search query
+    // CHANGED: API now handles both text search and city detection automatically
   };
+
 
   // Handle location found from geolocation
   const handleLocationFound = (coordinates: LocationCoordinates) => {
     setUserLocation(coordinates);
+    setLocationButtonDisabled(false); // Enable button after successful location
   };
 
   // Use predefined radius options
@@ -98,7 +106,7 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
     <DigiLayoutBlock afVariation={LayoutBlockVariation.SECONDARY} className="search-filters-digi">
       <DigiTypography><h2 className="title">Sök & Filter</h2></DigiTypography>
 
-      {/* Row 1: single search field + Search button + Clear button */}
+      {/* Row 1: search field with auto-search */}
       <DigiLayoutColumns>
         <div className="row row--search">
           <div className="input-wrap">
@@ -119,9 +127,6 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
             )}
           </div>
 
-          <DigiButton className="btn-search" onClick={() => setFilters({ ...DEFAULT_FILTERS })}>
-            Sök
-          </DigiButton>
         </div>
       </DigiLayoutColumns>
 
@@ -140,12 +145,46 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
 
           <LocationButton 
             onLocationFound={handleLocationFound}
-            disabled={loading}
+            disabled={loading || locationButtonDisabled}
           />
-
-
+          
           <div className="actions">
-            <DigiButton onClick={() => setFilters({ ...DEFAULT_FILTERS })}>
+            <DigiButton onClick={() => {
+              // Clear all filters and location, then automatically trigger location search
+              setFilters({ ...DEFAULT_FILTERS });
+              setUserLocation(null);
+              setLocationButtonDisabled(true); // Disable button during auto search
+              setLoading(true); // Set loading state for auto location search
+              
+              // Automatically trigger location search after clearing
+              setTimeout(() => {
+                if (navigator.geolocation) {
+                  navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                      const coordinates = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                      };
+                      setUserLocation(coordinates);
+                      setLocationButtonDisabled(false); // Enable button after success
+                      setLoading(false); // Clear loading state
+                    },
+                    () => {
+                      setLocationButtonDisabled(false); // Enable button even on error
+                      setLoading(false); // Clear loading state on error
+                    },
+                    {
+                      enableHighAccuracy: true,
+                      timeout: 10000,
+                      maximumAge: 300000
+                    }
+                  );
+                } else {
+                  setLocationButtonDisabled(false); // Enable button if geolocation not supported
+                  setLoading(false); // Clear loading state if geolocation not supported
+                }
+              }, 100);
+            }}>
               Rensa
             </DigiButton>
           </div>
@@ -154,6 +193,7 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
 
       <div className="status" aria-live="polite">
         {loading ? "Söker…" : err ? <span className="error">{err}</span> : null}
+        {/* Location status hidden from user - only shows loading/error messages */}
       </div>
     </DigiLayoutBlock>
   );
