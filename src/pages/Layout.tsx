@@ -10,17 +10,22 @@ import { Header } from "../components/Header";
 
 export const Layout = () => {
   const [jobs, dispatch] = useReducer(JobReducer, initialState);
+
   return (
     <JobContext.Provider value={{ jobs, dispatch }}>
-      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY} className="page-shell">
         <DigiTypography>
-          <Header/>
-          <main>
-            <Outlet />
-          </main>
-          <Footer />
+          <div className="page">
+            <Header />
+            <main id="main" className="page-main">
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
         </DigiTypography>
       </DigiLayoutBlock>
     </JobContext.Provider>
   );
 };
+
+export default Layout;
