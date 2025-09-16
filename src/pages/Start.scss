@@ -67,15 +67,13 @@ digi-header-navigation {
 
 @media (max-width: 767px) {
   .home-block {
-    margin-top: 5rem;
+    margin-top: 3rem;
 
     digi-link-button {
     --PADDING: 4rem 1.5rem !important;
     }
-  }
-
-  h1 {
-    display: none;
+    padding-top: 2rem;
+    border-top: 2px solid #{$color-secondary};
   }
 
   digi-header-navigation {
