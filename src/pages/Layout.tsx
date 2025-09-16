@@ -14,7 +14,7 @@ export const Layout = () => {
     <JobContext.Provider value={{ jobs, dispatch }}>
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
         <DigiTypography>
-          <Header/>
+          <Header />
           <main>
             <Outlet />
           </main>

@@ -9,7 +9,6 @@ digi-layout-block.single-page,
   --BACKGROUND--DEFAULT: #{$color-third};
   --BORDER-COLOR--DEFAULT: #{$color-third};
   --COLOR--DEFAULT: #{$color-background};
- 
 }
 
 .digi-link-button--primary.sc-digi-link-button-h {
@@ -18,14 +17,14 @@ digi-layout-block.single-page,
 }
 
 digi-typography.single-ad-text {
-  display: block; 
+  display: block;
   margin-top: 2rem !important;
 }
 
 @media (max-width: 767px) {
-.single-page {
-  border-top: 2px solid #{$color-secondary};
-  padding-top: 3rem;
-  margin-top: 5rem;
-}
+  .single-page {
+    border-top: 2px solid #{$color-secondary};
+    padding-top: 3rem;
+    margin-top: 5rem;
+  }
 }

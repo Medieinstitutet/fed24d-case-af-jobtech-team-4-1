@@ -1,13 +1,5 @@
-import {
-  LayoutBlockVariation,
-  LinkButtonSize,
-  LinkButtonVariation,
-} from "@digi/arbetsformedlingen";
-import {
-  DigiLayoutBlock,
-  DigiLayoutContainer,
-  DigiLinkButton,
-} from "@digi/arbetsformedlingen-react";
+import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation } from "@digi/arbetsformedlingen";
+import { DigiLayoutBlock, DigiLayoutContainer, DigiLinkButton } from "@digi/arbetsformedlingen-react";
 import { OccupationId } from "../services/jobAdService";
 import "./Start.scss";
 import { occupationSlugs } from "../utils/occupationUtils";
