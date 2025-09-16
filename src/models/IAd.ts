@@ -1,5 +1,13 @@
 export interface IAds {
   hits: IAd[];
+  total?: {
+    value: number;
+  };
+}
+
+export interface LocationCoordinates {
+  lat: number;
+  lon: number;
 }
 
 export interface IAd {

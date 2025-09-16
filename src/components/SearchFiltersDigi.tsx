@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   DigiFormInput,
   DigiFormSelect,
@@ -14,8 +14,10 @@ import { JobActionTypes } from "../reducers/JobReducer";
 
 import type { JobSearchFilters } from "../utils/jobFilters";
 import { DEFAULT_FILTERS, applyFilters } from "../utils/jobFilters";
+import { RADIUS_OPTIONS } from "../utils/constants";
 import { getJobAds, type OccupationId } from "../services/jobAdService";
-import type { IAd } from "../models/IAd";
+import type { IAd, LocationCoordinates } from "../models/IAd";
+import { LocationButton } from "./LocationButton";
 
 import "./SearchFiltersDigi.scss";
 
@@ -27,7 +29,7 @@ type Props = {
   debounceMs?: number;
 };
 
-// Simple debounce hook for filter state
+// hook for filter state
 const useDebounce = <T,>(value: T, delay = 400) => {
   const [v, setV] = useState(value);
   useEffect(() => {
@@ -43,16 +45,17 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
   const [baseAds, setBaseAds] = useState<IAd[]>([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [userLocation, setUserLocation] = useState<LocationCoordinates | null>(null);
 
   const debounced = useDebounce(filters, debounceMs);
 
-  // 1) Fetch base ads ONCE per occupation (reuse your existing service)
+  // Fetch base ads ONCE per occupation
   useEffect(() => {
     let cancel = false;
     (async () => {
       setLoading(true); setErr(null);
       try {
-        const ads = await getJobAds(occupation);
+        const ads = await getJobAds(occupation, debounced.query);
         if (!cancel) setBaseAds(ads);
       } catch (e: any) {
         if (!cancel) setErr(e?.message ?? "Failed to fetch base ads.");
@@ -61,56 +64,35 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
       }
     })();
     return () => { cancel = true; };
-  }, [occupation]);
+  }, [occupation, debounced.query || ""]);
 
-  // 2) Apply client-side filters and write to context
+  // Apply client-side filters and write to context
   useEffect(() => {
-    const filtered = applyFilters(baseAds, debounced);
+    const filtered = applyFilters(baseAds, debounced, userLocation);
     dispatch({
       type: JobActionTypes.SET_JOBS,
       payload: { occupation, jobs: filtered },
     });
-  }, [baseAds, debounced, occupation, dispatch]);
+  }, [baseAds, debounced, userLocation, occupation, dispatch]);
 
-  // Helper to update a single filter field
-  const set = <K extends keyof JobSearchFilters>(k: K, v: JobSearchFilters[K]) =>
+  // Update filter field
+  const updateFilter = <K extends keyof JobSearchFilters>(k: K, v: JobSearchFilters[K]) =>
     setFilters(prev => ({ ...prev, [k]: v }));
 
-  // Extract city from query and update location automatically
-  const handleQueryChange = (query: string) => {
-    set("query", query);
-    
-    // Extract city from query
-    const cities = [
-      "stockholm", "göteborg", "goteborg", "malmö", "malmo",
-      "uppsala", "västerås", "vasteras", "örebro", "orebro",
-      "linköping", "linkoping", "helsingborg", "lund",
-      "norrköping", "norrkoping", "umeå", "umea", "luleå", "lulea",
-      "växjö", "vaxjo", "karlstad", "jönköping", "jonkoping", "borås", "boras",
-      "eskilstuna", "sundsvall", "gävle", "gavle", "huddinge", "nacka", "solna",
-      "södertälje", "sodertalje", "hässleholm", "hassleholm", "östersund", "ostersund",
-      "trollhättan", "trollhattan", "kristianstad", "karlskrona", "skövde", "skovde",
-      "uddevalla", "landskrona", "motala", "piteå", "pitea", "vänersborg", "vanersborg",
-      "borlänge", "borlange", "säffle", "saffle", "kungsbacka", "kristinehamn",
-      "karlshamn", "falkenberg", "sandviken", "varberg", "trelleborg", "lindesberg",
-      "kramfors", "haparanda"
-    ];
-    
-    const normalizedQuery = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    const foundCity = cities.find(city => normalizedQuery.includes(city));
-    
-    if (foundCity) {
-      set("location", foundCity);
-    } else {
-      set("location", "");
-    }
+  // Update search query - API will handle city detection
+  const updateSearch = (query: string) => {
+    updateFilter("query", query);
+    // API will automatically detect cities in the search query
   };
 
-  // Precompute radius options
-  const radiusOptions = useMemo(
-    () => [0, 10, 25, 50, 100].map(v => ({ value: v, label: v === 0 ? "Ingen" : `${v} km` })),
-    []
-  );
+  // Handle location found from geolocation
+  const handleLocationFound = (coordinates: LocationCoordinates) => {
+    setUserLocation(coordinates);
+  };
+
+  // Use predefined radius options
+  const radiusOptions = RADIUS_OPTIONS;
+
 
   return (
     <DigiLayoutBlock afVariation={LayoutBlockVariation.SECONDARY} className="search-filters-digi">
@@ -123,14 +105,14 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
             <DigiFormInput
               afLabel="Sök (yrke, stad, ramverk, språk)"
               value={filters.query}
-              onInput={(e: React.FormEvent<any>) => handleQueryChange((e.currentTarget as any).value)}
+              onInput={(e: React.FormEvent<any>) => updateSearch((e.currentTarget as any).value)}
             />
             {filters.query && (
               <button
                 type="button"
                 className="clear-btn"
                 aria-label="Clear search"
-                onClick={() => handleQueryChange("")}
+                onClick={() => updateSearch("")}
               >
                 ×
               </button>
@@ -143,30 +125,24 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
         </div>
       </DigiLayoutColumns>
 
-      {/* Row 2: radius + contract type + reset button */}
+      {/* Row 2: radius + location button + reset button */}
       <DigiLayoutColumns>
         <div className="row row--filters">
-          <DigiFormSelect
-            afLabel="Radie"
-            value={String(filters.radiusKm)}
-            onChange={(e: React.FormEvent<any>) => set("radiusKm", Number((e.currentTarget as any).value))}
-          >
-            {radiusOptions.map(o => (
-              <option key={o.value} value={o.value}>{o.label}</option>
-            ))}
-          </DigiFormSelect>
+                 <DigiFormSelect
+                   afLabel="Radie (kräver position)"
+                   value={String(filters.radiusKm)}
+                   onChange={(e: React.FormEvent<any>) => updateFilter("radiusKm", Number((e.currentTarget as any).value))}
+                 >
+                   {radiusOptions.map(o => (
+                     <option key={o.value} value={o.value}>{o.label}</option>
+                   ))}
+                 </DigiFormSelect>
 
-          <DigiFormSelect
-            afLabel="Anställningsform"
-            value={filters.contractType}
-            onChange={(e: React.FormEvent<any>) =>
-              set("contractType", (e.currentTarget as any).value as JobSearchFilters["contractType"])
-            }
-          >
-            <option value="all">Alla</option>
-            <option value="permanent">Tillsvidare</option>
-            <option value="temporary">Visstid</option>
-          </DigiFormSelect>
+          <LocationButton 
+            onLocationFound={handleLocationFound}
+            disabled={loading}
+          />
+
 
           <div className="actions">
             <DigiButton onClick={() => setFilters({ ...DEFAULT_FILTERS })}>
