@@ -14,7 +14,24 @@ ul {
   li {
     background-color: $color-secondary;
     padding: 1.5rem;
-    width: 100%;
-    max-width: 800px;
   }
+}
+
+.back-btn {
+  position: fixed;
+  bottom: 1rem;
+  right: 3rem;
+  z-index: 999;
+  cursor: pointer;
+}
+
+
+.width {
+  min-width: 100%;
+}
+
+.ads-container {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
 }

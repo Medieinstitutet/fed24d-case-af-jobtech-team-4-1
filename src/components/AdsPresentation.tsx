@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { getJobAds, OccupationId } from "../services/jobAdService";
-import { Link } from "react-router";
+import { Link, useParams, useNavigate } from "react-router";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
 import "./AdsPresentation.scss";
+import { DigiLayoutContainer, DigiLinkButton, DigiLoaderSpinner } from "@digi/arbetsformedlingen-react";
+import { LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 
 type AdsPresentationProps = {
   occupation: OccupationId;
@@ -13,6 +15,8 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
   const { jobs, dispatch } = useContext(JobContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { occupationSlug } = useParams<{ occupationSlug?: string }>();
 
   useEffect(() => {
     if (jobs[occupation].length > 0) {
@@ -35,7 +39,12 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       });
   }, [occupation, dispatch]);
 
-  if (loading) return <p>Loading jobs...</p>;
+  if (loading)
+    return (
+      <>
+        <DigiLoaderSpinner afSize={LoaderSpinnerSize.MEDIUM} afText="Laddar"></DigiLoaderSpinner>
+      </>
+    );
   if (error) return <p>{error}</p>;
 
   const formatDeadline = (dateString: string) => {
@@ -47,18 +56,39 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
   };
 
   return (
-    <ul>
-      {jobs[occupation].map(job => (
-        <li key={job.id}>
-          <Link to={`/${job.id}`}>
-            <h3>{job.headline}</h3>
-          </Link>
-          <p>
-            {job.employer?.name} - {job.workplace_address.municipality}
-          </p>
-          <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
-        </li>
-      ))}
-    </ul>
+    <>
+      <DigiLayoutContainer>
+        <DigiLinkButton
+          className="back-btn"
+          afSize={LinkButtonSize.MEDIUM}
+          afVariation={LinkButtonVariation.SECONDARY}
+          af-hide-icon={true}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          ⬅️ Tillbaka
+        </DigiLinkButton>
+      </DigiLayoutContainer>
+      <div className="ads-container">
+        {jobs[occupation].length === 0 ? (
+          <p>Inga jobbannonser hittades för {occupationSlug}.</p>
+        ) : (
+          <ul className="width">
+            {jobs[occupation].map(job => (
+              <li key={job.id}>
+                <Link to={`/${occupationSlug}/${job.id}`}>
+                  <h3>{job.headline}</h3>
+                </Link>
+                <p>
+                  {job.employer?.name} - {job.workplace_address.municipality}
+                </p>
+                <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </>
   );
 };

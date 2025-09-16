@@ -1,22 +1,60 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import type { IAd } from "../models/IAd";
 import { getJobAds, OccupationId } from "../services/jobAdService";
-import { DigiLayoutBlock, DigiLayoutContainer, DigiLinkButton, DigiTypography } from "@digi/arbetsformedlingen-react";
-import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation } from "@digi/arbetsformedlingen";
+import {
+  DigiLayoutBlock,
+  DigiLayoutContainer,
+  DigiLinkButton,
+  DigiLoaderSpinner,
+  DigiTypography,
+} from "@digi/arbetsformedlingen-react";
+import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
+import { JobActionTypes } from "../reducers/JobReducer";
+import { JobContext } from "../contexts/JobContext";
+import { slugToOccupation } from "../utils/occupationUtils";
+import "./SingleAd.scss";
+
+const findAd = (ads: IAd[], id?: string) => {
+  if (!id) return undefined;
+  return ads.find(a => a.id === id);
+};
+
+const getAdFromContext = (jobs: Record<OccupationId, IAd[]>, occ: OccupationId, id?: string) => {
+  return findAd(jobs[occ], id);
+};
 
 export const SingleAd = () => {
-  const { id } = useParams();
+  const { occupationSlug, id } = useParams<{ occupationSlug?: string; id?: string }>();
+  if (!occupationSlug || !(occupationSlug in slugToOccupation)) {
+    return <p>Kunde inte hitta annonsen</p>;
+  }
+
+  const occupation = slugToOccupation[occupationSlug];
+  const { jobs, dispatch } = useContext(JobContext);
+  const navigate = useNavigate();
 
   const [ad, setAd] = useState<IAd | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!id || !occupation) return;
+
+    const found = getAdFromContext(jobs, occupation, id);
+    if (found) {
+      setAd(found);
+      setLoading(false);
+      return;
+    }
+
     const fetchAd = async () => {
       try {
-        const allAds = await getJobAds(OccupationId.BACKEND);
-        const found = allAds.find(a => a.id === id);
-        setAd(found);
+        const allAds = await getJobAds(occupation);
+        dispatch({
+          type: JobActionTypes.SET_JOBS,
+          payload: { occupation: occupation, jobs: allAds },
+        });
+        setAd(findAd(allAds, id));
       } catch (error) {
         console.error("Fel vid hämtningen", error);
       } finally {
@@ -24,9 +62,9 @@ export const SingleAd = () => {
       }
     };
     fetchAd();
-  }, [id]);
+  }, [id, occupation, jobs, dispatch]);
 
-  if (loading) return <p>Laddar...</p>;
+  if (loading) return <DigiLoaderSpinner afSize={LoaderSpinnerSize.MEDIUM} afText="Laddar"></DigiLoaderSpinner>;
   if (!ad) return <p>Annonsen hittades inte.</p>;
 
   const deadline = new Date(ad.application_deadline);
@@ -40,7 +78,24 @@ export const SingleAd = () => {
 
   return (
     <>
-      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY} className="single-page">
+        <DigiLayoutContainer>
+          <DigiLinkButton
+            className="go-back"
+            afSize={LinkButtonSize.MEDIUM}
+            afVariation={LinkButtonVariation.SECONDARY}
+            af-hide-icon={true}
+            onClick={() => {
+              if (window.history.length > 1) {
+                navigate(-1);
+              } else {
+                navigate(`/${occupation}`);
+              }
+            }}
+          >
+            ⬅️ Tillbaka
+          </DigiLinkButton>
+        </DigiLayoutContainer>
         <DigiTypography className="single-ad-text">
           <h1>{ad.headline}</h1>
           <h2>{ad.employer.name}</h2>
@@ -54,6 +109,7 @@ export const SingleAd = () => {
               Ansök senast <strong>{formattedDate}</strong> {diffDays > 0 && <span>(om {diffDays} dagar)</span>}
             </p>
             <DigiLinkButton
+              className="apply-btn"
               afHref="#"
               afSize={LinkButtonSize.MEDIUM}
               afVariation={LinkButtonVariation.PRIMARY}

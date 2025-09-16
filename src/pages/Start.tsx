@@ -1,23 +1,21 @@
 import {
   LayoutBlockVariation,
-  LayoutColumnsElement,
-  LayoutColumnsVariation,
   LinkButtonSize,
   LinkButtonVariation,
 } from "@digi/arbetsformedlingen";
 import {
   DigiLayoutBlock,
-  DigiLayoutColumns,
   DigiLayoutContainer,
   DigiLinkButton,
 } from "@digi/arbetsformedlingen-react";
 import { OccupationId } from "../services/jobAdService";
 import "./Start.scss";
+import { occupationSlugs } from "../utils/occupationUtils";
 
 export const Start = () => {
   return (
     <>
-      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY} className="home-block">
         <h1>Hem</h1>
         <DigiLayoutContainer className="home-text">
           <h2>Välkommen till Kodbanken - Branch Out</h2>
@@ -26,36 +24,36 @@ export const Start = () => {
           <p>Välj ditt spår och pusha din framtid framåt.</p>
         </DigiLayoutContainer>
 
-        <DigiLayoutColumns afElement={LayoutColumnsElement.DIV} afVariation={LayoutColumnsVariation.TWO}>
+        <div className="column-wrapper">
           <DigiLinkButton
-            afHref={`/${OccupationId.FRONTEND}`}
+            afHref={`/${occupationSlugs[OccupationId.FRONTEND]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Frontend
           </DigiLinkButton>
           <DigiLinkButton
-            afHref={`/${OccupationId.BACKEND}`}
+            afHref={`/${occupationSlugs[OccupationId.BACKEND]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Backend
           </DigiLinkButton>
           <DigiLinkButton
-            afHref={`/${OccupationId.FULLSTACK}`}
+            afHref={`/${occupationSlugs[OccupationId.FULLSTACK]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Fullstack
           </DigiLinkButton>
           <DigiLinkButton
-            afHref={`/${OccupationId.ALL}`}
+            afHref={`/${occupationSlugs[OccupationId.ALL]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Alla annonser
           </DigiLinkButton>
-        </DigiLayoutColumns>
+        </div>
       </DigiLayoutBlock>
     </>
   );
