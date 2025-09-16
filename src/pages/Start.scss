@@ -53,12 +53,14 @@ digi-header-navigation {
 
 @media (max-width: 768px) {
   .home-block {
-    margin-top: 5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #{$color-secondary};
   }
 
-  h1 {
-    display: none;
-  }
+  // h1 {
+  //   display: none;
+  // }
 
   digi-header-navigation {
   border-bottom: 2px solid #{$color-background};
