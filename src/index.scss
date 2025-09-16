@@ -11,6 +11,11 @@ body,
   padding: 0;
 }
 
+digi-typography {
+  --digi--typography--color--text: #{$color-primary};
+  --digi--color--text--primary: #{$color-primary};
+}
+
 body {
   background-color: #{$color-background};
   color: #{$color-primary};
