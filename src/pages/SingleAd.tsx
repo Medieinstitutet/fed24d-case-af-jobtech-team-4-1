@@ -78,7 +78,7 @@ export const SingleAd = () => {
 
   return (
     <>
-      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY} className="single-page">
         <DigiLayoutContainer>
           <DigiLinkButton
             className="go-back"
