@@ -1,12 +1,31 @@
 @import "../styles/variables";
 
+digi-layout-block.single-page,
+.sc-digi-layout-block-h.single-page {
+  padding-top: 2rem !important;
+}
+
 .go-back sc-digi-link-button-s > a {
   --BACKGROUND--DEFAULT: #{$color-third};
   --BORDER-COLOR--DEFAULT: #{$color-third};
   --COLOR--DEFAULT: #{$color-background};
+ 
 }
 
 .digi-link-button--primary.sc-digi-link-button-h {
   --digi--link-button--background--primary--hover: #{$color-background};
   --digi--link-button--border-color--primary--hover: #{$color-primary};
+}
+
+digi-typography.single-ad-text {
+  display: block; 
+  margin-top: 2rem !important;
+}
+
+@media (max-width: 767px) {
+.single-page {
+  border-top: 2px solid #{$color-secondary};
+  padding-top: 3rem;
+  margin-top: 5rem;
+}
 }

@@ -11,11 +11,6 @@ digi-logo {
   align-items: center;
 }
 
-digi-logo img.logo-img {
-  max-height: 40px; 
-  width: auto;
-}
-
 .sc-digi-icon-bars-h svg.sc-digi-icon-bars,
 .sc-digi-icon-x-h svg.sc-digi-icon-x {
     color: #{$color-third};
@@ -42,14 +37,25 @@ digi-header .digi-button:hover digi-icon-x::part(icon) {
     --digi--header--border-color: transparent;
 }
 
-@media (max-width: 768px) {
-  digi-logo img.logo-img {
-    max-height: 36px;
-  }
+@media (max-width: 475px) {
+.sc-digi-button-h .digi-button.sc-digi-button {
+  border: none;
+}
 }
 
-@media (max-width: 480px) {
-  digi-logo img.logo-img {
-    max-height: 28px;
-  }
+.sc-digi-header-h img.logo-img {
+  width: auto !important;
+  height: auto !important;
+  max-width: none !important;  
 }
+
+.sc-digi-header-h img.logo-img {
+  width: clamp(
+    120px, 
+    calc(175px + (200 * ((100vw - 320px) / (768 - 320)))), 
+    270px 
+  ) !important;
+  height: auto !important;
+  display: block;
+}
+

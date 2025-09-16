@@ -1,5 +1,9 @@
+@import "../styles/variables";
+
 @media (max-width: 768px) {
   .about-block {
-    margin-top: 5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #{$color-secondary};
   }
 }
