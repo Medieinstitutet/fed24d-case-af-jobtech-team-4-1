@@ -45,3 +45,22 @@ h1 {
     margin-bottom: 10px;
   }
 }
+
+digi-header-navigation {
+  border-bottom: 2px solid #{$color-secondary};
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .home-block {
+    margin-top: 5rem;
+  }
+
+  h1 {
+    display: none;
+  }
+
+  digi-header-navigation {
+  border-bottom: 2px solid #{$color-background};
+  }
+}
