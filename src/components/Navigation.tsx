@@ -1,6 +1,7 @@
 import { DigiHeaderNavigation, DigiHeaderNavigationItem } from "@digi/arbetsformedlingen-react";
-import "../index.scss";
+// import "../index.scss";
 import { useLocation } from "react-router";
+import "./Navigation.scss";
 
 export const Navigation = () => {
   const whichPage = useLocation();

@@ -7,14 +7,14 @@ export const About = () => {
     <>
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY} className="about-block">
         <DigiTypography>
-          <h2>Om oss</h2>
+          <h1>Om oss</h1>
           <p>
             Kodbanken - Branch Out är platsbanken för utvecklare, skapad av utvecklare. Vi vet att det kan vara svårt
             att hitta rätt jobb i en djungel av annonser som inte alltid är anpassade för tech. Därför byggde vi en
             plattform där du som utvecklare enkelt kan navigera utifrån din stack - oavsett om du är frontend-hacker,
             backend-guru eller fullstack-ninja.
           </p>
-          <h3>Hos oss kan du:</h3>
+          <h2>Hos oss kan du:</h2>
           <ul>
             <li>- Filtrera jobb baserat på din techstack.</li>
             <li>- Hitta annonser nära dig med hjälp av geolocation.</li>

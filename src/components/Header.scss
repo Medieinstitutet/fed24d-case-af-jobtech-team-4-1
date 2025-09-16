@@ -30,12 +30,12 @@ digi-header .digi-button:hover digi-icon-x::part(icon) {
 }
 
 .sc-digi-button-h .digi-button.sc-digi-button {
-    --COLOR--TEXT--DEFAULT: #{$color-third};
-    --COLOR--TEXT--ACTIVE: #{$color-third};
-    --COLOR--TEXT--HOVER: #{$color-third};
-    font-size: 1.3rem;
-    border: 1px solid #{$color-secondary};
-    border-radius: 8px;
+  --COLOR--TEXT--DEFAULT: #{$color-third};
+  --COLOR--TEXT--ACTIVE: #{$color-third};
+  --COLOR--TEXT--HOVER: #{$color-third};
+  font-size: 1.3rem;
+  border: 1px solid #{$color-secondary};
+  border-radius: 8px;
 }
 
 .sc-digi-header-h {
