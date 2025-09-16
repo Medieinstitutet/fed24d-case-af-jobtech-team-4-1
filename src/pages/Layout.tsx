@@ -16,7 +16,7 @@ export const Layout = () => {
       <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY} className="page-shell">
         <DigiTypography>
           <div className="page">
-            <Header/>
+            <Header />
             <main id="main" className="page-main">
               <Outlet />
             </main>
