@@ -1,10 +1,11 @@
 import { DigiLayoutBlock, DigiTypography } from "@digi/arbetsformedlingen-react";
 import { LayoutBlockVariation } from "@digi/arbetsformedlingen";
+import "./About.scss";
 
 export const About = () => {
   return (
     <>
-      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY} className="about-block">
         <DigiTypography>
           <h2>Om oss</h2>
           <p>

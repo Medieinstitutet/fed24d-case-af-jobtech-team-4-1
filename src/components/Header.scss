@@ -16,8 +16,30 @@ digi-logo img.logo-img {
   width: auto;
 }
 
+.sc-digi-icon-bars-h svg.sc-digi-icon-bars,
+.sc-digi-icon-x-h svg.sc-digi-icon-x {
+    color: #{$color-third};
+}
+
+digi-header .digi-button:hover digi-icon-bars svg {
+  text-decoration: underline;
+}
+
+digi-header .digi-button:hover digi-icon-x::part(icon) {
+  text-decoration: underline;
+}
+
+.sc-digi-button-h .digi-button.sc-digi-button {
+    --COLOR--TEXT--DEFAULT: #{$color-third};
+    --COLOR--TEXT--ACTIVE: #{$color-third};
+    --COLOR--TEXT--HOVER: #{$color-third};
+    font-size: 1.3rem;
+    border: 1px solid #{$color-secondary};
+    border-radius: 8px;
+}
+
 .sc-digi-header-h {
-    --digi--header--border-color: #{$color-third};
+    --digi--header--border-color: transparent;
 }
 
 @media (max-width: 768px) {
