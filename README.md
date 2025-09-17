@@ -77,6 +77,7 @@ The application makes it easier for developers to:
 Created by: 
 - [Olivia Almseger](https://github.com/oliviaalmseger)
 - [Matilda Söderhall](https://github.com/matildasoderhall)	
+- [Yuliia Ponomarenko](https://github.com/Yuliia-fed23)	
 
 
 ## 🤝 Credits
