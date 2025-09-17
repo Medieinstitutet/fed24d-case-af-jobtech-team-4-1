@@ -113,37 +113,38 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
         </DigiLinkButton>
       </DigiLayoutContainer>
 
-      {jobs[occupation].length === 0 ? (
-        <p>Inga jobbannonser hittades för {occupationSlug}.</p>
-      ) : (
-        <>
-          <ul>
-            {jobs[occupation].map(job => (
-              <li key={job.id}>
-                <Link to={`/${occupationSlug}/${job.id}`}>
-                  <h3>{job.headline}</h3>
-                </Link>
-                <p>
-                  {job.employer?.name} - {job.workplace_address.municipality}
-                </p>
-                <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
-              </li>
-            ))}
-          </ul>
-
-          {jobs.pagination[occupation].totalPages > 1 && (
-            <div className="pagination-wrapper">
-              <DigiTypography className="page-of">
-                Page {jobs.pagination[occupation].currentPage} of {jobs.pagination[occupation].totalPages}
-              </DigiTypography>
-              <PaginationControls
-                currentPage={jobs.pagination[occupation].currentPage}
-                totalPages={jobs.pagination[occupation].totalPages}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          )}
-        </>
+      <div className="ads-container">
+        {jobs[occupation].length === 0 ? (
+          <p>Inga jobbannonser hittades för {occupationSlug}.</p>
+        ) : (
+          <>
+            <ul className="width">
+              {jobs[occupation].map(job => (
+                <li key={job.id}>
+                  <Link to={`/${occupationSlug}/${job.id}`}>
+                    <h3>{job.headline}</h3>
+                  </Link>
+                  <p>
+                    {job.employer?.name} - {job.workplace_address.municipality}
+                  </p>
+                  <p>Sök senast: {formatDeadline(job.application_deadline)}</p>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+      {jobs.pagination[occupation].totalPages > 1 && (
+        <div className="pagination-wrapper">
+          <DigiTypography className="page-of">
+            Page {jobs.pagination[occupation].currentPage} of {jobs.pagination[occupation].totalPages}
+          </DigiTypography>
+          <PaginationControls
+            currentPage={jobs.pagination[occupation].currentPage}
+            totalPages={jobs.pagination[occupation].totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
       )}
     </>
   );
