@@ -5,11 +5,6 @@ export interface IAds {
   };
 }
 
-export interface LocationCoordinates {
-  lat: number;
-  lon: number;
-}
-
 export interface IAd {
   id: string;
   headline: string;

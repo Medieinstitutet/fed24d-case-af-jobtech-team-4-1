@@ -24,7 +24,6 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       return;
     }
 
-    // OPTIMIZATION: Use legacy function for backward compatibility
     getJobAdsLegacy(occupation)
       .then(data => {
         dispatch({

@@ -11,10 +11,11 @@ import { LayoutBlockVariation } from "@digi/arbetsformedlingen";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
 import type { JobSearchFilters } from "../utils/jobFilters";
-import { DEFAULT_FILTERS, applyFilters } from "../utils/jobFilters";
+import { DEFAULT_FILTERS, applyClientSideFilters } from "../utils/jobFilters";
 import { RADIUS_OPTIONS } from "../utils/constants";
 import { getJobAds, type OccupationId } from "../services/jobAdService";
-import type { IAd, LocationCoordinates } from "../models/IAd";
+import type { IAd } from "../models/IAd";
+import type { LocationCoordinates } from "../models/ILocationCoordinates";
 import { LocationButton } from "./LocationButton";
 import "./SearchFiltersDigi.scss";
 
@@ -47,13 +48,13 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
 
   const debounced = useDebounce(filters, debounceMs);
 
-  // OPTIMIZATION: Fetch filtered ads from API including radius filtering
+  // Fetch filtered ads from API including radius filtering
   useEffect(() => {
     let cancel = false;
     (async () => {
       setLoading(true); setErr(null);
       try {
-        // CHANGED: Pass filters + userLocation to API for radius filtering
+        // Pass filters + userLocation to API for radius filtering
         const ads = await getJobAds(occupation, debounced, userLocation);
         if (!cancel) setBaseAds(ads);
       } catch (e: any) {
@@ -65,14 +66,12 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
     return () => { cancel = true; };
   }, [occupation, debounced.query || "", debounced.radiusKm, userLocation]);
 
-  // OPTIMIZATION: Apply client-side radius filtering as fallback
+  // Apply client-side radius filtering as fallback
   useEffect(() => {
-    // CHANGED: Apply radius filtering client-side if API doesn't support it
     let filteredAds = baseAds;
     
-    // If we have radius filter and user location, apply client-side filtering
     if (debounced.radiusKm > 0 && userLocation) {
-      filteredAds = applyFilters(baseAds, debounced, userLocation);
+      filteredAds = applyClientSideFilters(baseAds, debounced, userLocation);
     }
     
     dispatch({
@@ -85,17 +84,15 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
   const updateFilter = <K extends keyof JobSearchFilters>(k: K, v: JobSearchFilters[K]) =>
     setFilters(prev => ({ ...prev, [k]: v }));
 
-  // OPTIMIZATION: Update search query - API will handle text search and city detection
   const updateSearch = (query: string) => {
     updateFilter("query", query);
-    // CHANGED: API now handles both text search and city detection automatically
+    
   };
-
 
   // Handle location found from geolocation
   const handleLocationFound = (coordinates: LocationCoordinates) => {
     setUserLocation(coordinates);
-    setLocationButtonDisabled(false); // Enable button after successful location
+    setLocationButtonDisabled(false);
   };
 
   // Use predefined radius options
@@ -150,11 +147,11 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
           
           <div className="actions">
             <DigiButton onClick={() => {
-              // Clear all filters and location, then automatically trigger location search
+              // Clear all filters and location
               setFilters({ ...DEFAULT_FILTERS });
               setUserLocation(null);
-              setLocationButtonDisabled(true); // Disable button during auto search
-              setLoading(true); // Set loading state for auto location search
+              setLocationButtonDisabled(true); 
+              setLoading(true); 
               
               // Automatically trigger location search after clearing
               setTimeout(() => {
@@ -166,12 +163,12 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
                         lon: position.coords.longitude
                       };
                       setUserLocation(coordinates);
-                      setLocationButtonDisabled(false); // Enable button after success
-                      setLoading(false); // Clear loading state
+                      setLocationButtonDisabled(false);
+                      setLoading(false);
                     },
                     () => {
-                      setLocationButtonDisabled(false); // Enable button even on error
-                      setLoading(false); // Clear loading state on error
+                      setLocationButtonDisabled(false);
+                      setLoading(false);
                     },
                     {
                       enableHighAccuracy: true,
@@ -180,8 +177,8 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
                     }
                   );
                 } else {
-                  setLocationButtonDisabled(false); // Enable button if geolocation not supported
-                  setLoading(false); // Clear loading state if geolocation not supported
+                  setLocationButtonDisabled(false); 
+                  setLoading(false); 
                 }
               }, 100);
             }}>
@@ -193,7 +190,6 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
 
       <div className="status" aria-live="polite">
         {loading ? "Söker…" : err ? <span className="error">{err}</span> : null}
-        {/* Location status hidden from user - only shows loading/error messages */}
       </div>
     </DigiLayoutBlock>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DigiButton } from "@digi/arbetsformedlingen-react";
-import type { LocationCoordinates } from "../models/IAd";
+import type { LocationCoordinates } from "../models/ILocationCoordinates";
 
 interface LocationButtonProps {
   onLocationFound: (coordinates: LocationCoordinates) => void;
@@ -58,7 +58,7 @@ export const LocationButton: React.FC<LocationButtonProps> = ({
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 300000 // 5 minutes
+        maximumAge: 300000
       }
     );
   };

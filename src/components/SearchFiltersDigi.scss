@@ -28,14 +28,12 @@
     }
   }
 
-  /* ROW as grid — single place for layout control */
   .row {
     display: grid;
     gap: 12px;
     width: 100%;
   }
 
-  /* Input wrapper for search field with clear button */
   .input-wrap {
     position: relative;
 
@@ -59,7 +57,6 @@
         border-radius: 50%;
       }
 
-      /* Mobile responsive */
       @media (max-width: 480px) {
         right: 6px;
         font-size: 16px;
@@ -68,13 +65,11 @@
     }
   }
 
-  /* Search row: input stretches */
   .row--search {
     grid-template-columns: 1fr;
     align-items: end;
   }
 
-  /* Filters row*/
   .row--filters {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     align-items: end;
@@ -94,7 +89,6 @@
       align-items: center;
     }
 
-    /* Mobile responsive */
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
       gap: 12px;
@@ -105,7 +99,6 @@
       }
     }
 
-    /* Small mobile */
     @media (max-width: 480px) {
       grid-template-columns: 1fr;
       gap: 8px;
@@ -117,7 +110,6 @@
     flex-wrap: wrap;
   }
 
-  /* General responsive styles */
   @media (max-width: 768px) {
     padding: 0.75rem;
     margin-bottom: 0.75rem;
@@ -159,12 +151,10 @@
   }
 }
 
-/* Built-in cross in field */
 .input-wrap {
   position: relative;
   min-width: 240px;
 
-  /* web-components full column width */
   digi-form-input,
   .hydrated {
     display: block;
@@ -196,7 +186,6 @@ digi-form-select::part(select) {
   font-size: 0.875rem !important;
 }
 
-/* Fix dropdown positioning to open downward */
 digi-form-select {
   position: relative !important;
   z-index: 1 !important;
@@ -211,7 +200,6 @@ digi-form-select::part(select) option {
   position: relative !important;
 }
 
-/* Ensure dropdown opens downward */
 digi-form-select::part(select):focus {
   z-index: 10 !important;
 }

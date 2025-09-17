@@ -1,5 +1,6 @@
 import { get } from "./serviceBase";
-import type { IAd, IAds, LocationCoordinates } from "../models/IAd";
+import type { IAd, IAds } from "../models/IAd";
+import type { LocationCoordinates } from "../models/ILocationCoordinates";
 import type { JobSearchFilters } from "../utils/jobFilters";
 import { extractTechKeywords, sortByRelevance } from "../utils/searchUtils";
 
@@ -14,7 +15,7 @@ export enum OccupationId {
 
 
 /**
- * Builds API URL with search and filter parameters including radius
+Builds API URL with search and filter parameters including radius
  * @param occupation - Job occupation category
  * @param filters - Search and filter parameters
  * @param userLocation - Optional user location for radius filtering
@@ -31,20 +32,18 @@ const buildSearchUrl = (occupation: OccupationId, filters: JobSearchFilters, use
     }
   }
   
-  // OPTIMIZATION: Add radius filtering through API instead of client-side
+  
   if (filters.radiusKm > 0 && userLocation) {
-    // CORRECTED: Use location__radius format as per JobTech API documentation
     const radiusParam = `${userLocation.lat},${userLocation.lon}__${filters.radiusKm}`;
     url += `&location__radius=${radiusParam}`;
     
-    // ALTERNATIVE: Try municipality filter as backup
     if (userLocation.lat >= 59.2 && userLocation.lat <= 59.4 && 
         userLocation.lon >= 17.8 && userLocation.lon <= 18.3) {
       url += `&municipality=Stockholm`;
     }
   }
   
-  
+
   return url;
 };
 
@@ -60,7 +59,6 @@ export const getJobAds = async (occupation: OccupationId, filters: JobSearchFilt
   
   const data = await get<IAds>(url);
   
-  // Apply client-side sorting for better relevance
   if (filters.query && filters.query.trim()) {
     return sortByRelevance(data.hits, filters.query.trim());
   }

@@ -1,18 +1,4 @@
-/**
- * Spell checking utilities for search queries
- * Handles typo detection and correction for better search results
- * 
- * Functions:
- * - levenshteinDistance: Calculates edit distance between two strings
- * - findSimilarKeywords: Finds keywords within maximum distance threshold
- * - correctTypo: Corrects single word by finding closest match
- * - correctQuery: Corrects entire search query by processing each word
- */
 
-/**
- * Calculates Levenshtein distance between two strings
- * Returns the minimum number of single-character edits required to change one string into another
- */
 const levenshteinDistance = (a: string, b: string): number => {
   const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
   
@@ -23,9 +9,9 @@ const levenshteinDistance = (a: string, b: string): number => {
     for (let i = 1; i <= a.length; i++) {
       const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
       matrix[j][i] = Math.min(
-        matrix[j][i - 1] + 1,     // deletion
-        matrix[j - 1][i] + 1,     // insertion
-        matrix[j - 1][i - 1] + indicator // substitution
+        matrix[j][i - 1] + 1,     
+        matrix[j - 1][i] + 1,     
+        matrix[j - 1][i - 1] + indicator 
       );
     }
   }
@@ -33,20 +19,14 @@ const levenshteinDistance = (a: string, b: string): number => {
   return matrix[b.length][a.length];
 };
 
-/**
- * Finds similar keywords based on Levenshtein distance
- * Returns keywords that are within the maximum distance threshold
- */
+
 export const findSimilarKeywords = (word: string, keywords: string[], maxDistance: number = 2): string[] => {
   return keywords.filter(keyword => 
     levenshteinDistance(word.toLowerCase(), keyword.toLowerCase()) <= maxDistance
   );
 };
 
-/**
- * Corrects typos in a word by finding the closest match from a list of keywords
- * Returns the original word if no close match is found
- */
+
 export const correctTypo = (word: string, keywords: string[], maxDistance: number = 2): string => {
   const similar = findSimilarKeywords(word, keywords, maxDistance);
   
@@ -61,10 +41,7 @@ export const correctTypo = (word: string, keywords: string[], maxDistance: numbe
   );
 };
 
-/**
- * Corrects typos in a search query by processing each word
- * Returns the corrected query with typos fixed
- */
+
 export const correctQuery = (query: string, keywords: string[], maxDistance: number = 2): string => {
   const words = query.trim().split(/\s+/);
   
