@@ -38,8 +38,6 @@ The application makes it easier for developers to:
 - Detailed view of a job ad, including description, deadlines and employer info.
 - Direct apply button ("Commit ansökan 😉").
 
-  _Note: This button is just for fun – it doesn’t actually submit an application._
-
 **About page ("/om-oss")**
 
 - Describes the idea behind Kodbanken and its mission.
