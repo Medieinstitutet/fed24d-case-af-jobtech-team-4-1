@@ -1,38 +1,83 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/6VsM7MHT)
+# 🌱 Kodbanken – Branch Out
 
-# Skapa en egen Platsbanken för ert drömscenario
+Welcome to **Kodbanken – Branch Out**, a React-based job portal for developers. Here you can explore open positions, filter them by tech stack, and commit to your next career step. 🚀
 
-Dokumentation om Arbetsförmedlingens öppna data finns på https://jobtechdev.se. All öppna data från arbetsförmedlingen och andra offentliga organisationen går även att hitta direkt på dataportal.se. I detta dokument ges två förslag på användningsfall som vi tror är lämpliga för studenter som vill utveckla en applikation på riktig data. All data som är öppna data får vem som helst använda utan att fråga myndigheten om lov, så ingen är begränsad till de exempel vi ger.
+## 🔍 Project overview
 
-Läs först igenom kom-igång hjälpen
+The task was to build a custom job portal using [Arbetsförmedlingens JobSearch API](https://jobsearch.api.jobtechdev.se/), with a focus on structured data fetching, clean React architecture, routing, and consistent styling using Arbetsförmedlingen's design system (@digi/arbetsformedlingen-react).
 
-- [Övergripande dokumentation API:etJobSearch](https://jobtechdev.se/sv/components/jobsearch)
-- [Kom-igång guide](https://gitlab.com/arbetsformedlingen/education/education-api/-/blob/main/GETTING_STARTED.md)
+The application makes it easier for developers to:
 
-## Prova att utforska datan med vår interaktiva tjänst
+- Find jobs based on their stack (Frontend, Backend, Fullstack)
+- Search and filter jobs based on keywords and location
+- Read detailed job ads, including deadlines and employer info
+- Navigate seamlessly across pages with a clean, responsive UI powered by React Router and accessible design.
 
-Görs genom att öppna Swagger-sidan för API:et (för att enkelt testa olika endpoints i API:et och läsa dokumentation för respektive endpoint): Search job ads (jobtechdev.se)
+## ✨ Features
 
-## Uppgift
+**Landing page ("/")**
 
-Använd endpoint https://jobsearch.api.jobtechdev.se/ för att använda/söka bland befintliga annonser. Det går även bra att använda historiska annonser om ni vill jämföra aktuella annonser med hur det har sett ut tidigare. Detta api finns här: Historical job ads (jobtechdev.se)
+- Welcomes users and provides quick access to job categories.
 
-Om möjligt, använd en grafisk presentation av era resultat genom t.ex. stapeldiagram eller linjegrafer.
+**Occupation pages ("/frontend", "/backend", "/fullstack", "/all")**
 
-**Observera** Er slutprodukt ska ej innehålla Arbetsförmedlingens logga eller färger. Anpassa gärna efter eget tycke och smak så att ni har en färgpalett och en god tanke bakom.
+- Lists available job ads fetched from the JobSearch API
+- Provides filtering based on occupation category.
 
-## Betygskriterier
+**Search & filters**
 
-### Need-to-have (G)
+- Free-text search input for job titles and descriptions
+- Geolocation filter: find jobs near your location or within a chosen radius.
 
-- Ni har hämtat data på ett strukturerat sätt med hjälp av antingen fetch eller axios.
-- Ni har skapat en tjänst som ni använder för att hämta data.
-- Ni använder react-koncept vi har pratat om för att göra datan tillgänglig (context, state, routing et.c.).
-- Ni använder den syntax, namngivningsstandard samt skrivsätt som vi har lärt er.
-- Ni använder designsystemet för presentation.
+**Pagination**
 
-### Nice-to-have (Extra bonus)
+- Job ads are displayed 25 per page with navigation for more results.
 
-- Styled components (som drar nytta av designsystemet)
-- Grafisk presentation av datat
-- Användning av custom hook där det finns möjlighet
+**Single job ad page ("/:occupationSlug/:id")**
+
+- Detailed view of a job ad, including description, deadlines and employer info.
+- Direct apply button ("Commit ansökan 😉").
+
+**About page ("/om-oss")**
+
+- Describes the idea behind Kodbanken and its mission.
+
+**Context + Reducer for state management**
+
+- Jobs are cached globally to avoid unnecessary API calls.
+
+## 🎥 Demo
+
+👉 [Click here to view the demo](https://github.com/Medieinstitutet/fed24d-case-af-jobtech-team-4-1)
+
+## 📸 Screenshots
+
+**Start page**  
+![desktopstart] (LÄGG BILD HÄR)
+
+**An example of occupation page**  
+![occupation] (LÄGG BILD HÄR)
+
+**detailed page**  
+![detailpage] (LÄGG BILD HÄR)
+
+## 🧑‍💻 Tech Stack
+
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![React](https://img.shields.io/badge/react-%2361DAFB.svg?style=for-the-badge&logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-%23F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black) ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+
+**Tools:**  
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+
+## ✍️ Authors
+
+Created by:
+
+- [Olivia Almseger](https://github.com/oliviaalmseger)
+- [Matilda Söderhall](https://github.com/matildasoderhall)
+- [Yuliia Ponomarenko](https://github.com/Yuliia-fed23)
+
+## 🤝 Credits
+
+This project was developed as part of the curriculum at [Medieinstitutet](https://medieinstitutet.se/) during our second year of studies.
+
+---

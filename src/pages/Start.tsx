@@ -1,16 +1,5 @@
-import {
-  LayoutBlockVariation,
-  LayoutColumnsElement,
-  LayoutColumnsVariation,
-  LinkButtonSize,
-  LinkButtonVariation,
-} from "@digi/arbetsformedlingen";
-import {
-  DigiLayoutBlock,
-  DigiLayoutColumns,
-  DigiLayoutContainer,
-  DigiLinkButton,
-} from "@digi/arbetsformedlingen-react";
+import { LayoutBlockVariation, LinkButtonSize, LinkButtonVariation } from "@digi/arbetsformedlingen";
+import { DigiLayoutBlock, DigiLayoutContainer, DigiLinkButton } from "@digi/arbetsformedlingen-react";
 import { OccupationId } from "../services/jobAdService";
 import "./Start.scss";
 import { occupationSlugs } from "../utils/occupationUtils";
@@ -27,7 +16,7 @@ export const Start = () => {
           <p>Välj ditt spår och pusha din framtid framåt.</p>
         </DigiLayoutContainer>
 
-        <DigiLayoutColumns afElement={LayoutColumnsElement.DIV} afVariation={LayoutColumnsVariation.TWO}>
+        <div className="column-wrapper">
           <DigiLinkButton
             afHref={`/${occupationSlugs[OccupationId.FRONTEND]}`}
             afSize={LinkButtonSize.LARGE}
@@ -56,7 +45,7 @@ export const Start = () => {
           >
             Alla annonser
           </DigiLinkButton>
-        </DigiLayoutColumns>
+        </div>
       </DigiLayoutBlock>
     </>
   );

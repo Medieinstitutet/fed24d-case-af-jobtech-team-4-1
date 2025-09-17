@@ -1,0 +1,18 @@
+import { DigiHeader, DigiLayoutContainer } from "@digi/arbetsformedlingen-react";
+import { Navigation } from "./Navigation";
+import "./Header.scss";
+
+export const Header = () => {
+  return (
+    <>
+      <DigiLayoutContainer className="header-margin">
+        <DigiHeader afSystemName="Kodbanken" afHideSystemName={true} afMenuButtonText="Meny">
+          <a slot="header-logo" aria-label="Tillbaka till start" href="/">
+            <img src="/logo.png" alt="Min logga" className="logo-img" width="300" height="120" />
+          </a>
+        </DigiHeader>
+        <Navigation />
+      </DigiLayoutContainer>
+    </>
+  );
+};

@@ -6,6 +6,7 @@ import {
   DigiLayoutBlock,
   DigiLayoutContainer,
   DigiLinkButton,
+  DigiLinkExternal,
   DigiLoaderSpinner,
   DigiTypography,
 } from "@digi/arbetsformedlingen-react";
@@ -78,7 +79,7 @@ export const SingleAd = () => {
 
   return (
     <>
-      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY}>
+      <DigiLayoutBlock afVariation={LayoutBlockVariation.PRIMARY} className="single-page">
         <DigiLayoutContainer>
           <DigiLinkButton
             className="go-back"
@@ -103,21 +104,19 @@ export const SingleAd = () => {
           <p>Kategori:{ad.occupation.label}</p>
           <p>Omfattning:{ad.working_hours_type.label}</p>
           <p style={{ whiteSpace: "pre-line" }}>{ad.description.text}</p>
-          <DigiLayoutContainer>
+          <div className="apply-wrapper">
             <h3>Sök jobbet:</h3>
             <p>
               Ansök senast <strong>{formattedDate}</strong> {diffDays > 0 && <span>(om {diffDays} dagar)</span>}
             </p>
-            <DigiLinkButton
+            <DigiLinkExternal
               className="apply-btn"
-              afHref="#"
-              afSize={LinkButtonSize.MEDIUM}
-              afVariation={LinkButtonVariation.PRIMARY}
-              af-hide-icon={true}
+              afHref={`https://arbetsformedlingen.se/platsbanken/annonser/${ad.id}`}
+              afTarget="_blank"
             >
               Commit ansökan 😉
-            </DigiLinkButton>
-          </DigiLayoutContainer>
+            </DigiLinkExternal>
+          </div>
         </DigiTypography>
       </DigiLayoutBlock>
     </>
