@@ -1,0 +1,35 @@
+@import "../styles/variables";
+
+.pagination-wrapper {
+  text-align: center;
+  margin: 1rem 0;
+}
+.page-of {
+  font-size: 1rem;
+}
+
+digi-button.current-page {
+  background-color: transparent !important;
+}
+
+digi-button.current-page > button {
+  background-color: #{$color-primary} !important;
+  color: #{$color-third} !important;
+  border-radius: 8px;
+  border: none !important;
+}
+
+.digi-button__text {
+  color: #{$color-secondary} !important;
+}
+
+.ellipsis {
+  color: #{$color-third} !important;
+}
+
+.pagination-controls digi-button > button:hover {
+  background-color: #cce5d9 !important;
+  border-radius: 16px;
+  color: #{$color-third} !important;
+  cursor: pointer;
+}
