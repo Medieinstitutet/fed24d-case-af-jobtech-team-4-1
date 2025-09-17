@@ -22,6 +22,6 @@ export const getJobAdsPaginated = async (occupation: OccupationId, offset: numbe
   return {
     hits: data.hits,
     totalCount: data.total?.value || 0, // ADDED: Extract total count from API response
-    offset
+    offset,
   };
 };

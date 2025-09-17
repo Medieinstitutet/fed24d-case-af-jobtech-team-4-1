@@ -1,19 +1,17 @@
 import { ButtonSize, ButtonVariation } from "@digi/arbetsformedlingen";
 import { DigiButton, DigiTypography } from "@digi/arbetsformedlingen-react";
 
-
 type PaginationControlsProps = {
-    currentPage: number;
-    totalPages: number;
-    onPageChange: (page: number) => void;
-}
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+};
 
-export const PaginationControls = ({currentPage, totalPages, onPageChange}: PaginationControlsProps ) => {
-  
+export const PaginationControls = ({ currentPage, totalPages, onPageChange }: PaginationControlsProps) => {
   const getPageNumbers = () => {
     const pages = [];
-    const maxVisiblePages = 5; 
- 
+    const maxVisiblePages = 5;
+
     if (totalPages <= maxVisiblePages) {
       // Show all pages if total is small
       for (let i = 1; i <= totalPages; i++) {
@@ -23,28 +21,27 @@ export const PaginationControls = ({currentPage, totalPages, onPageChange}: Pagi
       // Show pages around current page
       const start = Math.max(1, currentPage - 2);
       const end = Math.min(totalPages, currentPage + 2);
- 
+
       if (start > 1) {
         pages.push(1);
         if (start > 2) pages.push("...");
       }
- 
+
       for (let i = start; i <= end; i++) {
         pages.push(i);
       }
- 
+
       if (end < totalPages) {
         if (end < totalPages - 1) pages.push("...");
         pages.push(totalPages);
       }
     }
- 
+
     return pages;
   };
- 
-   const pageNumbers = getPageNumbers();
 
- 
+  const pageNumbers = getPageNumbers();
+
   return (
     <div className="pagination-controls">
       <DigiButton
@@ -87,7 +84,7 @@ export const PaginationControls = ({currentPage, totalPages, onPageChange}: Pagi
           )
         )}
       </div>
- 
+
       <DigiButton
         afSize={ButtonSize.MEDIUM}
         afVariation={ButtonVariation.SECONDARY}
@@ -102,5 +99,3 @@ export const PaginationControls = ({currentPage, totalPages, onPageChange}: Pagi
     </div>
   );
 };
-
- 

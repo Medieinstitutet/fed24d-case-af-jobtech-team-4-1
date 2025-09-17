@@ -15,7 +15,7 @@ export type JobAction =
       type: JobActionTypes.SET_PAGINATION;
       payload: {
         occupation: OccupationId;
-        pagination: { currentPage: number; totalPages: number; totalCount: number};
+        pagination: { currentPage: number; totalPages: number; totalCount: number };
       };
     }
   | { type: JobActionTypes.SET_LOADING; payload: { occupation: OccupationId; loading: boolean } };
