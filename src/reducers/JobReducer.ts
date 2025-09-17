@@ -5,7 +5,6 @@ import type { JobState } from "../contexts/JobContext";
 export enum JobActionTypes {
   SET_JOBS,
   SET_PAGINATION,
-  SET_LOADING,
 }
 
 export type JobAction =
@@ -16,8 +15,7 @@ export type JobAction =
         occupation: OccupationId;
         pagination: { currentPage: number; totalPages: number; totalCount: number };
       };
-    }
-  | { type: JobActionTypes.SET_LOADING; payload: { occupation: OccupationId; loading: boolean } };
+    };
 
 export const JobReducer = (state: JobState, action: JobAction) => {
   switch (action.type) {
@@ -40,9 +38,6 @@ export const JobReducer = (state: JobState, action: JobAction) => {
       };
     }
 
-    case JobActionTypes.SET_LOADING: {
-      return state;
-    }
     default:
       return state;
   }
