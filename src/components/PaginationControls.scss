@@ -1,11 +1,11 @@
 @import "../styles/variables";
 
 .pagination-wrapper {
-    text-align: center;
-    margin: 1rem 0;
+  text-align: center;
+  margin: 1rem 0;
 }
 .page-of {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 digi-button.current-page {
@@ -24,7 +24,7 @@ digi-button.current-page > button {
 }
 
 .ellipsis {
-    color: #{$color-third} !important;
+  color: #{$color-third} !important;
 }
 
 .pagination-controls digi-button > button:hover {

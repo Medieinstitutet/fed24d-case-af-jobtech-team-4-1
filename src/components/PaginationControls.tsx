@@ -13,7 +13,7 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
     const pages = [];
     const maxVisiblePages = 5;
 
-    if (totalPages <= maxVisiblePages) {  
+    if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
@@ -42,15 +42,18 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
 
   return (
     <div className="pagination-controls">
-        {currentPage > 1 ? 
-      <DigiButton
-        afSize={ButtonSize.MEDIUM}
-        afVariation={ButtonVariation.SECONDARY}
-        onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-        afType={ButtonType.BUTTON}
-      >
-        Föregående
-      </DigiButton> : ""}
+      {currentPage > 1 ? (
+        <DigiButton
+          afSize={ButtonSize.MEDIUM}
+          afVariation={ButtonVariation.SECONDARY}
+          onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+          afType={ButtonType.BUTTON}
+        >
+          Föregående
+        </DigiButton>
+      ) : (
+        ""
+      )}
 
       <div className="page-numbers">
         {pageNumbers.map((page, index) =>
@@ -81,14 +84,17 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
         )}
       </div>
 
-      { currentPage != totalPages ?
-      <DigiButton
-        afSize={ButtonSize.MEDIUM}
-        afVariation={ButtonVariation.SECONDARY}
-        onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
-      >
-        Nästa
-      </DigiButton> : ""}
+      {currentPage != totalPages ? (
+        <DigiButton
+          afSize={ButtonSize.MEDIUM}
+          afVariation={ButtonVariation.SECONDARY}
+          onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
+        >
+          Nästa
+        </DigiButton>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

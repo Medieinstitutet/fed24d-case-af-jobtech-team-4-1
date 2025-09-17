@@ -28,7 +28,7 @@ export const JobReducer = (state: JobState, action: JobAction) => {
         [occupation]: newJobs,
       };
     }
-   
+
     case JobActionTypes.SET_PAGINATION: {
       const { occupation, pagination } = action.payload;
       return {
@@ -39,7 +39,7 @@ export const JobReducer = (state: JobState, action: JobAction) => {
         },
       };
     }
-    
+
     case JobActionTypes.SET_LOADING: {
       return state;
     }
