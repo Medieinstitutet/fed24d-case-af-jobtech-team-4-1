@@ -20,6 +20,22 @@ digi-typography.single-ad-text {
   display: block;
   margin-top: 2rem !important;
 }
+.apply-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.apply-btn {
+  border: 3px solid #{$color-primary};
+  border-radius: 30px;
+  padding: 1.4rem 1rem;
+  align-self: flex-start;
+}
+
+.sc-digi-link-external-h {
+  --digi--color--text--link: #{$color-primary};
+  --digi--typography--link--font-size--desktop: 1.1rem;
+  --digi--color--text--link-hover: #{$color-third};
+}
 
 @media (max-width: 767px) {
   .single-page {
