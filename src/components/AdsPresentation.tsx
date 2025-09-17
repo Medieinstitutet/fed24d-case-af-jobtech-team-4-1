@@ -32,7 +32,6 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
           payload: { occupation, jobs: data.hits },
         });
         dispatch({
-          // ADDED: Set initial pagination state
           type: JobActionTypes.SET_PAGINATION,
           payload: {
             occupation,
@@ -79,7 +78,6 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
           payload: { occupation, jobs: data.hits },
         });
         dispatch({
-          // ADDED: Update pagination state
           type: JobActionTypes.SET_PAGINATION,
           payload: {
             occupation,
@@ -134,8 +132,8 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
           </ul>
 
           {jobs.pagination[occupation].totalPages > 1 && (
-            <div style={{ textAlign: "center", margin: "1rem 0" }}>
-              <DigiTypography style={{ marginBottom: "0.5rem", fontSize: "0.875rem" }}>
+            <div className="pagination-wrapper">
+              <DigiTypography className="page-of">
                 Page {jobs.pagination[occupation].currentPage} of {jobs.pagination[occupation].totalPages}
               </DigiTypography>
               <PaginationControls

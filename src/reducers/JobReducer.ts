@@ -8,7 +8,6 @@ export enum JobActionTypes {
   SET_LOADING,
 }
 
-// ADDED: Extended action types for pagination
 export type JobAction =
   | { type: JobActionTypes.SET_JOBS; payload: { occupation: OccupationId; jobs: IAd[] } }
   | {
@@ -29,7 +28,7 @@ export const JobReducer = (state: JobState, action: JobAction) => {
         [occupation]: newJobs,
       };
     }
-    // ADDED: Handle pagination updates
+   
     case JobActionTypes.SET_PAGINATION: {
       const { occupation, pagination } = action.payload;
       return {
@@ -40,7 +39,7 @@ export const JobReducer = (state: JobState, action: JobAction) => {
         },
       };
     }
-    // ADDED: Handle loading states
+    
     case JobActionTypes.SET_LOADING: {
       return state;
     }

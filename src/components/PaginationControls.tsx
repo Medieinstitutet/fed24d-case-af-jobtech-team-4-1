@@ -1,5 +1,6 @@
-import { ButtonSize, ButtonVariation } from "@digi/arbetsformedlingen";
+import { ButtonSize, ButtonType, ButtonVariation } from "@digi/arbetsformedlingen";
 import { DigiButton, DigiTypography } from "@digi/arbetsformedlingen-react";
+import "./PaginationControls.scss";
 
 type PaginationControlsProps = {
   currentPage: number;
@@ -12,13 +13,11 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
     const pages = [];
     const maxVisiblePages = 5;
 
-    if (totalPages <= maxVisiblePages) {
-      // Show all pages if total is small
+    if (totalPages <= maxVisiblePages) {  
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Show pages around current page
       const start = Math.max(1, currentPage - 2);
       const end = Math.min(totalPages, currentPage + 2);
 
@@ -36,7 +35,6 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
         pages.push(totalPages);
       }
     }
-
     return pages;
   };
 
@@ -44,17 +42,15 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
 
   return (
     <div className="pagination-controls">
+        {currentPage > 1 ? 
       <DigiButton
         afSize={ButtonSize.MEDIUM}
         afVariation={ButtonVariation.SECONDARY}
         onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-        style={{
-          opacity: currentPage <= 1 ? 0.5 : 1,
-          cursor: currentPage <= 1 ? "not-allowed" : "pointer",
-        }}
+        afType={ButtonType.BUTTON}
       >
-        Previous
-      </DigiButton>
+        Föregående
+      </DigiButton> : ""}
 
       <div className="page-numbers">
         {pageNumbers.map((page, index) =>
@@ -85,17 +81,14 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
         )}
       </div>
 
+      { currentPage != totalPages ?
       <DigiButton
         afSize={ButtonSize.MEDIUM}
         afVariation={ButtonVariation.SECONDARY}
         onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
-        style={{
-          opacity: currentPage >= totalPages ? 0.5 : 1,
-          cursor: currentPage >= totalPages ? "not-allowed" : "pointer",
-        }}
       >
-        Next
-      </DigiButton>
+        Nästa
+      </DigiButton> : ""}
     </div>
   );
 };
