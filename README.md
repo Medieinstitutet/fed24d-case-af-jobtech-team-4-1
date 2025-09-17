@@ -1,16 +1,16 @@
 # 🌱 Kodbanken – Branch Out
-
 Welcome to **Kodbanken – Branch Out**, a React-based job portal for developers.
 Here you can explore open positions, filter them by tech stack, and commit to your next career step. 🚀
 
+
 ## 🔍 Project overview  
-The task was to build a custom job portal using [Arbetsförmedlingens JobSearch API](https://jobsearch.api.jobtechdev.se/), with a focus on structured data fetching, clean React architecture, and a tailored design system.
+The task was to build a custom job portal using [Arbetsförmedlingens JobSearch API](https://jobsearch.api.jobtechdev.se/), with a focus on structured data fetching, clean React architecture, routing, and consistent styling using Arbetsförmedlingen's design system (@digi/arbetsformedlingen-react).
 
 The application makes it easier for developers to:
 - Find jobs based on their stack (Frontend, Backend, Fullstack)
 - Search and filter jobs based on keywords and location
 - Read detailed job ads, including deadlines and employer info
-- Navigate seamlessly across pages with a clean, responsive UI
+- Navigate seamlessly across pages with a clean, responsive UI powered by React Router and accessible design.
 
 
 ## ✨ Features  
@@ -45,7 +45,6 @@ The application makes it easier for developers to:
 👉 [Click here to view the demo](https://github.com/Medieinstitutet/fed24d-case-af-jobtech-team-4-1) 
 
 
-
 ## 📸 Screenshots  
 **Start page**  
 ![desktopstart]  (LÄGG BILD HÄR)
@@ -58,7 +57,6 @@ The application makes it easier for developers to:
 
 
 ## 🧑‍💻 Tech Stack  
-
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
