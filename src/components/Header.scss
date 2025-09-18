@@ -28,6 +28,11 @@ digi-header-navigation .digi-button:hover .digi-button__text {
   color: #{$color-primary} !important; 
 }
 
+.my-header digi-header .digi-button.sc-digi-button:hover .sc-digi-icon-bars-h svg.sc-digi-icon-bars,
+.my-header digi-header-navigation .digi-button.sc-digi-button:hover .sc-digi-icon-x-h svg.sc-digi-icon-x {
+  color: #{$color-primary} !important;
+}
+
 .my-header digi-header .digi-button.sc-digi-button,
 .my-header digi-header-navigation .digi-button.sc-digi-button {
   background: transparent !important;
