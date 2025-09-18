@@ -78,3 +78,13 @@ export const getJobAdsLegacy = async (occupation: OccupationId, query?: string):
   return getJobAds(occupation, filters);
 };
 
+
+// ADDED: New function for paginated data with total count
+export const getJobAdsPaginated = async (occupation: OccupationId, offset: number = 0) => {
+  const data = await get<IAds>(`${BASE_URL}occupation-${occupation}&offset=${offset}&limit=25`);
+  return {
+    hits: data.hits,
+    totalCount: data.total?.value || 0, // ADDED: Extract total count from API response
+    offset,
+  };
+};

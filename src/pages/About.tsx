@@ -16,9 +16,9 @@ export const About = () => {
           </p>
           <h2>Hos oss kan du:</h2>
           <ul>
-            <li>- Filtrera jobb baserat på din techstack.</li>
-            <li>- Hitta annonser nära dig med hjälp av geolocation.</li>
-            <li>- Upptäcka nya möjligheter och branch out i karriären.</li>
+            <li>• Filtrera jobb baserat på din techstack.</li>
+            <li>• Hitta annonser nära dig med hjälp av geolocation.</li>
+            <li>• Upptäcka nya möjligheter och branch out i karriären.</li>
           </ul>
           <p>
             Vi tror på enkelhet, transparens och kodglädje. Vårt mål är att göra jobbsökandet lite mer som att pusha en
