@@ -21,9 +21,7 @@ import "./SearchFiltersDigi.scss";
 
 type Props = {
   occupation: OccupationId;
-  // Optional initial filters
   initial?: Partial<JobSearchFilters>;
-  // Debounce (ms) to avoid excessive filtering while typing
   debounceMs?: number;
 };
 
@@ -56,7 +54,19 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
       try {
         // Pass filters + userLocation to API for radius filtering
         const ads = await getJobAds(occupation, debounced, userLocation);
-        if (!cancel) setBaseAds(ads);
+        if (!cancel) {setBaseAds(ads.hits);
+          dispatch({
+    type: JobActionTypes.SET_PAGINATION,
+    payload: {
+      occupation,
+      pagination: {
+        currentPage: Math.floor(ads.offset / 25) + 1,
+        totalPages: Math.ceil(ads.totalCount / 25),
+        totalCount: ads.totalCount,
+      },
+    },
+  });
+}
       } catch (e: any) {
         if (!cancel) setErr(e?.message ?? "Failed to fetch base ads.");
       } finally {

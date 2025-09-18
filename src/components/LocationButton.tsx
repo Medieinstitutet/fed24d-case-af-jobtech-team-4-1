@@ -72,7 +72,7 @@ export const LocationButton: React.FC<LocationButtonProps> = ({
         cursor: disabled || loading ? 'not-allowed' : 'pointer'
       }}
     >
-      {loading ? "Hämtar position..." : "Hitta nära mig"}
+      {loading ? "Hämtar position..." : "Sök"}
     </DigiButton>
   );
 };

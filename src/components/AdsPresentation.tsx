@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { getJobAdsLegacyPaginated, OccupationId } from "../services/jobAdService";
+import { getJobAdsLegacy, getJobAdsPaginated, OccupationId } from "../services/jobAdService";
 import { Link, useParams, useNavigate } from "react-router";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
@@ -7,6 +7,14 @@ import "./AdsPresentation.scss";
 import { DigiLayoutContainer, DigiLinkButton, DigiLoaderSpinner, DigiTypography } from "@digi/arbetsformedlingen-react";
 import { LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 import { PaginationControls } from "./PaginationControls";
+// import type { IAd } from "../models/IAd";
+// import type { JobAdsResult } from "../components/AdsPresentation";
+
+// export type JobAdsResult = {
+//   hits: IAd[];
+//   totalCount: number;
+//   offset: number;
+// };
 
 type AdsPresentationProps = {
   occupation: OccupationId;
@@ -25,26 +33,26 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       return;
     }
 
-    getJobAdsLegacyPaginated(occupation, 0)
+    getJobAdsLegacy(occupation, "")
       .then(data => {
-        dispatch({
-          type: JobActionTypes.SET_JOBS,
-          payload: { occupation, jobs: data.hits },
-        });
-        dispatch({
-          type: JobActionTypes.SET_PAGINATION,
-          payload: {
-            occupation,
-            pagination: {
-              currentPage: 1,
-              totalPages: Math.ceil(data.totalCount / 25),
-              totalCount: data.totalCount,
-            },
-          },
-        });
+  dispatch({
+    type: JobActionTypes.SET_JOBS,
+    payload: { occupation, jobs: data.hits },
+  });
+  dispatch({
+    type: JobActionTypes.SET_PAGINATION,
+    payload: {
+      occupation,
+      pagination: {
+        currentPage: 1,
+        totalPages: Math.ceil(data.totalCount / 25),
+        totalCount: data.totalCount,
+      },
+    },
+  });
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err: unknown) => {
         setError("Failed to fetch jobs");
         console.error(err);
         setLoading(false);
@@ -114,7 +122,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       </DigiLayoutContainer>
 
       <div className="ads-container">
-        {jobs[occupation].length === 0 ? (
+        {!jobs[occupation] || !Array.isArray(jobs[occupation]) || jobs[occupation].length === 0 ? (
           <p>Inga jobbannonser hittades för {occupationSlug}.</p>
         ) : (
           <>
@@ -134,7 +142,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
           </>
         )}
       </div>
-      {jobs.pagination[occupation].totalPages > 1 && (
+      {jobs.pagination[occupation] && jobs.pagination[occupation].totalPages > 1 && (
         <div className="pagination-wrapper">
           <DigiTypography className="page-of">
             Page {jobs.pagination[occupation].currentPage} of {jobs.pagination[occupation].totalPages}

@@ -3,6 +3,7 @@ import type { IAd, IAds } from "../models/IAd";
 import type { LocationCoordinates } from "../models/ILocationCoordinates";
 import type { JobSearchFilters } from "../utils/jobFilters";
 import { extractTechKeywords, sortByRelevance } from "../utils/searchUtils";
+// import type { JobAdsResult } from "../components/AdsPresentation";
 
 const BASE_URL = "https://jobsearch.api.jobtechdev.se/search?";
 
@@ -13,16 +14,15 @@ export enum OccupationId {
   ALL = "group=2512",
 }
 
+export type JobAdsResult = {
+  hits: IAd[];
+  totalCount: number;
+  offset: number;
+};
 
-/**
-Builds API URL with search and filter parameters including radius
- * @param occupation - Job occupation category
- * @param filters - Search and filter parameters
- * @param userLocation - Optional user location for radius filtering
- * @returns Complete API URL with parameters
- */
-const buildSearchUrl = (occupation: OccupationId, filters: JobSearchFilters, userLocation?: LocationCoordinates | null): string => {
-  let url = `${BASE_URL}occupation-${occupation}&offset=0&limit=25`;
+
+const buildSearchUrl = (occupation: OccupationId, filters: JobSearchFilters, userLocation?: LocationCoordinates | null, offset: number = 0): string => {
+  let url = `${BASE_URL}occupation-${occupation}&offset=${offset}&limit=25`;
   
   // Add text search query to API
   if (filters.query && filters.query.trim()) {
@@ -47,44 +47,42 @@ const buildSearchUrl = (occupation: OccupationId, filters: JobSearchFilters, use
   return url;
 };
 
-/**
- * Fetches job ads from JobTech API with search and filter parameters including radius
- * @param occupation - Job occupation category
- * @param filters - Search and filter parameters
- * @param userLocation - Optional user location for radius filtering
- * @returns Promise with filtered job ads from API
- */
-export const getJobAds = async (occupation: OccupationId, filters: JobSearchFilters, userLocation?: LocationCoordinates | null): Promise<IAd[]> => {
+export const getJobAds = async (occupation: OccupationId, filters: JobSearchFilters, userLocation?: LocationCoordinates | null, offset: number = 0): Promise<JobAdsResult> => {
   const url = buildSearchUrl(occupation, filters, userLocation);
   
   const data = await get<IAds>(url);
   
-  if (filters.query && filters.query.trim()) {
-    return sortByRelevance(data.hits, filters.query.trim());
+ if (filters.query && filters.query.trim()) {
+    const sorted = sortByRelevance(data.hits, filters.query.trim());
+    return {
+      hits: sorted,
+      totalCount: data.total?.value || 0,
+      offset,
+    };
   }
-  
-  return data.hits;
+
+  return {
+    hits: data.hits,
+    totalCount: data.total?.value || 0,
+    offset,
+  };
 };
 
-
-/**
- * Legacy function for backward compatibility - fetches job ads with query string
- * @param occupation - Job occupation category  
- * @param query - Search query string
- * @returns Promise with job ads
- */
-export const getJobAdsLegacy = async (occupation: OccupationId, query?: string): Promise<IAd[]> => {
+export const getJobAdsLegacy = async (occupation: OccupationId, query?: string): Promise<JobAdsResult> => {
   const filters: JobSearchFilters = { query: query || "", radiusKm: 0 };
   return getJobAds(occupation, filters);
 };
 
-
-// ADDED: New function for paginated data with total count
-export const getJobAdsPaginated = async (occupation: OccupationId, offset: number = 0) => {
-  const data = await get<IAds>(`${BASE_URL}occupation-${occupation}&offset=${offset}&limit=25`);
+export const getJobAdsPaginated = async ( //Olivia testar
+  occupation: OccupationId,
+  offset: number = 0
+): Promise<JobAdsResult> => {
+  const data = await get<IAds>(
+    `${BASE_URL}occupation-${occupation}&offset=${offset}&limit=25`
+  );
   return {
     hits: data.hits,
-    totalCount: data.total?.value || 0, // ADDED: Extract total count from API response
+    totalCount: data.total?.value || 0,
     offset,
   };
 };
