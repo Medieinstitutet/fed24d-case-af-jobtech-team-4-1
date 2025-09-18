@@ -1,6 +1,6 @@
 import { get } from "./serviceBase";
 import type { IAd, IAds } from "../models/IAd";
-import type { LocationCoordinates } from "../models/ILocationCoordinates";
+import type { ILocationCoordinates } from "../models/ILocationCoordinates";
 import type { JobSearchFilters } from "../utils/jobFilters";
 import { extractTechKeywords, sortByRelevance } from "../utils/searchUtils";
 // import type { JobAdsResult } from "../components/AdsPresentation";
@@ -23,7 +23,7 @@ export type JobAdsResult = {
 const buildSearchUrl = (
   occupation: OccupationId,
   filters: JobSearchFilters,
-  userLocation?: LocationCoordinates | null,
+  userLocation?: ILocationCoordinates | null,
   offset: number = 0
 ): string => {
   let url = `${BASE_URL}occupation-${occupation}&offset=${offset}&limit=25`;
@@ -51,7 +51,7 @@ const buildSearchUrl = (
 export const getJobAds = async (
   occupation: OccupationId,
   filters: JobSearchFilters,
-  userLocation?: LocationCoordinates | null,
+  userLocation?: ILocationCoordinates | null,
   offset: number = 0
 ): Promise<JobAdsResult> => {
   const url = buildSearchUrl(occupation, filters, userLocation);

@@ -1,5 +1,5 @@
 import type { IAd } from "../models/IAd";
-import type { LocationCoordinates } from "../models/ILocationCoordinates";
+import type { ILocationCoordinates } from "../models/ILocationCoordinates";
 import { calculateDistanceKm, extractAdCoordinates } from "./geoUtils";
 import { DEFAULT_SEARCH_FILTERS } from "./constants";
 
@@ -23,7 +23,7 @@ export const DEFAULT_FILTERS: JobSearchFilters = DEFAULT_SEARCH_FILTERS;
 export function applyClientSideFilters(
   ads: IAd[],
   f: JobSearchFilters,
-  userLocation?: LocationCoordinates | null
+  userLocation?: ILocationCoordinates | null
 ): IAd[] {
   const center = userLocation;
 

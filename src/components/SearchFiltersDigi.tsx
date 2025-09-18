@@ -15,7 +15,7 @@ import { DEFAULT_FILTERS, applyClientSideFilters } from "../utils/jobFilters";
 import { RADIUS_OPTIONS } from "../utils/constants";
 import { getJobAds, type OccupationId } from "../services/jobAdService";
 import type { IAd } from "../models/IAd";
-import type { LocationCoordinates } from "../models/ILocationCoordinates";
+import type { ILocationCoordinates } from "../models/ILocationCoordinates";
 import { LocationButton } from "./LocationButton";
 import "./SearchFiltersDigi.scss";
 
@@ -41,7 +41,7 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
   const [baseAds, setBaseAds] = useState<IAd[]>([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const [userLocation, setUserLocation] = useState<LocationCoordinates | null>(null);
+  const [userLocation, setUserLocation] = useState<ILocationCoordinates | null>(null);
   const [locationButtonDisabled, setLocationButtonDisabled] = useState(false);
 
   const debounced = useDebounce(filters, debounceMs);
@@ -103,7 +103,7 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
   };
 
   // Handle location found from geolocation
-  const handleLocationFound = (coordinates: LocationCoordinates) => {
+  const handleLocationFound = (coordinates: ILocationCoordinates) => {
     setUserLocation(coordinates);
     setLocationButtonDisabled(false);
   };
