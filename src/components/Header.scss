@@ -33,6 +33,13 @@ digi-header-navigation .digi-button:hover .digi-button__text {
   color: #{$color-primary} !important;
 }
 
+.my-header digi-header .digi-button.sc-digi-button:hover,
+.my-header digi-header-navigation .digi-button.sc-digi-button:hover {
+  border: 1px solid #{$color-secondary} !important;
+  border-radius: 8px;
+  background: transparent !important; 
+}
+
 .my-header digi-header .digi-button.sc-digi-button,
 .my-header digi-header-navigation .digi-button.sc-digi-button {
   background: transparent !important;
