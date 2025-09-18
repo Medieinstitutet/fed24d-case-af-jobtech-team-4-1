@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { DigiButton } from "@digi/arbetsformedlingen-react";
-import type { LocationCoordinates } from "../models/ILocationCoordinates";
+import type { ILocationCoordinates } from "../models/ILocationCoordinates";
 
 interface LocationButtonProps {
-  onLocationFound: (coordinates: LocationCoordinates) => void;
+  onLocationFound: (coordinates: ILocationCoordinates) => void;
   disabled?: boolean;
 }
 

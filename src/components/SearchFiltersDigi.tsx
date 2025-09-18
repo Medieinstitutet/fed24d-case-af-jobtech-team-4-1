@@ -117,7 +117,6 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
         <h2 className="title">Sök & Filter</h2>
       </DigiTypography>
 
-      {/* Row 1: search field with auto-search */}
       <DigiLayoutColumns>
         <div className="row row--search">
           <div className="input-wrap">
@@ -135,7 +134,6 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
         </div>
       </DigiLayoutColumns>
 
-      {/* Row 2: radius + location button + reset button */}
       <DigiLayoutColumns>
         <div className="row row--filters">
           <DigiFormSelect

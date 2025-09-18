@@ -3,7 +3,6 @@ import type { IAd, IAds } from "../models/IAd";
 import type { ILocationCoordinates } from "../models/ILocationCoordinates";
 import type { JobSearchFilters } from "../utils/jobFilters";
 import { extractTechKeywords, sortByRelevance } from "../utils/searchUtils";
-// import type { JobAdsResult } from "../components/AdsPresentation";
 
 const BASE_URL = "https://jobsearch.api.jobtechdev.se/search?";
 
@@ -44,7 +43,6 @@ const buildSearchUrl = (
       url += `&municipality=Stockholm`;
     }
   }
-
   return url;
 };
 
@@ -55,7 +53,6 @@ export const getJobAds = async (
   offset: number = 0
 ): Promise<JobAdsResult> => {
   const url = buildSearchUrl(occupation, filters, userLocation);
-
   const data = await get<IAds>(url);
 
   if (filters.query && filters.query.trim()) {
@@ -80,7 +77,6 @@ export const getJobAdsLegacy = async (occupation: OccupationId, query?: string):
 };
 
 export const getJobAdsPaginated = async (
-  //Olivia testar
   occupation: OccupationId,
   offset: number = 0
 ): Promise<JobAdsResult> => {

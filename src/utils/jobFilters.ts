@@ -11,15 +11,6 @@ export interface JobSearchFilters {
 
 export const DEFAULT_FILTERS: JobSearchFilters = DEFAULT_SEARCH_FILTERS;
 
-/**
- * Applies client-side radius filters to job ads as additional filtering
- * after API radius filtering for more precise results.
- *
- * @param ads - Array of job ads to filter (already sorted by API)
- * @param filters - Filter parameters
- * @param userLocation - Optional user location for radius filtering
- * @returns Filtered array of job ads
- */
 export function applyClientSideFilters(
   ads: IAd[],
   f: JobSearchFilters,

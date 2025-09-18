@@ -7,14 +7,6 @@ import "./AdsPresentation.scss";
 import { DigiLayoutContainer, DigiLinkButton, DigiLoaderSpinner, DigiTypography } from "@digi/arbetsformedlingen-react";
 import { LinkButtonSize, LinkButtonVariation, LoaderSpinnerSize } from "@digi/arbetsformedlingen";
 import { PaginationControls } from "./PaginationControls";
-// import type { IAd } from "../models/IAd";
-// import type { JobAdsResult } from "../components/AdsPresentation";
-
-// export type JobAdsResult = {
-//   hits: IAd[];
-//   totalCount: number;
-//   offset: number;
-// };
 
 type AdsPresentationProps = {
   occupation: OccupationId;
