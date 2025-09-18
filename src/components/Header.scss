@@ -11,20 +11,26 @@ digi-logo {
   align-items: center;
 }
 
+digi-header .digi-button__text,
+digi-header-navigation .digi-button__text {
+  color: #{$color-third} !important; 
+  text-decoration: none;
+}
+
 .sc-digi-icon-bars-h svg.sc-digi-icon-bars,
 .sc-digi-icon-x-h svg.sc-digi-icon-x {
   color: #{$color-third};
 }
 
-digi-header .digi-button:hover digi-icon-bars svg {
+digi-header .digi-button:hover .digi-button__text,
+digi-header-navigation .digi-button:hover .digi-button__text {
   text-decoration: underline;
+  color: #{$color-primary} !important; 
 }
 
-digi-header .digi-button:hover digi-icon-x::part(icon) {
-  text-decoration: underline;
-}
-
-.sc-digi-button-h .digi-button.sc-digi-button {
+.my-header digi-header .digi-button.sc-digi-button,
+.my-header digi-header-navigation .digi-button.sc-digi-button {
+  background: transparent !important;
   --COLOR--TEXT--DEFAULT: #{$color-third};
   --COLOR--TEXT--ACTIVE: #{$color-third};
   --COLOR--TEXT--HOVER: #{$color-third};

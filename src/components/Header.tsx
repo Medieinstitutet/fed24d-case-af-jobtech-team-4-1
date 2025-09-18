@@ -5,8 +5,8 @@ import "./Header.scss";
 export const Header = () => {
   return (
     <>
-      <DigiLayoutContainer className="header-margin">
-        <DigiHeader afSystemName="Kodbanken" afHideSystemName={true} afMenuButtonText="Meny">
+      <DigiLayoutContainer className="header-margin my-header">
+        <DigiHeader afSystemName="Kodbanken" afHideSystemName={true} afMenuButtonText="Meny" className="menu-text">
           <a slot="header-logo" aria-label="Tillbaka till start" href="/">
             <img src="/logo.png" alt="Min logga" className="logo-img" width="300" height="120" />
           </a>
