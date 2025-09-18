@@ -145,7 +145,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       {jobs.pagination[occupation] && jobs.pagination[occupation].totalPages > 1 && (
         <div className="pagination-wrapper">
           <DigiTypography className="page-of">
-            Page {jobs.pagination[occupation].currentPage} of {jobs.pagination[occupation].totalPages}
+            Sida {jobs.pagination[occupation].currentPage} av {jobs.pagination[occupation].totalPages}
           </DigiTypography>
           <PaginationControls
             currentPage={jobs.pagination[occupation].currentPage}
