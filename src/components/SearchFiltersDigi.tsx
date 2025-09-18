@@ -50,40 +50,44 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
   useEffect(() => {
     let cancel = false;
     (async () => {
-      setLoading(true); setErr(null);
+      setLoading(true);
+      setErr(null);
       try {
         // Pass filters + userLocation to API for radius filtering
         const ads = await getJobAds(occupation, debounced, userLocation);
-        if (!cancel) {setBaseAds(ads.hits);
+        if (!cancel) {
+          setBaseAds(ads.hits);
           dispatch({
-    type: JobActionTypes.SET_PAGINATION,
-    payload: {
-      occupation,
-      pagination: {
-        currentPage: Math.floor(ads.offset / 25) + 1,
-        totalPages: Math.ceil(ads.totalCount / 25),
-        totalCount: ads.totalCount,
-      },
-    },
-  });
-}
+            type: JobActionTypes.SET_PAGINATION,
+            payload: {
+              occupation,
+              pagination: {
+                currentPage: Math.floor(ads.offset / 25) + 1,
+                totalPages: Math.ceil(ads.totalCount / 25),
+                totalCount: ads.totalCount,
+              },
+            },
+          });
+        }
       } catch (e: any) {
         if (!cancel) setErr(e?.message ?? "Failed to fetch base ads.");
       } finally {
         if (!cancel) setLoading(false);
       }
     })();
-    return () => { cancel = true; };
+    return () => {
+      cancel = true;
+    };
   }, [occupation, debounced.query || "", debounced.radiusKm, userLocation]);
 
   // Apply client-side radius filtering as fallback
   useEffect(() => {
     let filteredAds = baseAds;
-    
+
     if (debounced.radiusKm > 0 && userLocation) {
       filteredAds = applyClientSideFilters(baseAds, debounced, userLocation);
     }
-    
+
     dispatch({
       type: JobActionTypes.SET_JOBS,
       payload: { occupation, jobs: filteredAds },
@@ -96,7 +100,6 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
 
   const updateSearch = (query: string) => {
     updateFilter("query", query);
-    
   };
 
   // Handle location found from geolocation
@@ -108,10 +111,11 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
   // Use predefined radius options
   const radiusOptions = RADIUS_OPTIONS;
 
-
   return (
     <DigiLayoutBlock afVariation={LayoutBlockVariation.SECONDARY} className="search-filters-digi">
-      <DigiTypography><h2 className="title">Sök & Filter</h2></DigiTypography>
+      <DigiTypography>
+        <h2 className="title">Sök & Filter</h2>
+      </DigiTypography>
 
       {/* Row 1: search field with auto-search */}
       <DigiLayoutColumns>
@@ -123,75 +127,70 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
               onInput={(e: React.FormEvent<any>) => updateSearch((e.currentTarget as any).value)}
             />
             {filters.query && (
-              <button
-                type="button"
-                className="clear-btn"
-                aria-label="Clear search"
-                onClick={() => updateSearch("")}
-              >
+              <button type="button" className="clear-btn" aria-label="Clear search" onClick={() => updateSearch("")}>
                 x
               </button>
             )}
           </div>
-
         </div>
       </DigiLayoutColumns>
 
       {/* Row 2: radius + location button + reset button */}
       <DigiLayoutColumns>
         <div className="row row--filters">
-                 <DigiFormSelect
-                   afLabel="Radie (kräver position)"
-                   value={String(filters.radiusKm)}
-                   onChange={(e: React.FormEvent<any>) => updateFilter("radiusKm", Number((e.currentTarget as any).value))}
-                 >
-                   {radiusOptions.map(o => (
-                     <option key={o.value} value={o.value}>{o.label}</option>
-                   ))}
-                 </DigiFormSelect>
+          <DigiFormSelect
+            afLabel="Radie (kräver position)"
+            value={String(filters.radiusKm)}
+            onChange={(e: React.FormEvent<any>) => updateFilter("radiusKm", Number((e.currentTarget as any).value))}
+          >
+            {radiusOptions.map(o => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </DigiFormSelect>
 
-          <LocationButton 
-            onLocationFound={handleLocationFound}
-            disabled={loading || locationButtonDisabled}
-          />
-          
+          <LocationButton onLocationFound={handleLocationFound} disabled={loading || locationButtonDisabled} />
+
           <div className="actions">
-            <DigiButton onClick={() => {
-              // Clear all filters and location
-              setFilters({ ...DEFAULT_FILTERS });
-              setUserLocation(null);
-              setLocationButtonDisabled(true); 
-              setLoading(true); 
-              
-              // Automatically trigger location search after clearing
-              setTimeout(() => {
-                if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                      const coordinates = {
-                        lat: position.coords.latitude,
-                        lon: position.coords.longitude
-                      };
-                      setUserLocation(coordinates);
-                      setLocationButtonDisabled(false);
-                      setLoading(false);
-                    },
-                    () => {
-                      setLocationButtonDisabled(false);
-                      setLoading(false);
-                    },
-                    {
-                      enableHighAccuracy: true,
-                      timeout: 10000,
-                      maximumAge: 300000
-                    }
-                  );
-                } else {
-                  setLocationButtonDisabled(false); 
-                  setLoading(false); 
-                }
-              }, 100);
-            }}>
+            <DigiButton
+              onClick={() => {
+                // Clear all filters and location
+                setFilters({ ...DEFAULT_FILTERS });
+                setUserLocation(null);
+                setLocationButtonDisabled(true);
+                setLoading(true);
+
+                // Automatically trigger location search after clearing
+                setTimeout(() => {
+                  if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                      position => {
+                        const coordinates = {
+                          lat: position.coords.latitude,
+                          lon: position.coords.longitude,
+                        };
+                        setUserLocation(coordinates);
+                        setLocationButtonDisabled(false);
+                        setLoading(false);
+                      },
+                      () => {
+                        setLocationButtonDisabled(false);
+                        setLoading(false);
+                      },
+                      {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 300000,
+                      }
+                    );
+                  } else {
+                    setLocationButtonDisabled(false);
+                    setLoading(false);
+                  }
+                }, 100);
+              }}
+            >
               Rensa
             </DigiButton>
           </div>

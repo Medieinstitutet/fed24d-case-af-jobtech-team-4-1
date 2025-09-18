@@ -35,21 +35,21 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
 
     getJobAdsLegacy(occupation, "")
       .then(data => {
-  dispatch({
-    type: JobActionTypes.SET_JOBS,
-    payload: { occupation, jobs: data.hits },
-  });
-  dispatch({
-    type: JobActionTypes.SET_PAGINATION,
-    payload: {
-      occupation,
-      pagination: {
-        currentPage: 1,
-        totalPages: Math.ceil(data.totalCount / 25),
-        totalCount: data.totalCount,
-      },
-    },
-  });
+        dispatch({
+          type: JobActionTypes.SET_JOBS,
+          payload: { occupation, jobs: data.hits },
+        });
+        dispatch({
+          type: JobActionTypes.SET_PAGINATION,
+          payload: {
+            occupation,
+            pagination: {
+              currentPage: 1,
+              totalPages: Math.ceil(data.totalCount / 25),
+              totalCount: data.totalCount,
+            },
+          },
+        });
         setLoading(false);
       })
       .catch((err: unknown) => {

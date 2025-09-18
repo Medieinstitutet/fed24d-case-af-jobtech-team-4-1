@@ -7,39 +7,35 @@ interface LocationButtonProps {
   disabled?: boolean;
 }
 
-export const LocationButton: React.FC<LocationButtonProps> = ({ 
-  onLocationFound, 
-  disabled = false 
-}) => {
+export const LocationButton: React.FC<LocationButtonProps> = ({ onLocationFound, disabled = false }) => {
   const [loading, setLoading] = useState(false);
 
   const getCurrentLocation = () => {
     if (disabled || loading) {
       return;
     }
-    
+
     if (!navigator.geolocation) {
       alert("Geolocation stöds inte av din webbläsare");
       return;
     }
 
     setLoading(true);
-    
+
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      position => {
         const coordinates = {
           lat: position.coords.latitude,
-          lon: position.coords.longitude
+          lon: position.coords.longitude,
         };
-        
-        
+
         onLocationFound(coordinates);
         setLoading(false);
       },
-      (error) => {
+      error => {
         console.log("Geolocation error:", error);
         let errorMessage = "Kunde inte hämta din position";
-        
+
         switch (error.code) {
           case error.PERMISSION_DENIED:
             errorMessage = "Tillstånd för geolocation nekades";
@@ -51,25 +47,25 @@ export const LocationButton: React.FC<LocationButtonProps> = ({
             errorMessage = "Geolocation timeout";
             break;
         }
-        
+
         alert(errorMessage);
         setLoading(false);
       },
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 300000
+        maximumAge: 300000,
       }
     );
   };
 
   return (
-    <DigiButton 
-      onClick={disabled || loading ? undefined : getCurrentLocation} 
+    <DigiButton
+      onClick={disabled || loading ? undefined : getCurrentLocation}
       className="location-button"
-      style={{ 
+      style={{
         opacity: disabled || loading ? 0.6 : 1,
-        cursor: disabled || loading ? 'not-allowed' : 'pointer'
+        cursor: disabled || loading ? "not-allowed" : "pointer",
       }}
     >
       {loading ? "Hämtar position..." : "Sök"}

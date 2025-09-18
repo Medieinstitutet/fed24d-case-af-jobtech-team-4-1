@@ -13,7 +13,7 @@ digi-logo {
 
 digi-header .digi-button__text,
 digi-header-navigation .digi-button__text {
-  color: #{$color-third} !important; 
+  color: #{$color-third} !important;
   text-decoration: none;
 }
 
@@ -25,7 +25,7 @@ digi-header-navigation .digi-button__text {
 digi-header .digi-button:hover .digi-button__text,
 digi-header-navigation .digi-button:hover .digi-button__text {
   text-decoration: underline;
-  color: #{$color-primary} !important; 
+  color: #{$color-primary} !important;
 }
 
 .my-header digi-header .digi-button.sc-digi-button:hover .sc-digi-icon-bars-h svg.sc-digi-icon-bars,
@@ -37,7 +37,7 @@ digi-header-navigation .digi-button:hover .digi-button__text {
 .my-header digi-header-navigation .digi-button.sc-digi-button:hover {
   border: 1px solid #{$color-secondary} !important;
   border-radius: 8px;
-  background: transparent !important; 
+  background: transparent !important;
 }
 
 .my-header digi-header .digi-button.sc-digi-button,

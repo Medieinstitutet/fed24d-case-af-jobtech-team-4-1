@@ -20,10 +20,14 @@ export type JobAdsResult = {
   offset: number;
 };
 
-
-const buildSearchUrl = (occupation: OccupationId, filters: JobSearchFilters, userLocation?: LocationCoordinates | null, offset: number = 0): string => {
+const buildSearchUrl = (
+  occupation: OccupationId,
+  filters: JobSearchFilters,
+  userLocation?: LocationCoordinates | null,
+  offset: number = 0
+): string => {
   let url = `${BASE_URL}occupation-${occupation}&offset=${offset}&limit=25`;
-  
+
   // Add text search query to API
   if (filters.query && filters.query.trim()) {
     const techQuery = extractTechKeywords(filters.query.trim());
@@ -31,28 +35,30 @@ const buildSearchUrl = (occupation: OccupationId, filters: JobSearchFilters, use
       url += `&q=${encodeURIComponent(techQuery)}`;
     }
   }
-  
-  
+
   if (filters.radiusKm > 0 && userLocation) {
     const radiusParam = `${userLocation.lat},${userLocation.lon}__${filters.radiusKm}`;
     url += `&location__radius=${radiusParam}`;
-    
-    if (userLocation.lat >= 59.2 && userLocation.lat <= 59.4 && 
-        userLocation.lon >= 17.8 && userLocation.lon <= 18.3) {
+
+    if (userLocation.lat >= 59.2 && userLocation.lat <= 59.4 && userLocation.lon >= 17.8 && userLocation.lon <= 18.3) {
       url += `&municipality=Stockholm`;
     }
   }
-  
 
   return url;
 };
 
-export const getJobAds = async (occupation: OccupationId, filters: JobSearchFilters, userLocation?: LocationCoordinates | null, offset: number = 0): Promise<JobAdsResult> => {
+export const getJobAds = async (
+  occupation: OccupationId,
+  filters: JobSearchFilters,
+  userLocation?: LocationCoordinates | null,
+  offset: number = 0
+): Promise<JobAdsResult> => {
   const url = buildSearchUrl(occupation, filters, userLocation);
-  
+
   const data = await get<IAds>(url);
-  
- if (filters.query && filters.query.trim()) {
+
+  if (filters.query && filters.query.trim()) {
     const sorted = sortByRelevance(data.hits, filters.query.trim());
     return {
       hits: sorted,
@@ -73,13 +79,12 @@ export const getJobAdsLegacy = async (occupation: OccupationId, query?: string):
   return getJobAds(occupation, filters);
 };
 
-export const getJobAdsPaginated = async ( //Olivia testar
+export const getJobAdsPaginated = async (
+  //Olivia testar
   occupation: OccupationId,
   offset: number = 0
 ): Promise<JobAdsResult> => {
-  const data = await get<IAds>(
-    `${BASE_URL}occupation-${occupation}&offset=${offset}&limit=25`
-  );
+  const data = await get<IAds>(`${BASE_URL}occupation-${occupation}&offset=${offset}&limit=25`);
   return {
     hits: data.hits,
     totalCount: data.total?.value || 0,
