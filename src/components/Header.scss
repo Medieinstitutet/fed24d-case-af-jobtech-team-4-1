@@ -52,7 +52,7 @@ digi-header-navigation .digi-button:hover .digi-button__text {
 }
 
 .sc-digi-header-h {
-  --digi-header--border-color: #{$color-secondary} !important;
+  --digi--header--border-color: transparent !important;
 }
 
 @media (max-width: 475px) {
