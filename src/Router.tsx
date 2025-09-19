@@ -30,4 +30,8 @@ export const router = createBrowserRouter([
     ],
     errorElement: <Error />,
   },
-]);
+],
+  {
+    basename: "/fed24d-case-af-jobtech-team-4-1", 
+  }
+);
