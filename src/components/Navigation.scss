@@ -70,4 +70,12 @@ digi-header-navigation {
       text-align: center;
     }
   }
+
+  .sc-digi-icon-bars-h svg.sc-digi-icon-bars {
+    --digi--icon--color: #{$color-third};
+  }
+
+  .sc-digi-button-h .digi-button.sc-digi-button-s>[slot^=icon], .sc-digi-button-h .digi-button .sc-digi-button-s>[slot^=icon] {
+    --digi--icon--color: #{$color-third};
+  }
 }
