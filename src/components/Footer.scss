@@ -18,4 +18,9 @@
 }
 .sc-digi-layout-block-h .digi-layout-block--profile.sc-digi-layout-block {
     --BACKGROUND: #{$color-background};
+    --digi--layout-block--background--profile: #{$color-background};
+}
+
+.sc-digi-layout-block-h {
+  --digi--layout-block--background--profile: #{$color-background};
 }
