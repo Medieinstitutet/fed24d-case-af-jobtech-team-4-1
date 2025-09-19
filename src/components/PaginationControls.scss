@@ -18,4 +18,10 @@ digi-button > button:hover {
   }
 }
 
+.sc-digi-button-h .digi-button--variation-primary.sc-digi-button {
+  --digi--button--color--background--primary--default: #{$color-third};
+}
 
+.pagination button[aria-current="page"] {
+  background-color: $color-third !important;
+}

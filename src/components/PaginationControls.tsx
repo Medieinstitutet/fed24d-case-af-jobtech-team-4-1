@@ -19,6 +19,7 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pa
       afInitActivePage={currentPage} 
       onAfOnPageChange={handlePageChange}
       className="pagination"
+      
     >
     </DigiNavigationPagination>
   );
