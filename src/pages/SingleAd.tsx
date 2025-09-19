@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import type { IAd } from "../models/IAd";
-import { getJobAds, OccupationId } from "../services/jobAdService";
+import { getJobAdsLegacy, OccupationId } from "../services/jobAdService";
 import {
   DigiLayoutBlock,
   DigiLayoutContainer,
@@ -50,12 +50,12 @@ export const SingleAd = () => {
 
     const fetchAd = async () => {
       try {
-        const allAds = await getJobAds(occupation);
+        const allAds = await getJobAdsLegacy(occupation);
         dispatch({
           type: JobActionTypes.SET_JOBS,
-          payload: { occupation: occupation, jobs: allAds },
+          payload: { occupation: occupation, jobs: allAds.hits },
         });
-        setAd(findAd(allAds, id));
+        setAd(findAd(allAds.hits, id));
       } catch (error) {
         console.error("Fel vid hämtningen", error);
       } finally {
