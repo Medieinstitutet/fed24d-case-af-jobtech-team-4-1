@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { getJobAdsPaginated, OccupationId } from "../services/jobAdService";
+import { getJobAdsLegacy, getJobAdsPaginated, OccupationId } from "../services/jobAdService";
 import { Link, useParams, useNavigate } from "react-router";
 import { JobContext } from "../contexts/JobContext";
 import { JobActionTypes } from "../reducers/JobReducer";
@@ -25,7 +25,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       return;
     }
 
-    getJobAdsPaginated(occupation, 0)
+    getJobAdsLegacy(occupation, "")
       .then(data => {
         dispatch({
           type: JobActionTypes.SET_JOBS,
@@ -44,7 +44,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
         });
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err: unknown) => {
         setError("Failed to fetch jobs");
         console.error(err);
         setLoading(false);
@@ -114,7 +114,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
       </DigiLayoutContainer>
 
       <div className="ads-container">
-        {jobs[occupation].length === 0 ? (
+        {!jobs[occupation] || !Array.isArray(jobs[occupation]) || jobs[occupation].length === 0 ? (
           <p>Inga jobbannonser hittades för {occupationSlug}.</p>
         ) : (
           <>
@@ -134,10 +134,10 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
           </>
         )}
       </div>
-      {jobs.pagination[occupation].totalPages > 1 && (
+      {jobs.pagination[occupation] && jobs.pagination[occupation].totalPages > 1 && (
         <div className="pagination-wrapper">
           <DigiTypography className="page-of">
-            Page {jobs.pagination[occupation].currentPage} of {jobs.pagination[occupation].totalPages}
+            Sida {jobs.pagination[occupation].currentPage} av {jobs.pagination[occupation].totalPages}
           </DigiTypography>
           <PaginationControls
             currentPage={jobs.pagination[occupation].currentPage}

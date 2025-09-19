@@ -1,6 +1,5 @@
 import { OccupationId } from "../services/jobAdService";
 
-//Give occupationIds userfriendly names
 export const occupationSlugs: Record<OccupationId, string> = {
   [OccupationId.FRONTEND]: "frontend",
   [OccupationId.BACKEND]: "backend",
@@ -8,7 +7,6 @@ export const occupationSlugs: Record<OccupationId, string> = {
   [OccupationId.ALL]: "alla-jobb",
 };
 
-//Revert the userfriendly names for our occupationIds back to something api-friendly
 export const slugToOccupation: Record<string, OccupationId> = Object.entries(occupationSlugs).reduce(
   (occ, [id, slug]) => {
     occ[slug] = id as OccupationId;
