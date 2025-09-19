@@ -19,7 +19,7 @@ digi-header-navigation .digi-button__text {
 
 .sc-digi-icon-bars-h svg.sc-digi-icon-bars,
 .sc-digi-icon-x-h svg.sc-digi-icon-x {
-  color: #{$color-third};
+  color: #{$color-third} !important;
 }
 
 digi-header .digi-button:hover .digi-button__text,
