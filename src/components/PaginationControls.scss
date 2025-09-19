@@ -9,10 +9,13 @@ digi-button > button:hover {
   color: #{$color-third} !important;
 }
 
-.sc-digi-icon-chevron-right-h svg.sc-digi-icon-chevron-right {
+.pagination {
+  .sc-digi-icon-chevron-right-h svg.sc-digi-icon-chevron-right {
   --digi--icon--color: #{$color-background};
+  }
+  .sc-digi-icon-chevron-left-h svg.sc-digi-icon-chevron-left {
+  --digi--icon--color: #{$color-background};
+  }
 }
 
-.sc-digi-icon-chevron-left-h svg.sc-digi-icon-chevron-left {
-  --digi--icon--color: #{$color-background};
-}
+
