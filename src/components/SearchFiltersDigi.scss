@@ -1,0 +1,238 @@
+@import "../styles/variables.scss";
+
+.search-filters-digi {
+  background-color: $color-secondary;
+  border: 1px solid $color-primary;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 100%;
+
+  .title {
+    color: $color-third;
+    font-weight: 700;
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+  digi-layout-columns {
+    display: block;
+    margin-bottom: 0.75rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .row {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .input-wrap {
+    position: relative;
+
+    .clear-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #666;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      z-index: 10;
+
+      &:hover {
+        color: #333;
+        background-color: #f0f0f0;
+        border-radius: 50%;
+      }
+
+      @media (max-width: 480px) {
+        right: 6px;
+        font-size: 16px;
+        padding: 2px;
+      }
+    }
+  }
+
+  .row--search {
+    grid-template-columns: 1fr;
+    align-items: end;
+  }
+
+  .row--filters {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    align-items: end;
+    position: relative;
+    z-index: 1;
+
+    > digi-form-select,
+    > digi-form-input,
+    > .actions {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 12px;
+
+      .actions {
+        justify-content: center;
+        margin-top: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+
+  .actions {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+
+    .title {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    .title {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    digi-layout-columns {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .status {
+    margin-top: 0.5rem;
+    color: $color-third;
+    font-size: 0.875rem;
+    text-align: center;
+
+    .error {
+      color: #e64646;
+    }
+  }
+
+  &.loading {
+    opacity: 0.6;
+  }
+}
+
+.input-wrap {
+  position: relative;
+  min-width: 240px;
+
+  digi-form-input,
+  .hydrated {
+    display: block;
+    width: 100%;
+  }
+
+  .clear-btn {
+    top: 3rem !important;
+  }
+
+  digi-form-input::part(input) {
+    padding-right: 2.25rem;
+    height: 44px;
+    box-sizing: border-box;
+  }
+
+  @supports not (selector(digi-form-input::part(input))) {
+    padding-right: 2.25rem;
+  }
+}
+
+digi-form-input::part(input),
+digi-form-select::part(select) {
+  border: 1px solid $color-primary !important;
+  border-radius: 4px !important;
+  padding: 0.5rem !important;
+  font-size: 0.875rem !important;
+}
+
+digi-form-select {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+digi-form-select::part(select) {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+digi-form-select::part(select) option {
+  position: relative !important;
+}
+
+digi-form-select::part(select):focus {
+  z-index: 10 !important;
+}
+
+.sc-digi-layout-block-h .digi-layout-block--secondary.sc-digi-layout-block {
+  background-color: $color-secondary;
+}
+
+.sc-digi-form-label-h .digi-form-label__label--label.sc-digi-form-label {
+  color: $color-third;
+}
+
+.input-wrap .clear-btn {
+  padding: 4px !important;
+  font-size: 1.4rem;
+}
+
+digi-form-input::part(label),
+digi-form-select::part(label) {
+  color: #999 !important;
+  font-size: 0.875rem !important;
+}
+
+.sc-digi-button-h .digi-button.sc-digi-button {
+  background-color: $color-primary;
+}
+
+.sc-digi-button-h .digi-button--variation-primary.sc-digi-button {
+  --COLOR--BACKGROUND--HOVER: $color-third;
+  --COLOR--BORDER--HOVER: $color-primary;
+}
+
+@media (max-width: 768px) {
+  .search-filters-digi {
+    padding: 0.75rem;
+  }
+
+  .row--search {
+    grid-template-columns: 1fr;
+  }
+}
