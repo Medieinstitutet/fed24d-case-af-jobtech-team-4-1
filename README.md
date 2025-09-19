@@ -48,7 +48,7 @@ The application makes it easier for developers to:
 
 ## 🎥 Demo
 
-👉 [Click here to view the demo](https://github.com/Medieinstitutet/fed24d-case-af-jobtech-team-4-1)
+👉 [Click here to view the demo](https://medieinstitutet.github.io/fed24d-case-af-jobtech-team-4-1/)
 
 ## 📸 Screenshots
 
