@@ -27,5 +27,5 @@ digi-button > button:hover {
 }
 
 .pagination.sc-digi-button-h .digi-button--variation-primary.sc-digi-button {
-  --digi--button--color--background--primary--default: #{$color-primary};
+  --digi--button--color--background--primary--default: #{$color-primary} !important;
 }
