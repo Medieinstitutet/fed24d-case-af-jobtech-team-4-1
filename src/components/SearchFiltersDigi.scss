@@ -198,7 +198,7 @@ digi-form-select::part(select):focus {
 }
 
 .sc-digi-layout-block-h .digi-layout-block--secondary.sc-digi-layout-block {
-  background-color: $color-secondary;
+  background-color: $color-secondary !important;
 }
 
 .sc-digi-form-label-h .digi-form-label__label--label.sc-digi-form-label {
