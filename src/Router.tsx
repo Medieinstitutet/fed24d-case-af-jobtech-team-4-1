@@ -32,6 +32,6 @@ export const router = createBrowserRouter([
   },
 ],
   {
-    basename: "/fed24d-case-af-jobtech-team-4-1", 
+    basename: "/fed24d-case-af-jobtech-team-4-1/", 
   }
 );

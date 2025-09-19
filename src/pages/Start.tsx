@@ -19,7 +19,7 @@ export const Start = () => {
         <div className="column-wrapper">
           <DigiLinkButton
             className="btn-left"
-            afHref={`/${occupationSlugs[OccupationId.FRONTEND]}`}
+            afHref={`${import.meta.env.BASE_URL}${occupationSlugs[OccupationId.FRONTEND]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
@@ -27,7 +27,7 @@ export const Start = () => {
           </DigiLinkButton>
           <DigiLinkButton
             className="btn-right"
-            afHref={`/${occupationSlugs[OccupationId.BACKEND]}`}
+            afHref={`${import.meta.env.BASE_URL}${occupationSlugs[OccupationId.BACKEND]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
@@ -35,7 +35,7 @@ export const Start = () => {
           </DigiLinkButton>
           <DigiLinkButton
             className="btn-left"
-            afHref={`/${occupationSlugs[OccupationId.FULLSTACK]}`}
+            afHref={`${import.meta.env.BASE_URL}${occupationSlugs[OccupationId.FULLSTACK]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
@@ -43,7 +43,7 @@ export const Start = () => {
           </DigiLinkButton>
           <DigiLinkButton
             className="btn-right"
-            afHref={`/${occupationSlugs[OccupationId.ALL]}`}
+            afHref={`${import.meta.env.BASE_URL}${occupationSlugs[OccupationId.ALL]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
