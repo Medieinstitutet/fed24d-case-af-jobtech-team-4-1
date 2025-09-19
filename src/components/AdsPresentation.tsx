@@ -121,7 +121,7 @@ export const AdsPresentation = ({ occupation }: AdsPresentationProps) => {
             <ul className="width">
               {jobs[occupation].map(job => (
                 <li key={job.id}>
-                  <Link to={`/${occupationSlug}/${job.id}`}>
+                  <Link to={`${import.meta.env.BASE_URL}${occupationSlug}/${job.id}`}>
                     <h3>{job.headline}</h3>
                   </Link>
                   <p>
