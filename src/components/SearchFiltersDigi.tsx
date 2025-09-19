@@ -121,7 +121,7 @@ export default function SearchFiltersDigi({ occupation, initial, debounceMs = 40
         <div className="row row--search">
           <div className="input-wrap">
             <DigiFormInput
-              afLabel="Sök (yrke, stad, ramverk, programmeringsspråk)"
+              afLabel="Sök (titel, ramverk, programmeringsspråk)"
               value={filters.query}
               onInput={(e: React.FormEvent<any>) => updateSearch((e.currentTarget as any).value)}
             />
