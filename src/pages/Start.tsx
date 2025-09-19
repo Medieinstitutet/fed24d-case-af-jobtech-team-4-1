@@ -17,28 +17,28 @@ export const Start = () => {
         </DigiLayoutContainer>
 
         <div className="column-wrapper">
-          <DigiLinkButton
+          <DigiLinkButton className="btn-left"
             afHref={`/${occupationSlugs[OccupationId.FRONTEND]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Frontend
           </DigiLinkButton>
-          <DigiLinkButton
+          <DigiLinkButton className="btn-right"
             afHref={`/${occupationSlugs[OccupationId.BACKEND]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Backend
           </DigiLinkButton>
-          <DigiLinkButton
+          <DigiLinkButton className="btn-left"
             afHref={`/${occupationSlugs[OccupationId.FULLSTACK]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
           >
             Fullstack
           </DigiLinkButton>
-          <DigiLinkButton
+          <DigiLinkButton className="btn-right"
             afHref={`/${occupationSlugs[OccupationId.ALL]}`}
             afSize={LinkButtonSize.LARGE}
             afVariation={LinkButtonVariation.PRIMARY}
