@@ -52,14 +52,20 @@ The application makes it easier for developers to:
 
 ## 📸 Screenshots
 
-**Start page**  
-![desktopstart] (LÄGG BILD HÄR)
+**Start page desktop view**  
+![alt text](startDesktop.png)
 
-**An example of occupation page**  
-![occupation] (LÄGG BILD HÄR)
+**Start page mobile/tablet view**
+![alt text](startSmaller.png)
 
-**detailed page**  
-![detailpage] (LÄGG BILD HÄR)
+**Occupation page example & search/filter**  
+![alt text](searchDesktop.png)
+
+**Detailed single ad page**  
+![alt text](singlead.png)
+
+**Pagination**
+![alt text](paginationDesktop.png)
 
 ## 🧑‍💻 Tech Stack
 
