@@ -23,5 +23,6 @@ digi-button > button:hover {
 }
 
 .pagination button[aria-current="page"] {
-  background-color: $color-third !important;
+  background-color: #{$color-primary} !important;
 }
+
